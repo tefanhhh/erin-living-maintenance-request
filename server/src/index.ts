@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import { Resolvers } from './graphql.type';
 import { DateScalar, ObjectIdScalar } from './scalars';
 import { maintenanceRequestResolvers } from './modules/maintenance-request/resolver';
+import dbConnection from './db/connection';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -22,13 +23,20 @@ const resolvers: Resolvers = {
   }
 }
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-});
-
-const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
-});
-
-console.log(`🚀  Server ready at: ${url}`);
+try {
+  await dbConnection();
+  console.log('Connected to the database');
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+  });
+  
+  const { url } = await startStandaloneServer(server, {
+    listen: { port: 4000 },
+  });
+  
+  console.log(`🚀  Server ready at: ${url}`);
+} catch (error) {
+  console.error('❌ Failed to connect to database:', error);
+  process.exit(1);
+}
