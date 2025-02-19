@@ -1,29 +1,62 @@
-import { MaintenanceRequestService } from "../../modules/maintenance-request/service";
-import { Resolvers } from "../../graphql.type";
-import { DateScalar, ObjectIdScalar } from "../../scalars";
+import { MaintenanceRequestService } from '../../modules/maintenance-request/service'
+import { Resolvers } from '../../graphql.type'
+import { DateScalar, ObjectIdScalar } from '../../scalars'
+import { PubSub } from 'graphql-subscriptions'
 
-const maintenanceRequestService = new MaintenanceRequestService();
+const maintenanceRequestService = new MaintenanceRequestService()
+const pubsub = new PubSub()
+const PUBSUB_KEY = {
+  MAINTENANCE_REQUEST_CREATED: 'MAINTENANCE_REQUEST_CREATED',
+  MAINTENANCE_REQUEST_UPDATED: 'MAINTENANCE_REQUEST_UPDATED',
+  MAINTENANCE_REQUEST_DELETED: 'MAINTENANCE_REQUEST_DELETED',
+}
 
 export const maintenanceRequestResolvers: Resolvers = {
   ObjectId: ObjectIdScalar,
   Date: DateScalar,
   Query: {
     findOneMaintenanceRequest: async (_, { _id }) => {
-      return await maintenanceRequestService.findOne(_id);
+      return await maintenanceRequestService.findOne(_id)
     },
     findAllMaintenanceRequests: async () => {
-      return await maintenanceRequestService.findAll();
-    }
+      return await maintenanceRequestService.findAll()
+    },
   },
   Mutation: {
     createMaintenanceRequest: async (_, { body }) => {
-      return await maintenanceRequestService.create(body);
+      const result = await maintenanceRequestService.create(body)
+      pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_CREATED'], {
+        maintenanceRequestCreated: result,
+      })
+      return result
     },
     updateMaintenanceRequest: async (_, { _id, body }) => {
-      return await maintenanceRequestService.update(_id, body);
+      const result = await maintenanceRequestService.update(_id, body)
+      pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_UPDATED'], {
+        maintenanceRequestUpdated: result,
+      })
+      return result
     },
     deleteMaintenanceRequest: async (_, { _id }) => {
-      return await maintenanceRequestService.delete(_id);
-    }
-  }
+      const result = await maintenanceRequestService.delete(_id)
+      pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_DELETED'], {
+        maintenanceRequestDeleted: result,
+      })
+      return result
+    },
+  },
+  Subscription: {
+    maintenanceRequestCreated: {
+      subscribe: () =>
+        pubsub.asyncIterableIterator(PUBSUB_KEY['MAINTENANCE_REQUEST_CREATED']),
+    },
+    maintenanceRequestUpdated: {
+      subscribe: () =>
+        pubsub.asyncIterableIterator(PUBSUB_KEY['MAINTENANCE_REQUEST_UPDATED']),
+    },
+    maintenanceRequestDeleted: {
+      subscribe: () =>
+        pubsub.asyncIterableIterator(PUBSUB_KEY['MAINTENANCE_REQUEST_DELETED']),
+    },
+  },
 }
