@@ -6,7 +6,10 @@
     "server"
   ],
   "scripts": {
-    "start:server": "pnpm --filter @erin-living-maintenance-request/server run start"
+    "server:start": "pnpm --filter @erin-living-maintenance-request/server run start",
+    "server:lint": "pnpm --filter @erin-living-maintenance-request/server run lint",
+    "server:lint:fix": "pnpm --filter @erin-living-maintenance-request/server run lint:fix",
+    "server:format": "pnpm --filter @erin-living-maintenance-request/server run format"
   },
   "keywords": [],
   "author": "",
