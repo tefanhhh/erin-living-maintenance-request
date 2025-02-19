@@ -1,0 +1,47 @@
+scalar ObjectId
+scalar Date
+
+enum MaintenanceRequestStatus {
+  OPEN
+  RESOLVED
+}
+
+enum MaintenanceRequestUrgency {
+  URGENT
+  NONE_URGENT
+  LESS_URGENT
+  EMERGENCY
+}
+
+input MaintenanceRequestInput {
+  title: String
+  description: String
+  status: MaintenanceRequestStatus
+  urgency: MaintenanceRequestUrgency
+}
+
+type MaintenanceRequest {
+  _id: ObjectId
+  title: String
+  description: String
+  status: MaintenanceRequestStatus
+  urgency: MaintenanceRequestUrgency
+  createdAt: Date
+  updatedAt: Date
+  deletedAt: Date
+}
+
+type Query {
+  findOneMaintenanceRequest(_id: ObjectId!): MaintenanceRequest
+  findAllMaintenanceRequests: [MaintenanceRequest]
+}
+
+type Mutation {
+  createMaintenanceRequest(body: MaintenanceRequestInput!): MaintenanceRequest
+  updateMaintenanceRequest(
+    _id: ObjectId!
+    title: String!
+    body: MaintenanceRequestInput!
+  ): MaintenanceRequest
+  deleteMaintenanceRequest(_id: ObjectId!): Boolean
+}
