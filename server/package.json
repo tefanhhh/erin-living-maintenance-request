@@ -1,11 +1,11 @@
 {
-  "name": "server",
+  "name": "@erin-living-maintenance-request/server",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "codegen": "graphql-codegen --config src/codegen.ts",
     "compile": "npm run codegen && tsc && tsc-alias",
-    "start": "npm run compile && node ./dist/index.js"
+    "start": "npm run compile && node --env-file=.env ./dist/index.js"
   },
   "keywords": [],
   "author": "",

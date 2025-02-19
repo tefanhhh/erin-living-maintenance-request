@@ -2,8 +2,11 @@
   "name": "erin-living-maintenance-request",
   "version": "1.0.0",
   "main": "index.js",
+  "workspaces": [
+    "server"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:server": "pnpm --filter @erin-living-maintenance-request/server run start"
   },
   "keywords": [],
   "author": "",
