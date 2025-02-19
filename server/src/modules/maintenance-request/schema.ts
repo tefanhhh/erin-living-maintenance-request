@@ -13,6 +13,7 @@ const schema = new Schema<MaintenanceRequest>({
   deletedAt: { type: String, required: false, default: null },
 }, {
   timestamps: true,
+  versionKey: false,
 })
 
-export const MaintenanceRequestSchema = model<MaintenanceRequest>('MaintenanceRequest', schema);
+export const MaintenanceRequestSchema = model<MaintenanceRequest>('MaintenanceRequest', schema, 'maintenance_requests');
