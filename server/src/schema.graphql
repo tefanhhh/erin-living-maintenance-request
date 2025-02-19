@@ -45,3 +45,9 @@ type Mutation {
   ): MaintenanceRequest
   deleteMaintenanceRequest(_id: ObjectId!): Boolean
 }
+
+type Subscription {
+  maintenanceRequestCreated: MaintenanceRequest
+  maintenanceRequestUpdated: MaintenanceRequest
+  maintenanceRequestDeleted: MaintenanceRequest
+}
