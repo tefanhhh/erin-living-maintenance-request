@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { MaintenanceRequestSchema } from "../../modules/maintenance-request/schema";
 import { MaintenanceRequest, MaintenanceRequestInput } from "../../graphql.type";
 
@@ -8,6 +9,7 @@ export class MaintenanceRequestService {
     const date = new Date();
     const created = await this.schema.insertOne({
       ...body,
+      _id: new ObjectId(),
       createdAt: date,
       updatedAt: date,
     });
