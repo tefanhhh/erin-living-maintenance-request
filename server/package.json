@@ -8,7 +8,8 @@
     "start": "npm run compile && node --env-file=.env ./dist/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier . --write --ignore-unknown"
+    "format": "prettier . --write --ignore-unknown",
+    "start:dev": "nodemon"
   },
   "keywords": [],
   "author": "",
@@ -41,6 +42,7 @@
     "@typescript-eslint/parser": "^8.24.1",
     "eslint-plugin-prettier": "^5.2.3",
     "globals": "^15.15.0",
+    "nodemon": "^3.1.9",
     "prettier": "^3.5.1",
     "tsc-alias": "^1.8.10",
     "typescript": "^5.7.3"
