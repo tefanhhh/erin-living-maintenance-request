@@ -70,7 +70,7 @@ async function bootstrap() {
     await server.start()
     app.use(
       '/',
-      cors<cors.CorsRequest>(),
+      cors<cors.CorsRequest>({ origin: '*' }),
       express.json(),
       expressMiddleware(server),
     )
