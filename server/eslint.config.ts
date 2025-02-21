@@ -15,7 +15,7 @@ export default [
         tsconfigRootDir: import.meta.dirname,
         sourceType: 'module',
       },
-      globals: { ...globals.browser, ...globals.node },
+      globals: { ...globals.node },
     },
     plugins: {
       '@typescript-eslint': tseslint,

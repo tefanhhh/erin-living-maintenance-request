@@ -6,10 +6,10 @@
     "codegen": "graphql-codegen --config src/codegen.ts",
     "compile": "npm run codegen && tsc && tsc-alias",
     "start": "npm run compile && node --env-file=.env ./dist/index.js",
+    "start:dev": "nodemon",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier . --write --ignore-unknown",
-    "start:dev": "nodemon"
+    "format": "prettier . --write --ignore-unknown"
   },
   "keywords": [],
   "author": "",

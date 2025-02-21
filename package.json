@@ -3,14 +3,20 @@
   "version": "1.0.0",
   "main": "index.js",
   "workspaces": [
-    "server"
+    "server",
+    "client"
   ],
   "scripts": {
     "server:start": "pnpm --filter @erin-living-maintenance-request/server run start",
     "server:start:dev": "pnpm --filter @erin-living-maintenance-request/server run start:dev",
     "server:lint": "pnpm --filter @erin-living-maintenance-request/server run lint",
     "server:lint:fix": "pnpm --filter @erin-living-maintenance-request/server run lint:fix",
-    "server:format": "pnpm --filter @erin-living-maintenance-request/server run format"
+    "server:format": "pnpm --filter @erin-living-maintenance-request/server run format",
+    "client:start": "pnpm --filter @erin-living-maintenance-request/client run start",
+    "client:start:dev": "pnpm --filter @erin-living-maintenance-request/client run start:dev",
+    "client:lint": "pnpm --filter @erin-living-maintenance-request/client run lint",
+    "client:lint:fix": "pnpm --filter @erin-living-maintenance-request/client run lint:fix",
+    "client:format": "pnpm --filter @erin-living-maintenance-request/client run format"
   },
   "keywords": [],
   "author": "",
