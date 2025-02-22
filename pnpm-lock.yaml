@@ -22,6 +22,9 @@ importers:
       graphql:
         specifier: ^16.10.0
         version: 16.10.0
+      mogodb:
+        specifier: 0.0.1-security
+        version: 0.0.1-security
       next:
         specifier: 15.1.7
         version: 15.1.7(@babel/core@7.26.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -2774,6 +2777,9 @@ packages:
   minipass@7.1.2:
     resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
     engines: {node: '>=16 || 14 >=14.17'}
+
+  mogodb@0.0.1-security:
+    resolution: {integrity: sha512-aRrvmRNhrmjOwPAhKI7pWiwHKna8U9BLpruj+dlwocwRrhJXoJ9CNThcVlphh7c4nQiPU0Wj6QsJYLUCS+7Glw==}
 
   mongodb-connection-string-url@3.0.2:
     resolution: {integrity: sha512-rMO7CGo/9BFwyZABcKAWL8UJwH/Kc2x0g72uhDWzG48URRax5TCIcJ7Rc3RZqffZzO/Gwff/jyKwCU9TN8gehA==}
@@ -7254,6 +7260,8 @@ snapshots:
   minimist@1.2.8: {}
 
   minipass@7.1.2: {}
+
+  mogodb@0.0.1-security: {}
 
   mongodb-connection-string-url@3.0.2:
     dependencies:
