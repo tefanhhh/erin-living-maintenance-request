@@ -73,7 +73,7 @@ export default async function Page() {
       <h1 className="font-inter font-bold text-center text-foreground text-xl tracking-wider mb-4">
         Maintenance Request
       </h1>
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex items-center justify-center gap-4 flex-wrap">
         {summary.map((it, i) => (
           <div
             key={i}
@@ -117,12 +117,12 @@ export default async function Page() {
         <Link href="/update">
           <button
             type="button"
-            className="rounded-full bg-primary text-white w-14 h-14"
+            className="rounded-full bg-primary text-white w-14 h-14 flex items-center justify-center"
             style={{
               boxShadow: '0px 4px 6px 0px #0000001A, 0px 2px 4px 0px #0000000F',
             }}
           >
-            +
+            <span className="icon-[heroicons--plus] w-5 h-5"></span>
           </button>
         </Link>
       </div>
