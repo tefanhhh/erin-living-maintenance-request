@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { MaintenanceRequestSchema } from '../../modules/maintenance-request/schema'
-import { MaintenanceRequest, MaintenanceRequestInput } from '../../graphql.type'
+import { MaintenanceRequest, MaintenanceRequestInput, MaintenanceRequestStatus } from '../../graphql.type'
 
 export class MaintenanceRequestService {
   private readonly schema = MaintenanceRequestSchema
@@ -17,7 +17,7 @@ export class MaintenanceRequestService {
   }
 
   async update(
-    _id: string,
+    _id: ObjectId,
     body: MaintenanceRequestInput,
   ): Promise<MaintenanceRequest> {
     const date = new Date()
@@ -35,8 +35,24 @@ export class MaintenanceRequestService {
     return await this.findOne(_id)
   }
 
-  async findOne(id: string): Promise<MaintenanceRequest> {
-    const maintenanceRequest = await this.schema.findById(id)
+  async markAsResolved(_id: ObjectId) {
+    const date = new Date()
+    await this.schema.updateOne(
+      {
+        _id,
+      },
+      {
+        $set: {
+          status: MaintenanceRequestStatus.Resolved,
+          updatedAt: date,
+        },
+      },
+    )
+    return await this.findOne(_id)
+  }
+
+  async findOne(_id: ObjectId): Promise<MaintenanceRequest> {
+    const maintenanceRequest = await this.schema.findById(_id)
     return maintenanceRequest
   }
 
@@ -45,7 +61,7 @@ export class MaintenanceRequestService {
     return maintenanceRequests
   }
 
-  async delete(_id: string): Promise<boolean> {
+  async delete(_id: ObjectId): Promise<boolean> {
     const result = await this.schema.updateOne(
       {
         _id,
