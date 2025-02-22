@@ -8,6 +8,7 @@ const pubsub = new PubSub()
 const PUBSUB_KEY = {
   MAINTENANCE_REQUEST_CREATED: 'MAINTENANCE_REQUEST_CREATED',
   MAINTENANCE_REQUEST_UPDATED: 'MAINTENANCE_REQUEST_UPDATED',
+  MAINTENANCE_REQUEST_RESOLVED: 'MAINTENANCE_REQUEST_RESOLVED',
   MAINTENANCE_REQUEST_DELETED: 'MAINTENANCE_REQUEST_DELETED',
 }
 
@@ -37,6 +38,13 @@ export const maintenanceRequestResolvers: Resolvers = {
       })
       return result
     },
+    markAsResolvedMaintenanceRequest: async (_, { _id }) => {
+      const result = await maintenanceRequestService.markAsResolved(_id)
+      pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_RESOLVED'], {
+        maintenanceRequestResolved: result,
+      })
+      return result
+    },
     deleteMaintenanceRequest: async (_, { _id }) => {
       const result = await maintenanceRequestService.delete(_id)
       pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_DELETED'], {
@@ -53,6 +61,10 @@ export const maintenanceRequestResolvers: Resolvers = {
     maintenanceRequestUpdated: {
       subscribe: () =>
         pubsub.asyncIterableIterator(PUBSUB_KEY['MAINTENANCE_REQUEST_UPDATED']),
+    },
+    maintenanceRequestResolved: {
+      subscribe: () =>
+        pubsub.asyncIterableIterator(PUBSUB_KEY['MAINTENANCE_REQUEST_RESOLVED']),
     },
     maintenanceRequestDeleted: {
       subscribe: () =>
