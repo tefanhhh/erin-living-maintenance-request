@@ -71,10 +71,10 @@ export default async function Page() {
 
   return (
     <div className="container mx-auto px-4 sm:px-0 py-16">
-      <h1 className="font-inter font-bold text-center text-foreground text-xl tracking-wider mb-4">
+      <h1 className="font-inter font-bold text-center text-foreground text-xl tracking-wider mb-8">
         Maintenance Request
       </h1>
-      <div className="flex items-center justify-center gap-4 flex-wrap">
+      <div className="flex items-center justify-center gap-4 flex-wrap mb-8">
         {summary.map((it, i) => (
           <div
             key={i}
@@ -93,7 +93,7 @@ export default async function Page() {
       <ul className="mt-4">
         {maintenanceRequests.findAllMaintenanceRequests?.map((it, i) => {
           return (
-            <li key={i} className="bg-white rounded-xl p-4 mb-4">
+            <li key={i} className="bg-white rounded-xl p-4 mb-6">
               <div className="flex items-center justify-between gap-4 mb-2">
                 <h3 className="text-sm text-foreground tracking-normal">
                   {it?.title}
@@ -104,7 +104,7 @@ export default async function Page() {
               </div>
               <div className="flex items-center justify-between gap-4">
                 <span className={generateColor(it!.urgency!)}>
-                  {generateEmoji(it!.urgency!)}{' '}
+                  {generateEmoji(it!.urgency!)}&nbsp;
                   {humanizeEnumText(it!.urgency! as string)}
                 </span>
                 {it?.status === MaintenanceRequestStatus.Open ? (
