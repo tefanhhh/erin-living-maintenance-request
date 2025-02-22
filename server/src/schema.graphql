@@ -40,14 +40,15 @@ type Mutation {
   createMaintenanceRequest(body: MaintenanceRequestInput!): MaintenanceRequest
   updateMaintenanceRequest(
     _id: ObjectId!
-    title: String!
     body: MaintenanceRequestInput!
   ): MaintenanceRequest
+  markAsResolvedMaintenanceRequest(_id: ObjectId!): MaintenanceRequest
   deleteMaintenanceRequest(_id: ObjectId!): Boolean
 }
 
 type Subscription {
   maintenanceRequestCreated: MaintenanceRequest
   maintenanceRequestUpdated: MaintenanceRequest
+  maintenanceRequestResolved: MaintenanceRequest
   maintenanceRequestDeleted: MaintenanceRequest
 }
