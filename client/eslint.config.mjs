@@ -25,7 +25,15 @@ const eslintConfig = [
     },
   },
   {
-    ignores: ['node_modules', 'next', '.env', '.DS_Store', 'next-env.d.ts'],
+    ignores: [
+      'node_modules',
+      'next',
+      '.env',
+      '.DS_Store',
+      'next-env.d.ts',
+      'src/gql',
+      'src/gql-query',
+    ],
   },
 ]
 
