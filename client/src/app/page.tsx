@@ -5,6 +5,7 @@ import {
 } from '@/gql/graphql'
 import client from '@/lib/apollo.client'
 import dayjs from '@/lib/dayjs'
+import Link from 'next/link'
 
 function humanizeEnumText(text: string): string {
   return text
@@ -111,6 +112,20 @@ export default async function Page() {
           )
         })}
       </ul>
+
+      <div className="flex items-center justify-end gap-4">
+        <Link href="/update">
+          <button
+            type="button"
+            className="rounded-full bg-primary text-white w-14 h-14"
+            style={{
+              boxShadow: '0px 4px 6px 0px #0000001A, 0px 2px 4px 0px #0000000F',
+            }}
+          >
+            +
+          </button>
+        </Link>
+      </div>
     </div>
   )
 }
