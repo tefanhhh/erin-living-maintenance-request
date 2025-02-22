@@ -1,6 +1,6 @@
 'use client'
-
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   MaintenanceRequestStatus,
@@ -55,6 +55,7 @@ export default function UpdatePage() {
     },
   })
 
+  const router = useRouter()
   const [loading, setLoading] = useState(false)
 
   const onSubmit = async (data: MaintenanceRequestSchema) => {
@@ -68,6 +69,7 @@ export default function UpdatePage() {
       })
       console.log('GraphQL Response:', response.data)
       alert('Maintenance request created successfully!')
+      router.push('/')
     } catch (err) {
       console.error('GraphQL Error:', err)
     }
