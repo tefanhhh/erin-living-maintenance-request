@@ -17,6 +17,9 @@ import {
   MaintenanceRequestSchema,
 } from '../schema/maintnance-request.schema'
 import Link from 'next/link'
+import client from '@/lib/apollo.client'
+import { createMaintenanceRequest } from '@/gql-query/maintenance-request'
+import { useState } from 'react'
 
 function humanizeEnumText(text: string): string {
   return text
@@ -37,11 +40,11 @@ const urgencyOptions = Object.values(MaintenanceRequestUrgency).map((it) => ({
   value: it,
 }))
 
-export default function Page() {
+export default function UpdatePage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(maintenanceRequestSchema),
     defaultValues: {
@@ -52,8 +55,23 @@ export default function Page() {
     },
   })
 
-  const onSubmit = (data: MaintenanceRequestSchema) => {
-    console.log('Form Data:', data)
+  const [loading, setLoading] = useState(false)
+
+  const onSubmit = async (data: MaintenanceRequestSchema) => {
+    setLoading(true)
+    try {
+      const response = await client.mutate({
+        mutation: createMaintenanceRequest,
+        variables: {
+          body: data,
+        },
+      })
+      console.log('GraphQL Response:', response.data)
+      alert('Maintenance request created successfully!')
+    } catch (err) {
+      console.error('GraphQL Error:', err)
+    }
+    setLoading(false)
   }
 
   return (
@@ -98,10 +116,10 @@ export default function Page() {
         <div className="flex items-center justify-center mt-8">
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={loading}
             className="w-[268px] bg-primary text-white p-3 text-lg disabled:opacity-50 rounded-lg"
           >
-            {isSubmitting ? 'Saving...' : 'Save'}
+            {loading ? 'Saving...' : 'Save'}
           </button>
         </div>
       </form>
