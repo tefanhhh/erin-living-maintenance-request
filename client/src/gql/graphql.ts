@@ -66,6 +66,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createMaintenanceRequest?: Maybe<MaintenanceRequest>;
   updateMaintenanceRequest?: Maybe<MaintenanceRequest>;
+  markAsResolvedMaintenanceRequest?: Maybe<MaintenanceRequest>;
   deleteMaintenanceRequest?: Maybe<Scalars['Boolean']['output']>;
 };
 
@@ -77,8 +78,12 @@ export type MutationCreateMaintenanceRequestArgs = {
 
 export type MutationUpdateMaintenanceRequestArgs = {
   _id: Scalars['ObjectId']['input'];
-  title: Scalars['String']['input'];
   body: MaintenanceRequestInput;
+};
+
+
+export type MutationMarkAsResolvedMaintenanceRequestArgs = {
+  _id: Scalars['ObjectId']['input'];
 };
 
 
@@ -90,6 +95,7 @@ export type Subscription = {
   __typename?: 'Subscription';
   maintenanceRequestCreated?: Maybe<MaintenanceRequest>;
   maintenanceRequestUpdated?: Maybe<MaintenanceRequest>;
+  maintenanceRequestResolved?: Maybe<MaintenanceRequest>;
   maintenanceRequestDeleted?: Maybe<MaintenanceRequest>;
 };
 
@@ -105,6 +111,39 @@ export type FindOneMaintenanceRequestQueryVariables = Exact<{
 
 export type FindOneMaintenanceRequestQuery = { __typename?: 'Query', findOneMaintenanceRequest?: { __typename?: 'MaintenanceRequest', _id?: any | null, title?: string | null, description?: string | null, status?: MaintenanceRequestStatus | null, urgency?: MaintenanceRequestUrgency | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null };
 
+export type CreateMaintenanceRequestMutationVariables = Exact<{
+  body: MaintenanceRequestInput;
+}>;
+
+
+export type CreateMaintenanceRequestMutation = { __typename?: 'Mutation', createMaintenanceRequest?: { __typename?: 'MaintenanceRequest', _id?: any | null, title?: string | null, description?: string | null, status?: MaintenanceRequestStatus | null, urgency?: MaintenanceRequestUrgency | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null };
+
+export type UpdateMaintenanceRequestMutationVariables = Exact<{
+  _id: Scalars['ObjectId']['input'];
+  body: MaintenanceRequestInput;
+}>;
+
+
+export type UpdateMaintenanceRequestMutation = { __typename?: 'Mutation', updateMaintenanceRequest?: { __typename?: 'MaintenanceRequest', _id?: any | null, title?: string | null, description?: string | null, status?: MaintenanceRequestStatus | null, urgency?: MaintenanceRequestUrgency | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null };
+
+export type MarkAsResolvedMaintenanceRequestMutationVariables = Exact<{
+  _id: Scalars['ObjectId']['input'];
+}>;
+
+
+export type MarkAsResolvedMaintenanceRequestMutation = { __typename?: 'Mutation', markAsResolvedMaintenanceRequest?: { __typename?: 'MaintenanceRequest', _id?: any | null, title?: string | null, description?: string | null, status?: MaintenanceRequestStatus | null, urgency?: MaintenanceRequestUrgency | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null };
+
+export type DeleteMaintenanceRequestMutationVariables = Exact<{
+  _id: Scalars['ObjectId']['input'];
+}>;
+
+
+export type DeleteMaintenanceRequestMutation = { __typename?: 'Mutation', deleteMaintenanceRequest?: boolean | null };
+
 
 export const FindAllMaintenanceRequestsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindAllMaintenanceRequests"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findAllMaintenanceRequests"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"urgency"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<FindAllMaintenanceRequestsQuery, FindAllMaintenanceRequestsQueryVariables>;
 export const FindOneMaintenanceRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindOneMaintenanceRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ObjectId"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findOneMaintenanceRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"_id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"urgency"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<FindOneMaintenanceRequestQuery, FindOneMaintenanceRequestQueryVariables>;
+export const CreateMaintenanceRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateMaintenanceRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MaintenanceRequestInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createMaintenanceRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"urgency"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<CreateMaintenanceRequestMutation, CreateMaintenanceRequestMutationVariables>;
+export const UpdateMaintenanceRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateMaintenanceRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ObjectId"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MaintenanceRequestInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateMaintenanceRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"_id"}}},{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"urgency"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<UpdateMaintenanceRequestMutation, UpdateMaintenanceRequestMutationVariables>;
+export const MarkAsResolvedMaintenanceRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MarkAsResolvedMaintenanceRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ObjectId"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"markAsResolvedMaintenanceRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"_id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"urgency"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<MarkAsResolvedMaintenanceRequestMutation, MarkAsResolvedMaintenanceRequestMutationVariables>;
+export const DeleteMaintenanceRequestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteMaintenanceRequest"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"_id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ObjectId"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteMaintenanceRequest"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"_id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"_id"}}}]}]}}]} as unknown as DocumentNode<DeleteMaintenanceRequestMutation, DeleteMaintenanceRequestMutationVariables>;
