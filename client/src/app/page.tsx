@@ -1,6 +1,7 @@
 import { findAllMaintenanceRequests } from '@/gql-query/maintenance-request'
 import {
   FindAllMaintenanceRequestsQuery,
+  MaintenanceRequestStatus,
   MaintenanceRequestUrgency,
 } from '@/gql/graphql'
 import client from '@/lib/apollo.client'
@@ -106,7 +107,16 @@ export default async function Page() {
                   {generateEmoji(it!.urgency!)}{' '}
                   {humanizeEnumText(it!.urgency! as string)}
                 </span>
-                <span>{humanizeEnumText(it!.status! as string)}</span>
+                {it?.status === MaintenanceRequestStatus.Open ? (
+                  <button
+                    type="button"
+                    className="bg-primary rounded-full py-1 px-2 text-white text-xs"
+                  >
+                    Mark as Resolved
+                  </button>
+                ) : (
+                  <span>Resolved</span>
+                )}
               </div>
             </li>
           )
