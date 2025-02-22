@@ -1,52 +1,8 @@
 import { findAllMaintenanceRequests } from '@/gql-query/maintenance-request'
-import {
-  FindAllMaintenanceRequestsQuery,
-  MaintenanceRequestStatus,
-  MaintenanceRequestUrgency,
-} from '@/gql/graphql'
+import { FindAllMaintenanceRequestsQuery } from '@/gql/graphql'
 import client from '@/lib/apollo.client'
-import dayjs from '@/lib/dayjs'
 import Link from 'next/link'
-
-function humanizeEnumText(text: string): string {
-  return text
-    .split('_')
-    .map(
-      (word: string) =>
-        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-    )
-    .join(' ')
-}
-
-function generateEmoji(urgency: MaintenanceRequestUrgency): string {
-  switch (urgency) {
-    case MaintenanceRequestUrgency.Urgent:
-      return '⚡️'
-    case MaintenanceRequestUrgency.NoneUrgent:
-      return '🙂 '
-    case MaintenanceRequestUrgency.Emergency:
-      return '🔥'
-    case MaintenanceRequestUrgency.LessUrgent:
-      return '🔨'
-    default:
-      return ''
-  }
-}
-
-function generateColor(urgency: MaintenanceRequestUrgency): string {
-  switch (urgency) {
-    case MaintenanceRequestUrgency.Urgent:
-      return 'text-orange'
-    case MaintenanceRequestUrgency.NoneUrgent:
-      return 'text-primary-200'
-    case MaintenanceRequestUrgency.Emergency:
-      return 'text-red'
-    case MaintenanceRequestUrgency.LessUrgent:
-      return 'text-blue'
-    default:
-      return ''
-  }
-}
+import MaintenanceRequestItem from '@/app/components/maintenance-request/Item.'
 
 export default async function Page() {
   const summary = [
@@ -93,32 +49,13 @@ export default async function Page() {
       <ul className="mt-4">
         {maintenanceRequests.findAllMaintenanceRequests?.map((it, i) => {
           return (
-            <li key={i} className="bg-white rounded-xl p-4 mb-6">
-              <div className="flex items-center justify-between gap-4 mb-2">
-                <h3 className="text-sm text-foreground tracking-normal">
-                  {it?.title}
-                </h3>
-                <span className="text-xs text-gray">
-                  {dayjs(it?.createdAt).format('DD MMM YYYY')}
-                </span>
-              </div>
-              <div className="flex items-center justify-between gap-4">
-                <span className={generateColor(it!.urgency!)}>
-                  {generateEmoji(it!.urgency!)}&nbsp;
-                  {humanizeEnumText(it!.urgency! as string)}
-                </span>
-                {it?.status === MaintenanceRequestStatus.Open ? (
-                  <button
-                    type="button"
-                    className="bg-primary rounded-full py-1 px-2 text-white text-xs"
-                  >
-                    Mark as Resolved
-                  </button>
-                ) : (
-                  <span>Resolved</span>
-                )}
-              </div>
-            </li>
+            <MaintenanceRequestItem
+              key={i}
+              title={it?.title}
+              urgency={it?.urgency}
+              status={it?.status}
+              createdAt={it?.createdAt}
+            />
           )
         })}
       </ul>
