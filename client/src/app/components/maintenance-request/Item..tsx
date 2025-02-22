@@ -1,11 +1,18 @@
+'use client'
+
 import React, { useMemo } from 'react'
 import dayjs from '@/lib/dayjs'
 import {
   MaintenanceRequestStatus,
   MaintenanceRequestUrgency,
 } from '@/gql/graphql'
+import client from '@/lib/apollo.client'
+import { useState } from 'react'
+import { ObjectId } from 'mongodb'
+import { markAsResolvedMaintenanceRequest } from '@/gql-query/maintenance-request'
 
 interface MaintenanceRequestItemProps {
+  _id?: ObjectId
   title?: string | null
   createdAt?: string | null
   urgency?: MaintenanceRequestUrgency | null
@@ -13,6 +20,7 @@ interface MaintenanceRequestItemProps {
 }
 
 export default function MaintenanceRequestItem({
+  _id,
   title,
   createdAt,
   urgency,
@@ -60,6 +68,25 @@ export default function MaintenanceRequestItem({
     }
   }, [urgency])
 
+  const [loading, setLoading] = useState(false)
+
+  const markAsResolved = async () => {
+    setLoading(true)
+    try {
+      const response = await client.mutate({
+        mutation: markAsResolvedMaintenanceRequest,
+        variables: {
+          _id,
+        },
+      })
+      console.log('GraphQL Response:', response.data)
+      alert('Maintenance request created successfully!')
+    } catch (err) {
+      console.error('GraphQL Error:', err)
+    }
+    setLoading(false)
+  }
+
   return (
     <li className="bg-white rounded-xl p-4 mb-6">
       <div className="flex items-center justify-between gap-4 mb-2">
@@ -76,9 +103,11 @@ export default function MaintenanceRequestItem({
         {status === MaintenanceRequestStatus.Open ? (
           <button
             type="button"
-            className="bg-primary rounded-full py-1 px-2 text-white text-xs"
+            disabled={loading}
+            className="bg-primary rounded-full py-1 px-2 text-white text-xs disabled:opacity-50"
+            onClick={markAsResolved}
           >
-            Mark as Resolved
+            {loading ? 'Resolving...' : 'Mark as Resolved'}
           </button>
         ) : (
           <span className="bg-gray text-white py-1.5 px-2 rounded-full text-xs">
