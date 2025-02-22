@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "types": ["node"]
   },
+  "exclude": ["eslint.config.ts"],
   "tsc-alias": {
     "resolveFullPaths": true,
     "verbose": false
