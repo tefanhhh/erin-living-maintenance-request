@@ -53,6 +53,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createMaintenanceRequest?: Maybe<MaintenanceRequest>;
   deleteMaintenanceRequest?: Maybe<Scalars['Boolean']['output']>;
+  markAsResolvedMaintenanceRequest?: Maybe<MaintenanceRequest>;
   updateMaintenanceRequest?: Maybe<MaintenanceRequest>;
 };
 
@@ -67,10 +68,14 @@ export type MutationDeleteMaintenanceRequestArgs = {
 };
 
 
+export type MutationMarkAsResolvedMaintenanceRequestArgs = {
+  _id: Scalars['ObjectId']['input'];
+};
+
+
 export type MutationUpdateMaintenanceRequestArgs = {
   _id: Scalars['ObjectId']['input'];
   body: MaintenanceRequestInput;
-  title: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -88,6 +93,7 @@ export type Subscription = {
   __typename?: 'Subscription';
   maintenanceRequestCreated?: Maybe<MaintenanceRequest>;
   maintenanceRequestDeleted?: Maybe<MaintenanceRequest>;
+  maintenanceRequestResolved?: Maybe<MaintenanceRequest>;
   maintenanceRequestUpdated?: Maybe<MaintenanceRequest>;
 };
 
@@ -261,7 +267,8 @@ export type MaintenanceRequestResolvers<ContextType = any, ParentType extends Re
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createMaintenanceRequest?: Resolver<Maybe<ResolversTypes['MaintenanceRequest']>, ParentType, ContextType, RequireFields<MutationCreateMaintenanceRequestArgs, 'body'>>;
   deleteMaintenanceRequest?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteMaintenanceRequestArgs, '_id'>>;
-  updateMaintenanceRequest?: Resolver<Maybe<ResolversTypes['MaintenanceRequest']>, ParentType, ContextType, RequireFields<MutationUpdateMaintenanceRequestArgs, '_id' | 'body' | 'title'>>;
+  markAsResolvedMaintenanceRequest?: Resolver<Maybe<ResolversTypes['MaintenanceRequest']>, ParentType, ContextType, RequireFields<MutationMarkAsResolvedMaintenanceRequestArgs, '_id'>>;
+  updateMaintenanceRequest?: Resolver<Maybe<ResolversTypes['MaintenanceRequest']>, ParentType, ContextType, RequireFields<MutationUpdateMaintenanceRequestArgs, '_id' | 'body'>>;
 };
 
 export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['ObjectId'], any> {
@@ -276,6 +283,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   maintenanceRequestCreated?: SubscriptionResolver<Maybe<ResolversTypes['MaintenanceRequest']>, "maintenanceRequestCreated", ParentType, ContextType>;
   maintenanceRequestDeleted?: SubscriptionResolver<Maybe<ResolversTypes['MaintenanceRequest']>, "maintenanceRequestDeleted", ParentType, ContextType>;
+  maintenanceRequestResolved?: SubscriptionResolver<Maybe<ResolversTypes['MaintenanceRequest']>, "maintenanceRequestResolved", ParentType, ContextType>;
   maintenanceRequestUpdated?: SubscriptionResolver<Maybe<ResolversTypes['MaintenanceRequest']>, "maintenanceRequestUpdated", ParentType, ContextType>;
 };
 
