@@ -31,6 +31,21 @@ function generateEmoji(urgency: MaintenanceRequestUrgency): string {
   }
 }
 
+function generateColor(urgency: MaintenanceRequestUrgency): string {
+  switch (urgency) {
+    case MaintenanceRequestUrgency.Urgent:
+      return 'text-orange'
+    case MaintenanceRequestUrgency.NoneUrgent:
+      return 'text-primary-200'
+    case MaintenanceRequestUrgency.Emergency:
+      return 'text-red'
+    case MaintenanceRequestUrgency.LessUrgent:
+      return 'text-blue'
+    default:
+      return ''
+  }
+}
+
 export default async function Page() {
   const summary = [
     {
@@ -86,11 +101,11 @@ export default async function Page() {
                 </span>
               </div>
               <div className="flex items-center justify-between gap-4">
-                <span className="text-orange">
+                <span className={generateColor(it!.urgency!)}>
                   {generateEmoji(it!.urgency!)}{' '}
                   {humanizeEnumText(it!.urgency! as string)}
                 </span>
-                <span>{it?.status}</span>
+                <span>{humanizeEnumText(it!.status! as string)}</span>
               </div>
             </li>
           )
