@@ -114,7 +114,25 @@ export class MaintenanceRequestService {
   }
 
   async findAll(): Promise<MaintenanceRequest[]> {
-    const maintenanceRequests = await this.schema.find()
+    const maintenanceRequests = await this.schema.aggregate([
+      {
+        $project: {
+          _id: '$_id',
+          title: 1,
+          description: 1,
+          status: 1,
+          urgency: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          deletedAt: 1,
+        }
+      },
+      {
+        $sort: {
+          updatedAt: -1,
+        },
+      }
+    ])
     return maintenanceRequests
   }
 

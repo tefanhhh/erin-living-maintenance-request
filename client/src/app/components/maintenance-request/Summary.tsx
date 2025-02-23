@@ -33,38 +33,36 @@ export default function MaintenanceRequestSummary() {
     }
     fetchSummary()
 
-    const maintenanceRequestCreatedSubscription =
-      client.subscribe<MaintenanceRequestCreatedSubscription>({
+    client
+      .subscribe<MaintenanceRequestCreatedSubscription>({
         query: maintenanceRequestCreated,
       })
-
-    maintenanceRequestCreatedSubscription.subscribe({
-      next(val) {
-        if (val?.data?.maintenanceRequestCreated) {
-          fetchSummary()
-        }
-      },
-      error(err) {
-        console.error('Subscription Error:', err)
-      },
-    })
-
-    const maintenanceRequestResolvedSubscription =
-      client.subscribe<MaintenanceRequestResolvedSubscription>({
-        query: maintenanceRequestResolved,
+      .subscribe({
+        next(val) {
+          if (val?.data?.maintenanceRequestCreated) {
+            fetchSummary()
+          }
+        },
+        error(err) {
+          console.error('Subscription Error:', err)
+        },
       })
 
-    maintenanceRequestResolvedSubscription.subscribe({
-      next(val) {
-        if (val?.data?.maintenanceRequestResolved) {
-          fetchSummary()
-        }
-      },
-      error(err) {
-        console.error('Subscription Error:', err)
-      },
-    })
-  })
+    client
+      .subscribe<MaintenanceRequestResolvedSubscription>({
+        query: maintenanceRequestResolved,
+      })
+      .subscribe({
+        next(val) {
+          if (val?.data?.maintenanceRequestResolved) {
+            fetchSummary()
+          }
+        },
+        error(err) {
+          console.error('Subscription Error:', err)
+        },
+      })
+  }, [])
 
   return (
     <div className="flex items-center justify-center gap-4 flex-wrap mb-8">

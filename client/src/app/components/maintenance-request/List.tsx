@@ -27,53 +27,53 @@ export default function MaintenanceRequestList() {
     }
     fetchMaintenanceRequests()
 
-    const maintenanceRequestCreatedSubscription =
-      client.subscribe<MaintenanceRequestCreatedSubscription>({
+    client
+      .subscribe<MaintenanceRequestCreatedSubscription>({
         query: maintenanceRequestCreated,
       })
-
-    maintenanceRequestCreatedSubscription.subscribe({
-      next(val) {
-        if (val?.data?.maintenanceRequestCreated) {
-          setMaintenanceRequests((prev) => [
-            val.data!.maintenanceRequestCreated!,
-            ...prev!,
-          ])
-        }
-      },
-      error(err) {
-        console.error('Subscription Error:', err)
-      },
-    })
-
-    const maintenanceRequestResolvedSubscription =
-      client.subscribe<MaintenanceRequestResolvedSubscription>({
-        query: maintenanceRequestResolved,
+      .subscribe({
+        next(val) {
+          if (val?.data?.maintenanceRequestCreated) {
+            setMaintenanceRequests((prev) => [
+              val.data!.maintenanceRequestCreated!,
+              ...prev!,
+            ])
+          }
+        },
+        error(err) {
+          console.error('Subscription Error:', err)
+        },
       })
 
-    maintenanceRequestResolvedSubscription.subscribe({
-      next(val) {
-        if (val?.data?.maintenanceRequestResolved) {
-          setMaintenanceRequests((prev) => {
-            const copy = [...prev!]
-            const index =
-              copy?.findIndex(
-                (it) => it?._id === val.data?.maintenanceRequestResolved?._id,
-              ) || -1
-            if (index !== -1) {
-              copy.splice(index, 1, val.data!.maintenanceRequestResolved!)
-              return copy
-            }
+    client
+      .subscribe<MaintenanceRequestResolvedSubscription>({
+        query: maintenanceRequestResolved,
+      })
+      .subscribe({
+        next(val) {
+          console.log(val)
+          if (val?.data?.maintenanceRequestResolved) {
+            setMaintenanceRequests((prev) => {
+              const copy = [...prev!]
+              const index =
+                copy?.findIndex(
+                  (it) => it?._id === val.data?.maintenanceRequestResolved?._id,
+                ) || -1
+              console.log(index)
+              if (index !== -1) {
+                copy.splice(index, 1, val.data!.maintenanceRequestResolved!)
+                return copy
+              }
 
-            return [...copy]
-          })
-        }
-      },
-      error(err) {
-        console.error('Subscription Error:', err)
-      },
-    })
-  })
+              return [...copy]
+            })
+          }
+        },
+        error(err) {
+          console.error('Subscription Error:', err)
+        },
+      })
+  }, [])
 
   return (
     <ul className="mt-4">
