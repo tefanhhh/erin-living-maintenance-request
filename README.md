@@ -4,6 +4,7 @@
 ### Prerequisites
 - node **`v22.13.1`**
 - pnpm **`v9.5.0`** (enable it by corepack: corepack enable pnpm)
+- mongodb
 
 ### Installation
 This is the monorepo project using pnpm workspace, it has 2 subfolders (**`client`** & **`server`**). to install the dependencies please run: **`pnpm install`**
