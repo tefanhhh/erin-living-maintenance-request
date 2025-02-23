@@ -6,6 +6,7 @@ interface TextareaProps {
   register?: any
   className?: string
   rows?: number
+  placeholder?: string
 }
 
 export default function FormTextarea({
@@ -13,11 +14,13 @@ export default function FormTextarea({
   register,
   className,
   rows = 6,
+  placeholder,
 }: TextareaProps) {
   return (
     <textarea
       {...(register ? register(name) : {})}
       rows={rows}
+      placeholder={placeholder}
       className={`form-textarea w-full p-2 rounded-xl px-4 py-[14px] ${className}`}
     />
   )
