@@ -1,6 +1,12 @@
 import { ObjectId } from 'mongodb'
 import { MaintenanceRequestSchema } from '../../modules/maintenance-request/schema'
-import { MaintenanceRequest, MaintenanceRequestInput, MaintenanceRequestStatus, MaintenanceRequestSummary, MaintenanceRequestUrgency } from '../../graphql.type'
+import {
+  MaintenanceRequest,
+  MaintenanceRequestInput,
+  MaintenanceRequestStatus,
+  MaintenanceRequestSummary,
+  MaintenanceRequestUrgency,
+} from '../../graphql.type'
 
 export class MaintenanceRequestService {
   private readonly schema = MaintenanceRequestSchema
@@ -54,50 +60,53 @@ export class MaintenanceRequestService {
         $facet: {
           open: [
             { $match: { status: MaintenanceRequestStatus.Open } },
-            { $count: "count" }
+            { $count: 'count' },
           ],
           urgent: [
             { $match: { urgency: MaintenanceRequestUrgency.Urgent } },
-            { $count: "count" }
+            { $count: 'count' },
           ],
           averageDaysToResolve: [
             {
               $match: {
                 status: MaintenanceRequestStatus.Resolved,
                 updatedAt: { $exists: true },
-                createdAt: { $exists: true }
-              }
+                createdAt: { $exists: true },
+              },
             },
             {
               $project: {
                 daysToResolve: {
-                  $divide: [
-                    { $subtract: ["$updatedAt", "$createdAt"] },
-                    1000 * 60 * 60 * 24
-                  ]
-                }
-              }
-            },         
+                  $floor: {
+                    $divide: [
+                      { $subtract: ['$updatedAt', '$createdAt'] },
+                      1000 * 60 * 60 * 24,
+                    ],
+                  },
+                },
+              },
+            },
             {
               $group: {
                 _id: null,
-                avgDays: { $avg: "$daysToResolve" }
-              }
-            }
-          ]
-        }
+                avgDays: { $avg: '$daysToResolve' },
+              },
+            },
+          ],
+        },
       },
       {
         $project: {
-          open: { $arrayElemAt: ["$open.count", 0] },
-          urgent: { $arrayElemAt: ["$urgent.count", 0] },
-          averageDaysToResolve: { $arrayElemAt: ["$averageDaysToResolve.avgDays", 0] }
-        }
-      }
+          open: { $arrayElemAt: ['$open.count', 0] },
+          urgent: { $arrayElemAt: ['$urgent.count', 0] },
+          averageDaysToResolve: {
+            $arrayElemAt: ['$averageDaysToResolve.avgDays', 0],
+          },
+        },
+      },
     ])
-    return result[0] ?? { open: 0, urgent: 0, averageDaysToResolve: 0 };
+    return result[0] ?? { open: 0, urgent: 0, averageDaysToResolve: 0 }
   }
-  
 
   async findOne(_id: ObjectId): Promise<MaintenanceRequest> {
     const maintenanceRequest = await this.schema.findById(_id)
