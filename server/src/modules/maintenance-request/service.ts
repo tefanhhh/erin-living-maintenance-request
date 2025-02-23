@@ -125,13 +125,13 @@ export class MaintenanceRequestService {
           createdAt: 1,
           updatedAt: 1,
           deletedAt: 1,
-        }
+        },
       },
       {
         $sort: {
           updatedAt: -1,
         },
-      }
+      },
     ])
     return maintenanceRequests
   }

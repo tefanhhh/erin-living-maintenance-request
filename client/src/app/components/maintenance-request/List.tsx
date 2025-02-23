@@ -51,15 +51,14 @@ export default function MaintenanceRequestList() {
       })
       .subscribe({
         next(val) {
-          console.log(val)
           if (val?.data?.maintenanceRequestResolved) {
             setMaintenanceRequests((prev) => {
               const copy = [...prev!]
-              const index =
-                copy?.findIndex(
-                  (it) => it?._id === val.data?.maintenanceRequestResolved?._id,
-                ) || -1
-              console.log(index)
+              const index = copy?.findIndex(
+                (it) =>
+                  String(it?._id) ===
+                  String(val.data?.maintenanceRequestResolved?._id),
+              )
               if (index !== -1) {
                 copy.splice(index, 1, val.data!.maintenanceRequestResolved!)
                 return copy
