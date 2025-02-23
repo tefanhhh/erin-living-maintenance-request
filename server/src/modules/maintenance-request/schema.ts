@@ -21,8 +21,8 @@ const schema = new Schema<MaintenanceRequest>(
       enum: Object.values(MaintenanceRequestUrgency),
       required: true,
     },
-    createdAt: { type: String, required: true },
-    updatedAt: { type: String, required: true },
+    createdAt: { type: Date, required: true, default: Date.now },
+    updatedAt: { type: Date, required: true, default: Date.now },
     deletedAt: { type: String, required: false, default: null },
   },
   {
