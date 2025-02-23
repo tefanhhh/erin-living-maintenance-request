@@ -80,7 +80,7 @@ export default function MaintenanceRequestItem({
         },
       })
       console.log('GraphQL Response:', response.data)
-      alert('Maintenance request created successfully!')
+      alert('Maintenance request resolved successfully!')
     } catch (err) {
       console.error('GraphQL Error:', err)
     }
@@ -88,7 +88,13 @@ export default function MaintenanceRequestItem({
   }
 
   return (
-    <li className="bg-white rounded-xl p-4 mb-6">
+    <li
+      className="bg-white rounded-xl p-4 mb-6"
+      style={{
+        backdropFilter: 'blur(12px)',
+        boxShadow: '0px 8px 32px 0px rgba(110, 113, 145, 0.12)',
+      }}
+    >
       <div className="flex items-center justify-between gap-4 mb-2">
         <h3 className="text-sm text-foreground tracking-normal">{title}</h3>
         <span className="text-xs text-gray">
