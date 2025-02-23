@@ -31,9 +31,16 @@ type MaintenanceRequest {
   deletedAt: Date
 }
 
+type MaintenanceRequestSummary {
+  open: Int
+  urgent: Int
+  averageDaysToResolve: Int
+}
+
 type Query {
   findOneMaintenanceRequest(_id: ObjectId!): MaintenanceRequest
   findAllMaintenanceRequests: [MaintenanceRequest]
+  summaryMaintenanceRequest: MaintenanceRequestSummary
 }
 
 type Mutation {
