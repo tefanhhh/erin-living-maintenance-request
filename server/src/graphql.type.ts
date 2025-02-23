@@ -100,7 +100,7 @@ export type QueryFindOneMaintenanceRequestArgs = {
 export type Subscription = {
   __typename?: 'Subscription';
   maintenanceRequestCreated?: Maybe<MaintenanceRequest>;
-  maintenanceRequestDeleted?: Maybe<MaintenanceRequest>;
+  maintenanceRequestDeleted?: Maybe<Scalars['Boolean']['output']>;
   maintenanceRequestResolved?: Maybe<MaintenanceRequest>;
   maintenanceRequestUpdated?: Maybe<MaintenanceRequest>;
 };
@@ -302,7 +302,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   maintenanceRequestCreated?: SubscriptionResolver<Maybe<ResolversTypes['MaintenanceRequest']>, "maintenanceRequestCreated", ParentType, ContextType>;
-  maintenanceRequestDeleted?: SubscriptionResolver<Maybe<ResolversTypes['MaintenanceRequest']>, "maintenanceRequestDeleted", ParentType, ContextType>;
+  maintenanceRequestDeleted?: SubscriptionResolver<Maybe<ResolversTypes['Boolean']>, "maintenanceRequestDeleted", ParentType, ContextType>;
   maintenanceRequestResolved?: SubscriptionResolver<Maybe<ResolversTypes['MaintenanceRequest']>, "maintenanceRequestResolved", ParentType, ContextType>;
   maintenanceRequestUpdated?: SubscriptionResolver<Maybe<ResolversTypes['MaintenanceRequest']>, "maintenanceRequestUpdated", ParentType, ContextType>;
 };
