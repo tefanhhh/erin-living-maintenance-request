@@ -6,7 +6,7 @@
 - pnpm **`v9.5.0`** (enable it by corepack: corepack enable pnpm)
 
 ### Installation
-This is the monorepo project using pnpm workspace, it has 2 sub folder (**`client`** & **`server`**). to install the dependencies please run: **`pnpm install`**
+This is the monorepo project using pnpm workspace, it has 2 subfolders (**`client`** & **`server`**). to install the dependencies please run: **`pnpm install`**
 
 ### Configuration
 On the **`/server`** folder, create .env file with the content of DB_URL=xxx (the mongodb uri)
