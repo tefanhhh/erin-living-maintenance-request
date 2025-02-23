@@ -105,12 +105,20 @@ export default function UpdatePage() {
         </FormGroup>
 
         <FormGroup label="Title" required className="mb-7">
-          <FormInput name="title" register={register} />
+          <FormInput
+            name="title"
+            register={register}
+            placeholder="Input the title.."
+          />
           {errors.title && <FormError error={errors.title.message} />}
         </FormGroup>
 
         <FormGroup label="Description" className="mb-7">
-          <FormTextarea name="description" register={register} />
+          <FormTextarea
+            name="description"
+            register={register}
+            placeholder="Input the description.."
+          />
           {errors.description && (
             <FormError error={errors.description.message} />
           )}
