@@ -15,7 +15,7 @@ import FormError from '@/app/components/form/Error'
 import {
   maintenanceRequestSchema,
   MaintenanceRequestSchema,
-} from '../schema/maintnance-request.schema'
+} from '@/schema/maintnance-request.schema'
 import Link from 'next/link'
 import client from '@/lib/apollo.client'
 import { createMaintenanceRequest } from '@/gql-query/maintenance-request'
