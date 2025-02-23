@@ -22,6 +22,9 @@ export const maintenanceRequestResolvers: Resolvers = {
     findAllMaintenanceRequests: async () => {
       return await maintenanceRequestService.findAll()
     },
+    summaryMaintenanceRequest: async () => {
+      return await maintenanceRequestService.summary()
+    }
   },
   Mutation: {
     createMaintenanceRequest: async (_, { body }) => {
