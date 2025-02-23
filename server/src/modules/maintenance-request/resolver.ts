@@ -24,7 +24,7 @@ export const maintenanceRequestResolvers: Resolvers = {
     },
     summaryMaintenanceRequest: async () => {
       return await maintenanceRequestService.summary()
-    }
+    },
   },
   Mutation: {
     createMaintenanceRequest: async (_, { body }) => {
@@ -67,7 +67,9 @@ export const maintenanceRequestResolvers: Resolvers = {
     },
     maintenanceRequestResolved: {
       subscribe: () =>
-        pubsub.asyncIterableIterator(PUBSUB_KEY['MAINTENANCE_REQUEST_RESOLVED']),
+        pubsub.asyncIterableIterator(
+          PUBSUB_KEY['MAINTENANCE_REQUEST_RESOLVED'],
+        ),
     },
     maintenanceRequestDeleted: {
       subscribe: () =>
