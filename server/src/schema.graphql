@@ -57,5 +57,5 @@ type Subscription {
   maintenanceRequestCreated: MaintenanceRequest
   maintenanceRequestUpdated: MaintenanceRequest
   maintenanceRequestResolved: MaintenanceRequest
-  maintenanceRequestDeleted: MaintenanceRequest
+  maintenanceRequestDeleted: Boolean
 }
