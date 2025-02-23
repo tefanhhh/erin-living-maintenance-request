@@ -14,4 +14,4 @@ On the **`/server`** folder, create .env file with the content of DB_URL=xxx (th
 ## Usage
 - First, you have to run **`pnpm run server:start:dev`** to start the Node server.  
   You can see the GraphQL Playground at **[http://localhost:4000](http://localhost:4000)**.
-- Then, you can start the client with **`pnpm run client:start:dev`**.
+- Then, you can start the client with **`pnpm run client:start:dev`**. The client will start at **[http://localhost:3000](http://localhost:3000)**.
