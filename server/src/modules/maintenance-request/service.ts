@@ -77,12 +77,10 @@ export class MaintenanceRequestService {
             {
               $project: {
                 daysToResolve: {
-                  $floor: {
-                    $divide: [
-                      { $subtract: ['$updatedAt', '$createdAt'] },
-                      1000 * 60 * 60 * 24,
-                    ],
-                  },
+                  $divide: [
+                    { $subtract: ['$updatedAt', '$createdAt'] },
+                    1000 * 60 * 60 * 24,
+                  ],
                 },
               },
             },
@@ -90,6 +88,11 @@ export class MaintenanceRequestService {
               $group: {
                 _id: null,
                 avgDays: { $avg: '$daysToResolve' },
+              },
+            },
+            {
+              $project: {
+                avgDays: { $ceil: '$avgDays' },
               },
             },
           ],
