@@ -17,9 +17,10 @@ import {
   MaintenanceRequestSchema,
 } from '@/schema/maintnance-request.schema'
 import Link from 'next/link'
-import client from '@/lib/apollo.client'
-import { createMaintenanceRequest } from '@/gql-query/maintenance-request'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '@/stores/index.store'
+import { create } from '@/stores/slices/maintenance-request.slice'
 
 function humanizeEnumText(text: string): string {
   return text
@@ -41,10 +42,12 @@ const urgencyOptions = Object.values(MaintenanceRequestUrgency).map((it) => ({
 }))
 
 export default function UpdatePage() {
+  const dispatch = useDispatch<AppDispatch>()
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: zodResolver(maintenanceRequestSchema),
     defaultValues: {
@@ -61,14 +64,10 @@ export default function UpdatePage() {
   const onSubmit = async (data: MaintenanceRequestSchema) => {
     setLoading(true)
     try {
-      const response = await client.mutate({
-        mutation: createMaintenanceRequest,
-        variables: {
-          body: data,
-        },
-      })
-      console.log('GraphQL Response:', response.data)
+      const response = await dispatch(create(data)).unwrap()
+      console.log('GraphQL Response:', response)
       alert('Maintenance request created successfully!')
+      reset()
       router.push('/')
     } catch (err) {
       console.error('GraphQL Error:', err)

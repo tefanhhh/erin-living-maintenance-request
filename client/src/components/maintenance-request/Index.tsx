@@ -6,50 +6,23 @@ import MaintenanceRequestList from '@/components/maintenance-request/List'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/stores/index.store'
-import { maintenanceRequestActions } from '@/stores/slices/maintenance-request.slice'
+import { summary, findAll } from '@/stores/slices/maintenance-request.slice'
 import client from '@/lib/apollo.client'
 import {
-  FindAllMaintenanceRequestsQuery,
   MaintenanceRequestCreatedSubscription,
   MaintenanceRequestResolvedSubscription,
-  SummaryMaintenanceRequestQuery,
 } from '@/gql/graphql'
 import {
-  findAllMaintenanceRequests,
   maintenanceRequestCreated,
   maintenanceRequestResolved,
-  summaryMaintenanceRequest,
 } from '@/gql-query/maintenance-request'
 
 export default function MaintenanceRequestComponent() {
-  const { setList, unshiftList, updateListItem, setSummary } =
-    maintenanceRequestActions
-
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    async function fetchMaintenanceRequests() {
-      const { data } = await client.query<FindAllMaintenanceRequestsQuery>({
-        query: findAllMaintenanceRequests,
-      })
-      dispatch(setList(data.findAllMaintenanceRequests ?? []))
-    }
-    fetchMaintenanceRequests()
-
-    async function fetchSummary() {
-      const { data } = await client.query<SummaryMaintenanceRequestQuery>({
-        query: summaryMaintenanceRequest,
-      })
-      dispatch(
-        setSummary({
-          open: data?.summaryMaintenanceRequest?.open || 0,
-          urgent: data?.summaryMaintenanceRequest?.urgent || 0,
-          averageDaysToResolve:
-            data?.summaryMaintenanceRequest?.averageDaysToResolve || 0,
-        }),
-      )
-    }
-    fetchSummary()
+    dispatch(findAll())
+    dispatch(summary())
 
     const maintenanceRequestCreatedSubscription = client
       .subscribe<MaintenanceRequestCreatedSubscription>({
@@ -58,8 +31,8 @@ export default function MaintenanceRequestComponent() {
       .subscribe({
         next(val) {
           if (val?.data?.maintenanceRequestCreated) {
-            dispatch(unshiftList(val.data.maintenanceRequestCreated))
-            fetchSummary()
+            dispatch(findAll())
+            dispatch(summary())
           }
         },
         error(err) {
@@ -74,8 +47,8 @@ export default function MaintenanceRequestComponent() {
       .subscribe({
         next(val) {
           if (val?.data?.maintenanceRequestResolved) {
-            dispatch(updateListItem(val.data.maintenanceRequestResolved))
-            fetchSummary()
+            dispatch(findAll())
+            dispatch(summary())
           }
         },
         error(err) {
@@ -90,7 +63,7 @@ export default function MaintenanceRequestComponent() {
         maintenanceRequestResolvedSubscription.unsubscribe()
       }
     }
-  }, [dispatch, setList, setSummary, unshiftList, updateListItem])
+  }, [dispatch])
 
   return (
     <div className="container mx-auto px-4 sm:px-0">

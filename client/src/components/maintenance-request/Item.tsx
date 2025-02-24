@@ -6,13 +6,14 @@ import {
   MaintenanceRequestStatus,
   MaintenanceRequestUrgency,
 } from '@/gql/graphql'
-import client from '@/lib/apollo.client'
 import { useState } from 'react'
 import { ObjectId } from 'mongodb'
-import { markAsResolvedMaintenanceRequest } from '@/gql-query/maintenance-request'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '@/stores/index.store'
+import { markAsResolved } from '@/stores/slices/maintenance-request.slice'
 
 interface MaintenanceRequestItemProps {
-  _id?: ObjectId
+  _id: ObjectId
   title?: string | null
   createdAt?: string | null
   urgency?: MaintenanceRequestUrgency | null
@@ -26,6 +27,8 @@ export default function MaintenanceRequestItemComponent({
   urgency,
   status,
 }: MaintenanceRequestItemProps) {
+  const dispatch = useDispatch<AppDispatch>()
+
   const formattedUrgencyText = useMemo(
     () =>
       urgency
@@ -70,16 +73,11 @@ export default function MaintenanceRequestItemComponent({
 
   const [loading, setLoading] = useState(false)
 
-  const markAsResolved = async () => {
+  const onMarkAsResolved = async () => {
     setLoading(true)
     try {
-      const response = await client.mutate({
-        mutation: markAsResolvedMaintenanceRequest,
-        variables: {
-          _id,
-        },
-      })
-      console.log('GraphQL Response:', response.data)
+      const response = await dispatch(markAsResolved(_id)).unwrap()
+      console.log('GraphQL Response:', response)
       alert('Maintenance request resolved successfully!')
     } catch (err) {
       console.error('GraphQL Error:', err)
@@ -111,7 +109,7 @@ export default function MaintenanceRequestItemComponent({
             type="button"
             disabled={loading}
             className="bg-primary rounded-full py-1 px-2 text-white text-xs disabled:opacity-50"
-            onClick={markAsResolved}
+            onClick={onMarkAsResolved}
           >
             {loading ? 'Resolving...' : 'Mark as Resolved'}
           </button>

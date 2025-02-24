@@ -11,11 +11,11 @@ export default function MaintenanceRequestListComponent() {
         return (
           <MaintenanceRequestItem
             key={i}
-            _id={it?._id}
-            title={it?.title}
-            urgency={it?.urgency}
-            status={it?.status}
-            createdAt={it?.createdAt}
+            _id={it._id}
+            title={it.title}
+            urgency={it.urgency}
+            status={it.status}
+            createdAt={it.createdAt}
           />
         )
       })}
