@@ -75,10 +75,9 @@ async function bootstrap() {
       expressMiddleware(server),
     )
 
-    await new Promise<void>((resolve) =>
-      httpServer.listen({ port: 4000 }, resolve),
-    )
-    console.log(`🚀 Server ready at http://localhost:4000/`)
+    const port = process.env.PORT ? Number(process.env.PORT) : 4000
+    await new Promise<void>((resolve) => httpServer.listen({ port }, resolve))
+    console.log(`🚀 Server ready at http://localhost:${port}/`)
   } catch (error) {
     console.error('❌ Failed to connect to database:', error)
     process.exit(1)
