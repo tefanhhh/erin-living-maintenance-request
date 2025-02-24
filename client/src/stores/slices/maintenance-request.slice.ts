@@ -20,10 +20,9 @@ export const maintenanceRequestSlice = createSlice({
   initialState,
   reducers: {
     setSummary(state, action: PayloadAction<MaintenanceRequestSummary>) {
-      state.summary.open = action.payload.open || 0
-      state.summary.urgent = action.payload.urgent || 0
-      state.summary.averageDaysToResolve =
-        action.payload.averageDaysToResolve || 0
+      state.summary = {
+        ...action.payload,
+      }
     },
     setList(state, action: PayloadAction<MaintenanceRequest[]>) {
       state.list = action.payload

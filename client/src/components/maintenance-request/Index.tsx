@@ -40,16 +40,18 @@ export default function MaintenanceRequestComponent() {
       const { data } = await client.query<SummaryMaintenanceRequestQuery>({
         query: summaryMaintenanceRequest,
       })
-      setSummary({
-        open: data?.summaryMaintenanceRequest?.open || 0,
-        urgent: data?.summaryMaintenanceRequest?.urgent || 0,
-        averageDaysToResolve:
-          data?.summaryMaintenanceRequest?.averageDaysToResolve || 0,
-      })
+      dispatch(
+        setSummary({
+          open: data?.summaryMaintenanceRequest?.open || 0,
+          urgent: data?.summaryMaintenanceRequest?.urgent || 0,
+          averageDaysToResolve:
+            data?.summaryMaintenanceRequest?.averageDaysToResolve || 0,
+        }),
+      )
     }
     fetchSummary()
 
-    client
+    const maintenanceRequestCreatedSubscription = client
       .subscribe<MaintenanceRequestCreatedSubscription>({
         query: maintenanceRequestCreated,
       })
@@ -65,7 +67,7 @@ export default function MaintenanceRequestComponent() {
         },
       })
 
-    client
+    const maintenanceRequestResolvedSubscription = client
       .subscribe<MaintenanceRequestResolvedSubscription>({
         query: maintenanceRequestResolved,
       })
@@ -80,6 +82,14 @@ export default function MaintenanceRequestComponent() {
           console.error('Subscription Error:', err)
         },
       })
+    return () => {
+      if (maintenanceRequestCreatedSubscription) {
+        maintenanceRequestCreatedSubscription.unsubscribe()
+      }
+      if (maintenanceRequestResolvedSubscription) {
+        maintenanceRequestResolvedSubscription.unsubscribe()
+      }
+    }
   }, [dispatch, setList, setSummary, unshiftList, updateListItem])
 
   return (
