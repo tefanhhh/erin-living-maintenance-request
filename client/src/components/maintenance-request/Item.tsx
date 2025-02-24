@@ -14,10 +14,10 @@ import { markAsResolved } from '@/stores/slices/maintenance-request.slice'
 
 interface MaintenanceRequestItemProps {
   _id: ObjectId
-  title?: string | null
-  createdAt?: string | null
-  urgency?: MaintenanceRequestUrgency | null
-  status?: MaintenanceRequestStatus | null
+  title: string
+  createdAt: string
+  urgency: MaintenanceRequestUrgency
+  status: MaintenanceRequestStatus
 }
 
 export default function MaintenanceRequestItemComponent({
@@ -32,7 +32,7 @@ export default function MaintenanceRequestItemComponent({
   const formattedUrgencyText = useMemo(
     () =>
       urgency
-        ?.split('_')
+        .split('_')
         .map(
           (word: string) =>
             word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
