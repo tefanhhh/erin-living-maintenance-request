@@ -119,7 +119,7 @@ export default function MaintenanceRequestItemComponent({
                 color="primary"
                 radius="full"
                 className="text-white text-xs h-5 font-normal px-2"
-                disabled={loading}
+                isLoading={loading}
                 onPress={onMarkAsResolved}
               >
                 {loading ? 'Resolving...' : 'Mark as Resolved'}

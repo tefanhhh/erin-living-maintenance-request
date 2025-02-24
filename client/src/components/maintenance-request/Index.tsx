@@ -69,7 +69,7 @@ export default function MaintenanceRequestComponent() {
   return (
     <div className="container mx-auto px-4 sm:px-0">
       <div className="py-16">
-        <h1 className="font-bold text-center text-foreground text-xl tracking-wider mb-5">
+        <h1 className="font-bold text-center text-foreground text-xl tracking-wider mb-6">
           Maintenance Request
         </h1>
         <MaintenanceRequestSummary />

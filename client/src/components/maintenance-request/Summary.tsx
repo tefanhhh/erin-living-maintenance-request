@@ -16,7 +16,7 @@ export default function MaintenanceRequestSummaryComponent() {
   )
 
   return (
-    <div className="flex items-center justify-center gap-6 flex-wrap mb-8">
+    <div className="flex items-center justify-center gap-6 flex-wrap mb-6">
       {summaryTitles.map((it) => (
         <Card
           key={it.title}
