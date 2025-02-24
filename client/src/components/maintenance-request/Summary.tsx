@@ -19,15 +19,17 @@ export default function MaintenanceRequestSummaryComponent() {
       {summaryTitles.map((it) => (
         <div
           key={it.title}
-          className="w-[90px] h-[90px] rounded-xl bg-white px-1 flex flex-col items-center justify-start pt-4"
+          className="w-[90px] h-[90px] rounded-xl bg-white px-1 flex flex-col items-center justify-start py-4"
           style={{ boxShadow: '0px 6px 14px 0px rgba(0, 0, 0, 0.06)' }}
         >
           <h2 className="font-inter font-bold text-primary text-3xl text-center">
             {summary?.[it.key] || 0}
           </h2>
-          <p className="font-inter text-foreground text-[9px] text-center mb-0 leading-[10.89px]">
-            {it.title}
-          </p>
+          <div className="flex-grow flex flex-col items-center justify-center">
+            <p className="font-inter text-foreground text-[9px] text-center mb-0 leading-[10.89px]">
+              {it.title}
+            </p>
+          </div>
         </div>
       ))}
     </div>
