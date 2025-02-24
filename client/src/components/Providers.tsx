@@ -4,11 +4,13 @@ import { Provider } from 'react-redux'
 import { HeroUIProvider, ToastProvider } from '@heroui/react'
 import { store } from '@/stores/index.store'
 
+interface ProvidersComponentProps {
+  children: React.ReactNode
+}
+
 export default function ProvidersComponent({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: ProvidersComponentProps) {
   return (
     <Provider store={store}>
       <HeroUIProvider>

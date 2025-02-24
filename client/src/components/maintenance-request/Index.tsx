@@ -60,6 +60,7 @@ export default function MaintenanceRequestComponent() {
           console.error('Subscription Error:', err)
         },
       })
+
     return () => {
       if (maintenanceRequestCreatedSubscription) {
         maintenanceRequestCreatedSubscription.unsubscribe()

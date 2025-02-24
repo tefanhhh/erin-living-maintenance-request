@@ -12,8 +12,9 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/stores/index.store'
 import { markAsResolved } from '@/stores/slices/maintenance-request.slice'
 import { Chip, Card, CardBody, Button, addToast } from '@heroui/react'
+import { humanizeEnumText } from '@/utils'
 
-interface MaintenanceRequestItemProps {
+interface MaintenanceRequestItemComponentProps {
   _id: ObjectId
   title: string
   createdAt: string
@@ -27,18 +28,11 @@ export default function MaintenanceRequestItemComponent({
   createdAt,
   urgency,
   status,
-}: MaintenanceRequestItemProps) {
+}: MaintenanceRequestItemComponentProps) {
   const dispatch = useDispatch<AppDispatch>()
 
   const formattedUrgencyText = useMemo(
-    () =>
-      urgency
-        .split('_')
-        .map(
-          (word: string) =>
-            word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-        )
-        .join(' '),
+    () => humanizeEnumText(urgency),
     [urgency],
   )
 

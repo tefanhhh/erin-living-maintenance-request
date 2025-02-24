@@ -3,10 +3,6 @@ import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
-  MaintenanceRequestStatus,
-  MaintenanceRequestUrgency,
-} from '@/gql/graphql'
-import {
   maintenanceRequestSchema,
   MaintenanceRequestSchema,
 } from '@/schema/maintnance-request.schema'
@@ -23,25 +19,7 @@ import {
   Link,
   addToast,
 } from '@heroui/react'
-
-function humanizeEnumText(text: string): string {
-  return text
-    .split('_')
-    .map(
-      (word: string) =>
-        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-    )
-    .join(' ')
-}
-
-const statusOptions = Object.values(MaintenanceRequestStatus).map((it) => ({
-  label: humanizeEnumText(it),
-  value: it,
-}))
-const urgencyOptions = Object.values(MaintenanceRequestUrgency).map((it) => ({
-  label: humanizeEnumText(it),
-  value: it,
-}))
+import { STATUS_OPTIONS, URGENCY_OPTIONS } from '@/utils'
 
 export default function UpdateFormComponent() {
   const dispatch = useDispatch<AppDispatch>()
@@ -104,7 +82,7 @@ export default function UpdateFormComponent() {
           }}
           className="mb-12"
         >
-          {urgencyOptions.map((it) => (
+          {URGENCY_OPTIONS.map((it) => (
             <SelectItem key={it.value}>{it.label}</SelectItem>
           ))}
         </Select>
@@ -122,7 +100,7 @@ export default function UpdateFormComponent() {
           }}
           className="mb-12"
         >
-          {statusOptions.map((it) => (
+          {STATUS_OPTIONS.map((it) => (
             <SelectItem key={it.value}>{it.label}</SelectItem>
           ))}
         </Select>
