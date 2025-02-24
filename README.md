@@ -5,7 +5,7 @@
 ### Prerequisites
 
 - node **`v22.13.1`**
-- pnpm **`v9.5.0`** (enable it by corepack: **`corepack enable pnpm`**)
+- pnpm **`v9.5.0`** (enabled it by corepack: **`corepack enable pnpm`**)
 - mongodb
 
 ### Installation
@@ -16,7 +16,7 @@ This is the monorepo project using pnpm workspace, it has 2 subfolders (**`clien
 
 In the **`/server`** folder, create **`.env`** file with the content of **`DB_URL=xxx`** (the mongodb uri) and **`PORT`** (the port we want to run the server locally)
 
-Next, In the **`/client`** folder, create **`.env`** file with the content of **`GQL_URL=xxx`** (the graphql url) and **`WS_URL`** (the websocket url)
+Next, in the **`/client`** folder, create **`.env`** file with the content of **`GQL_URL=xxx`** (the graphql url) and **`WS_URL`** (the websocket url)
 
 ## Usage
 
