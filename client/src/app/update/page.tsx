@@ -6,21 +6,23 @@ import {
   MaintenanceRequestStatus,
   MaintenanceRequestUrgency,
 } from '@/gql/graphql'
-
-import FormGroup from '@/components/form/Group'
-import FormSelect from '@/components/form/Select'
-import FormInput from '@/components/form/Input'
-import FormTextarea from '@/components/form/Textarea'
-import FormError from '@/components/form/Error'
 import {
   maintenanceRequestSchema,
   MaintenanceRequestSchema,
 } from '@/schema/maintnance-request.schema'
-import Link from 'next/link'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/stores/index.store'
 import { create } from '@/stores/slices/maintenance-request.slice'
+import {
+  Button,
+  Textarea,
+  Input,
+  Select,
+  SelectItem,
+  Link,
+  addToast,
+} from '@heroui/react'
 
 function humanizeEnumText(text: string): string {
   return text
@@ -65,7 +67,10 @@ export default function UpdatePage() {
     setLoading(true)
     try {
       await dispatch(create(data)).unwrap()
-      alert('Maintenance request created successfully!')
+      addToast({
+        title: 'Maintenance request created successfully!',
+        color: 'success',
+      })
       reset()
       router.push('/')
     } catch (err) {
@@ -76,59 +81,92 @@ export default function UpdatePage() {
 
   return (
     <div className="container mx-auto px-4 sm:px-0 py-16">
-      <div className="flex items-center justify-center gap-8 mb-8">
-        <Link href="/" className="w-5 h-5">
+      <div className="flex items-center justify-center gap-6 mb-12">
+        <Link href="/" color="foreground">
           <span className="icon-[heroicons--arrow-left] w-5 h-5"></span>
         </Link>
-        <h1 className="font-inter font-bold text-center text-foreground text-xl tracking-wider">
+        <h1 className="font-bold text-center text-foreground text-xl tracking-wider">
           Maintenance Request
         </h1>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-[447px] mx-auto">
-        <FormGroup label="Urgency" required className="mb-7">
-          <FormSelect
-            name="urgency"
-            options={urgencyOptions}
-            register={register}
-          />
-          {errors.urgency && <FormError error={errors.urgency.message} />}
-        </FormGroup>
-        <FormGroup label="Status" required className="mb-7">
-          <FormSelect
-            name="status"
-            options={statusOptions}
-            register={register}
-          />
-          {errors.status && <FormError error={errors.status.message} />}
-        </FormGroup>
-
-        <FormGroup label="Title" required className="mb-7">
-          <FormInput
-            name="title"
-            register={register}
-            placeholder="Input the title.."
-          />
-          {errors.title && <FormError error={errors.title.message} />}
-        </FormGroup>
-
-        <FormGroup label="Description" className="mb-7">
-          <FormTextarea
-            name="description"
-            register={register}
-            placeholder="Input the description.."
-          />
-          {errors.description && (
-            <FormError error={errors.description.message} />
-          )}
-        </FormGroup>
-        <div className="flex items-center justify-center mt-8">
-          <button
+        <Select
+          {...register('status')}
+          label="Status"
+          labelPlacement="outside"
+          placeholder="Select status"
+          isRequired
+          isInvalid={!!errors.status}
+          errorMessage={errors.status?.message}
+          classNames={{
+            label: '!text-gray text-sm after:text-gray',
+            trigger: 'default-input-wrapper h-12',
+          }}
+          className="mb-12"
+        >
+          {statusOptions.map((it) => (
+            <SelectItem key={it.value}>{it.label}</SelectItem>
+          ))}
+        </Select>
+        <Select
+          {...register('urgency')}
+          label="Urgency"
+          labelPlacement="outside"
+          placeholder="Select urgency level"
+          isRequired
+          isInvalid={!!errors.urgency}
+          errorMessage={errors.urgency?.message}
+          classNames={{
+            label: '!text-gray text-sm after:text-gray',
+            trigger: 'default-input-wrapper h-12',
+          }}
+          className="mb-12"
+        >
+          {urgencyOptions.map((it) => (
+            <SelectItem key={it.value}>{it.label}</SelectItem>
+          ))}
+        </Select>
+        <Input
+          {...register('title')}
+          label="Title"
+          labelPlacement="outside"
+          placeholder="Input the title.."
+          isRequired
+          classNames={{
+            label: '!text-gray text-sm after:text-gray',
+            inputWrapper: 'default-input-wrapper h-12',
+          }}
+          className="mb-7"
+          isInvalid={!!errors.title}
+          errorMessage={errors.title?.message}
+        />
+        <Textarea
+          {...register('description')}
+          label="Description"
+          labelPlacement="outside"
+          placeholder="Input the description.."
+          minRows={7}
+          rows={7}
+          classNames={{
+            label: '!text-gray text-sm after:text-gray',
+            inputWrapper: 'default-input-wrapper py-[14px]',
+            input: '!h-auto',
+          }}
+        />
+        <div className="flex items-center justify-center mt-12">
+          <Button
             type="submit"
-            disabled={loading}
-            className="w-[268px] bg-primary text-white p-3 text-lg disabled:opacity-50 rounded-lg"
+            color="primary"
+            radius="sm"
+            isLoading={loading}
+            className="h-12 w-[268px]"
+            style={{
+              backdropFilter: 'blur(12px)',
+              boxShadow: '0px 16px 24px 0px rgba(160, 163, 189, 0.16)',
+            }}
           >
             {loading ? 'Saving...' : 'Save'}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

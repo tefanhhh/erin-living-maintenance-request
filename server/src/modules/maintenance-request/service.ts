@@ -132,7 +132,7 @@ export class MaintenanceRequestService {
       },
       {
         $sort: {
-          updatedAt: -1,
+          createdAt: -1,
         },
       },
     ])

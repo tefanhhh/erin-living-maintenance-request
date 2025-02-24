@@ -100,8 +100,12 @@
   --blue-800: #084985;
   --blue-900: #053a6b;
   --blue-950: #032b53;
+
+  /* white */
+  --white: #ffffff;
 }
 
 body {
   background: var(--background);
+  font-family: theme('fontFamily.sans');
 }

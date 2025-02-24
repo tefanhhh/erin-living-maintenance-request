@@ -1,15 +1,18 @@
 import type { Config } from 'tailwindcss'
 import { addDynamicIconSelectors } from '@iconify/tailwind'
+import { heroui } from '@heroui/react'
 
 export default {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
       fontFamily: {
+        sans: ['var(--font-inter)', 'sans-serif'],
         inter: ['var(--font-inter)', 'sans-serif'],
       },
       colors: {
@@ -123,5 +126,6 @@ export default {
       },
     },
   },
-  plugins: [addDynamicIconSelectors()],
+  darkMode: 'class',
+  plugins: [addDynamicIconSelectors(), heroui()],
 } satisfies Config
