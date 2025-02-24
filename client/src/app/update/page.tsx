@@ -91,6 +91,24 @@ export default function UpdatePage() {
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-[447px] mx-auto">
         <Select
+          {...register('urgency')}
+          label="Urgency"
+          labelPlacement="outside"
+          placeholder="Select urgency"
+          isRequired
+          isInvalid={!!errors.urgency}
+          errorMessage={errors.urgency?.message}
+          classNames={{
+            label: '!text-gray text-sm after:text-gray',
+            trigger: 'default-input-wrapper h-12',
+          }}
+          className="mb-12"
+        >
+          {urgencyOptions.map((it) => (
+            <SelectItem key={it.value}>{it.label}</SelectItem>
+          ))}
+        </Select>
+        <Select
           {...register('status')}
           label="Status"
           labelPlacement="outside"
@@ -108,29 +126,11 @@ export default function UpdatePage() {
             <SelectItem key={it.value}>{it.label}</SelectItem>
           ))}
         </Select>
-        <Select
-          {...register('urgency')}
-          label="Urgency"
-          labelPlacement="outside"
-          placeholder="Select urgency level"
-          isRequired
-          isInvalid={!!errors.urgency}
-          errorMessage={errors.urgency?.message}
-          classNames={{
-            label: '!text-gray text-sm after:text-gray',
-            trigger: 'default-input-wrapper h-12',
-          }}
-          className="mb-12"
-        >
-          {urgencyOptions.map((it) => (
-            <SelectItem key={it.value}>{it.label}</SelectItem>
-          ))}
-        </Select>
         <Input
           {...register('title')}
           label="Title"
           labelPlacement="outside"
-          placeholder="Input the title.."
+          placeholder="eg. Crack in plasterboard"
           isRequired
           classNames={{
             label: '!text-gray text-sm after:text-gray',
@@ -144,7 +144,7 @@ export default function UpdatePage() {
           {...register('description')}
           label="Description"
           labelPlacement="outside"
-          placeholder="Input the description.."
+          placeholder="Description of your request"
           minRows={7}
           rows={7}
           classNames={{
