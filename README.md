@@ -5,7 +5,7 @@
 ### Prerequisites
 
 - node **`v22.13.1`**
-- pnpm **`v9.5.0`** (enable it by corepack: **`corepack enable pnpm`**)
+- pnpm **`v9.5.0`** (enabled it by corepack: **`corepack enable pnpm`**)
 - mongodb
 
 ### Installation
