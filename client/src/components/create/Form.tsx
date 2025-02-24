@@ -43,7 +43,7 @@ const urgencyOptions = Object.values(MaintenanceRequestUrgency).map((it) => ({
   value: it,
 }))
 
-export default function UpdatePage() {
+export default function UpdateFormComponent() {
   const dispatch = useDispatch<AppDispatch>()
   const {
     register,

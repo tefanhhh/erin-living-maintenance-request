@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import MaintenanceRequestSummary from '@/components/maintenance-request/Summary'
 import MaintenanceRequestList from '@/components/maintenance-request/List'
 import { useEffect } from 'react'
@@ -16,7 +15,7 @@ import {
   maintenanceRequestCreated,
   maintenanceRequestResolved,
 } from '@/gql-query/maintenance-request'
-import { Button } from '@heroui/react'
+import { Button, Link } from '@heroui/react'
 
 export default function MaintenanceRequestComponent() {
   const dispatch = useDispatch<AppDispatch>()
@@ -76,20 +75,20 @@ export default function MaintenanceRequestComponent() {
         <MaintenanceRequestList />
       </div>
       <div className="flex items-center justify-end gap-4 sticky left-0 bottom-6 z-10">
-        <Link href="/update">
-          <Button
-            type="button"
-            color="primary"
-            radius="full"
-            isIconOnly
-            className="w-[52px] h-[52px]"
-            style={{
-              boxShadow: '0px 4px 6px 0px #0000001A, 0px 2px 4px 0px #0000000F',
-            }}
-          >
-            <span className="icon-[heroicons--plus] w-[18px] h-[18px]"></span>
-          </Button>
-        </Link>
+        <Button
+          type="button"
+          as={Link}
+          color="primary"
+          radius="full"
+          isIconOnly
+          href="/create"
+          className="w-[52px] h-[52px]"
+          style={{
+            boxShadow: '0px 4px 6px 0px #0000001A, 0px 2px 4px 0px #0000000F',
+          }}
+        >
+          <span className="icon-[heroicons--plus] w-[18px] h-[18px]"></span>
+        </Button>
       </div>
     </div>
   )
