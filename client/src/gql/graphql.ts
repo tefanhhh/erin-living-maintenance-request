@@ -55,7 +55,7 @@ export type MaintenanceRequestSummary = {
   __typename?: 'MaintenanceRequestSummary';
   open?: Maybe<Scalars['Int']['output']>;
   urgent?: Maybe<Scalars['Int']['output']>;
-  averageDaysToResolve?: Maybe<Scalars['Float']['output']>;
+  averageDaysToResolve?: Maybe<Scalars['Int']['output']>;
 };
 
 export type Query = {
