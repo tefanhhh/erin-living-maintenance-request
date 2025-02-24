@@ -33,21 +33,21 @@ export enum MaintenanceRequestUrgency {
 }
 
 export type MaintenanceRequestInput = {
-  title?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
   description?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<MaintenanceRequestStatus>;
-  urgency?: InputMaybe<MaintenanceRequestUrgency>;
+  status: MaintenanceRequestStatus;
+  urgency: MaintenanceRequestUrgency;
 };
 
 export type MaintenanceRequest = {
   __typename?: 'MaintenanceRequest';
-  _id?: Maybe<Scalars['ObjectId']['output']>;
-  title?: Maybe<Scalars['String']['output']>;
+  _id: Scalars['ObjectId']['output'];
+  title: Scalars['String']['output'];
   description?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<MaintenanceRequestStatus>;
-  urgency?: Maybe<MaintenanceRequestUrgency>;
-  createdAt?: Maybe<Scalars['Date']['output']>;
-  updatedAt?: Maybe<Scalars['Date']['output']>;
+  status: MaintenanceRequestStatus;
+  urgency: MaintenanceRequestUrgency;
+  createdAt: Scalars['Date']['output'];
+  updatedAt: Scalars['Date']['output'];
   deletedAt?: Maybe<Scalars['Date']['output']>;
 };
 
@@ -61,8 +61,8 @@ export type MaintenanceRequestSummary = {
 export type Query = {
   __typename?: 'Query';
   findOneMaintenanceRequest?: Maybe<MaintenanceRequest>;
-  findAllMaintenanceRequests?: Maybe<Array<Maybe<MaintenanceRequest>>>;
-  summaryMaintenanceRequest?: Maybe<MaintenanceRequestSummary>;
+  findAllMaintenanceRequests?: Maybe<Array<MaintenanceRequest>>;
+  summaryMaintenanceRequest: MaintenanceRequestSummary;
 };
 
 
@@ -101,35 +101,35 @@ export type MutationDeleteMaintenanceRequestArgs = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  maintenanceRequestCreated?: Maybe<MaintenanceRequest>;
-  maintenanceRequestUpdated?: Maybe<MaintenanceRequest>;
-  maintenanceRequestResolved?: Maybe<MaintenanceRequest>;
-  maintenanceRequestDeleted?: Maybe<Scalars['Boolean']['output']>;
+  maintenanceRequestCreated: MaintenanceRequest;
+  maintenanceRequestUpdated: MaintenanceRequest;
+  maintenanceRequestResolved: MaintenanceRequest;
+  maintenanceRequestDeleted: Scalars['Boolean']['output'];
 };
 
 export type FindAllMaintenanceRequestsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllMaintenanceRequestsQuery = { __typename?: 'Query', findAllMaintenanceRequests?: Array<{ __typename?: 'MaintenanceRequest', _id?: any | null, title?: string | null, description?: string | null, status?: MaintenanceRequestStatus | null, urgency?: MaintenanceRequestUrgency | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null> | null };
+export type FindAllMaintenanceRequestsQuery = { __typename?: 'Query', findAllMaintenanceRequests?: Array<{ __typename?: 'MaintenanceRequest', _id: any, title: string, description?: string | null, status: MaintenanceRequestStatus, urgency: MaintenanceRequestUrgency, createdAt: any, updatedAt: any, deletedAt?: any | null }> | null };
 
 export type FindOneMaintenanceRequestQueryVariables = Exact<{
   _id: Scalars['ObjectId']['input'];
 }>;
 
 
-export type FindOneMaintenanceRequestQuery = { __typename?: 'Query', findOneMaintenanceRequest?: { __typename?: 'MaintenanceRequest', _id?: any | null, title?: string | null, description?: string | null, status?: MaintenanceRequestStatus | null, urgency?: MaintenanceRequestUrgency | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null };
+export type FindOneMaintenanceRequestQuery = { __typename?: 'Query', findOneMaintenanceRequest?: { __typename?: 'MaintenanceRequest', _id: any, title: string, description?: string | null, status: MaintenanceRequestStatus, urgency: MaintenanceRequestUrgency, createdAt: any, updatedAt: any, deletedAt?: any | null } | null };
 
 export type SummaryMaintenanceRequestQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SummaryMaintenanceRequestQuery = { __typename?: 'Query', summaryMaintenanceRequest?: { __typename?: 'MaintenanceRequestSummary', averageDaysToResolve?: number | null, open?: number | null, urgent?: number | null } | null };
+export type SummaryMaintenanceRequestQuery = { __typename?: 'Query', summaryMaintenanceRequest: { __typename?: 'MaintenanceRequestSummary', averageDaysToResolve?: number | null, open?: number | null, urgent?: number | null } };
 
 export type CreateMaintenanceRequestMutationVariables = Exact<{
   body: MaintenanceRequestInput;
 }>;
 
 
-export type CreateMaintenanceRequestMutation = { __typename?: 'Mutation', createMaintenanceRequest?: { __typename?: 'MaintenanceRequest', _id?: any | null, title?: string | null, description?: string | null, status?: MaintenanceRequestStatus | null, urgency?: MaintenanceRequestUrgency | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null };
+export type CreateMaintenanceRequestMutation = { __typename?: 'Mutation', createMaintenanceRequest?: { __typename?: 'MaintenanceRequest', _id: any, title: string, description?: string | null, status: MaintenanceRequestStatus, urgency: MaintenanceRequestUrgency, createdAt: any, updatedAt: any, deletedAt?: any | null } | null };
 
 export type UpdateMaintenanceRequestMutationVariables = Exact<{
   _id: Scalars['ObjectId']['input'];
@@ -137,14 +137,14 @@ export type UpdateMaintenanceRequestMutationVariables = Exact<{
 }>;
 
 
-export type UpdateMaintenanceRequestMutation = { __typename?: 'Mutation', updateMaintenanceRequest?: { __typename?: 'MaintenanceRequest', _id?: any | null, title?: string | null, description?: string | null, status?: MaintenanceRequestStatus | null, urgency?: MaintenanceRequestUrgency | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null };
+export type UpdateMaintenanceRequestMutation = { __typename?: 'Mutation', updateMaintenanceRequest?: { __typename?: 'MaintenanceRequest', _id: any, title: string, description?: string | null, status: MaintenanceRequestStatus, urgency: MaintenanceRequestUrgency, createdAt: any, updatedAt: any, deletedAt?: any | null } | null };
 
 export type MarkAsResolvedMaintenanceRequestMutationVariables = Exact<{
   _id: Scalars['ObjectId']['input'];
 }>;
 
 
-export type MarkAsResolvedMaintenanceRequestMutation = { __typename?: 'Mutation', markAsResolvedMaintenanceRequest?: { __typename?: 'MaintenanceRequest', _id?: any | null, title?: string | null, description?: string | null, status?: MaintenanceRequestStatus | null, urgency?: MaintenanceRequestUrgency | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null };
+export type MarkAsResolvedMaintenanceRequestMutation = { __typename?: 'Mutation', markAsResolvedMaintenanceRequest?: { __typename?: 'MaintenanceRequest', _id: any, title: string, description?: string | null, status: MaintenanceRequestStatus, urgency: MaintenanceRequestUrgency, createdAt: any, updatedAt: any, deletedAt?: any | null } | null };
 
 export type DeleteMaintenanceRequestMutationVariables = Exact<{
   _id: Scalars['ObjectId']['input'];
@@ -156,22 +156,22 @@ export type DeleteMaintenanceRequestMutation = { __typename?: 'Mutation', delete
 export type MaintenanceRequestCreatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MaintenanceRequestCreatedSubscription = { __typename?: 'Subscription', maintenanceRequestCreated?: { __typename?: 'MaintenanceRequest', _id?: any | null, title?: string | null, description?: string | null, status?: MaintenanceRequestStatus | null, urgency?: MaintenanceRequestUrgency | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null };
+export type MaintenanceRequestCreatedSubscription = { __typename?: 'Subscription', maintenanceRequestCreated: { __typename?: 'MaintenanceRequest', _id: any, title: string, description?: string | null, status: MaintenanceRequestStatus, urgency: MaintenanceRequestUrgency, createdAt: any, updatedAt: any, deletedAt?: any | null } };
 
 export type MaintenanceRequestUpdatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MaintenanceRequestUpdatedSubscription = { __typename?: 'Subscription', maintenanceRequestUpdated?: { __typename?: 'MaintenanceRequest', _id?: any | null, title?: string | null, description?: string | null, status?: MaintenanceRequestStatus | null, urgency?: MaintenanceRequestUrgency | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null };
+export type MaintenanceRequestUpdatedSubscription = { __typename?: 'Subscription', maintenanceRequestUpdated: { __typename?: 'MaintenanceRequest', _id: any, title: string, description?: string | null, status: MaintenanceRequestStatus, urgency: MaintenanceRequestUrgency, createdAt: any, updatedAt: any, deletedAt?: any | null } };
 
 export type MaintenanceRequestResolvedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MaintenanceRequestResolvedSubscription = { __typename?: 'Subscription', maintenanceRequestResolved?: { __typename?: 'MaintenanceRequest', _id?: any | null, title?: string | null, description?: string | null, status?: MaintenanceRequestStatus | null, urgency?: MaintenanceRequestUrgency | null, createdAt?: any | null, updatedAt?: any | null, deletedAt?: any | null } | null };
+export type MaintenanceRequestResolvedSubscription = { __typename?: 'Subscription', maintenanceRequestResolved: { __typename?: 'MaintenanceRequest', _id: any, title: string, description?: string | null, status: MaintenanceRequestStatus, urgency: MaintenanceRequestUrgency, createdAt: any, updatedAt: any, deletedAt?: any | null } };
 
 export type MaintenanceRequestDeletedSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MaintenanceRequestDeletedSubscription = { __typename?: 'Subscription', maintenanceRequestDeleted?: boolean | null };
+export type MaintenanceRequestDeletedSubscription = { __typename?: 'Subscription', maintenanceRequestDeleted: boolean };
 
 
 export const FindAllMaintenanceRequestsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindAllMaintenanceRequests"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findAllMaintenanceRequests"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"urgency"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"deletedAt"}}]}}]}}]} as unknown as DocumentNode<FindAllMaintenanceRequestsQuery, FindAllMaintenanceRequestsQueryVariables>;

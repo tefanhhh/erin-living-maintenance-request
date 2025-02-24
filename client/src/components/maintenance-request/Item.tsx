@@ -19,7 +19,7 @@ interface MaintenanceRequestItemProps {
   status?: MaintenanceRequestStatus | null
 }
 
-export default function MaintenanceRequestItem({
+export default function MaintenanceRequestItemComponent({
   _id,
   title,
   createdAt,

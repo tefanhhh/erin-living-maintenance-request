@@ -20,21 +20,21 @@ export type Scalars = {
 
 export type MaintenanceRequest = {
   __typename?: 'MaintenanceRequest';
-  _id?: Maybe<Scalars['ObjectId']['output']>;
-  createdAt?: Maybe<Scalars['Date']['output']>;
+  _id: Scalars['ObjectId']['output'];
+  createdAt: Scalars['Date']['output'];
   deletedAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
-  status?: Maybe<MaintenanceRequestStatus>;
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['Date']['output']>;
-  urgency?: Maybe<MaintenanceRequestUrgency>;
+  status: MaintenanceRequestStatus;
+  title: Scalars['String']['output'];
+  updatedAt: Scalars['Date']['output'];
+  urgency: MaintenanceRequestUrgency;
 };
 
 export type MaintenanceRequestInput = {
   description?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<MaintenanceRequestStatus>;
-  title?: InputMaybe<Scalars['String']['input']>;
-  urgency?: InputMaybe<MaintenanceRequestUrgency>;
+  status: MaintenanceRequestStatus;
+  title: Scalars['String']['input'];
+  urgency: MaintenanceRequestUrgency;
 };
 
 export enum MaintenanceRequestStatus {
@@ -87,9 +87,9 @@ export type MutationUpdateMaintenanceRequestArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  findAllMaintenanceRequests?: Maybe<Array<Maybe<MaintenanceRequest>>>;
+  findAllMaintenanceRequests?: Maybe<Array<MaintenanceRequest>>;
   findOneMaintenanceRequest?: Maybe<MaintenanceRequest>;
-  summaryMaintenanceRequest?: Maybe<MaintenanceRequestSummary>;
+  summaryMaintenanceRequest: MaintenanceRequestSummary;
 };
 
 
@@ -99,10 +99,10 @@ export type QueryFindOneMaintenanceRequestArgs = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  maintenanceRequestCreated?: Maybe<MaintenanceRequest>;
-  maintenanceRequestDeleted?: Maybe<Scalars['Boolean']['output']>;
-  maintenanceRequestResolved?: Maybe<MaintenanceRequest>;
-  maintenanceRequestUpdated?: Maybe<MaintenanceRequest>;
+  maintenanceRequestCreated: MaintenanceRequest;
+  maintenanceRequestDeleted: Scalars['Boolean']['output'];
+  maintenanceRequestResolved: MaintenanceRequest;
+  maintenanceRequestUpdated: MaintenanceRequest;
 };
 
 export type AdditionalEntityFields = {
@@ -265,14 +265,14 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type MaintenanceRequestResolvers<ContextType = any, ParentType extends ResolversParentTypes['MaintenanceRequest'] = ResolversParentTypes['MaintenanceRequest']> = {
-  _id?: Resolver<Maybe<ResolversTypes['ObjectId']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  status?: Resolver<Maybe<ResolversTypes['MaintenanceRequestStatus']>, ParentType, ContextType>;
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  urgency?: Resolver<Maybe<ResolversTypes['MaintenanceRequestUrgency']>, ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MaintenanceRequestStatus'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  urgency?: Resolver<ResolversTypes['MaintenanceRequestUrgency'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -295,16 +295,16 @@ export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 }
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  findAllMaintenanceRequests?: Resolver<Maybe<Array<Maybe<ResolversTypes['MaintenanceRequest']>>>, ParentType, ContextType>;
+  findAllMaintenanceRequests?: Resolver<Maybe<Array<ResolversTypes['MaintenanceRequest']>>, ParentType, ContextType>;
   findOneMaintenanceRequest?: Resolver<Maybe<ResolversTypes['MaintenanceRequest']>, ParentType, ContextType, RequireFields<QueryFindOneMaintenanceRequestArgs, '_id'>>;
-  summaryMaintenanceRequest?: Resolver<Maybe<ResolversTypes['MaintenanceRequestSummary']>, ParentType, ContextType>;
+  summaryMaintenanceRequest?: Resolver<ResolversTypes['MaintenanceRequestSummary'], ParentType, ContextType>;
 };
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
-  maintenanceRequestCreated?: SubscriptionResolver<Maybe<ResolversTypes['MaintenanceRequest']>, "maintenanceRequestCreated", ParentType, ContextType>;
-  maintenanceRequestDeleted?: SubscriptionResolver<Maybe<ResolversTypes['Boolean']>, "maintenanceRequestDeleted", ParentType, ContextType>;
-  maintenanceRequestResolved?: SubscriptionResolver<Maybe<ResolversTypes['MaintenanceRequest']>, "maintenanceRequestResolved", ParentType, ContextType>;
-  maintenanceRequestUpdated?: SubscriptionResolver<Maybe<ResolversTypes['MaintenanceRequest']>, "maintenanceRequestUpdated", ParentType, ContextType>;
+  maintenanceRequestCreated?: SubscriptionResolver<ResolversTypes['MaintenanceRequest'], "maintenanceRequestCreated", ParentType, ContextType>;
+  maintenanceRequestDeleted?: SubscriptionResolver<ResolversTypes['Boolean'], "maintenanceRequestDeleted", ParentType, ContextType>;
+  maintenanceRequestResolved?: SubscriptionResolver<ResolversTypes['MaintenanceRequest'], "maintenanceRequestResolved", ParentType, ContextType>;
+  maintenanceRequestUpdated?: SubscriptionResolver<ResolversTypes['MaintenanceRequest'], "maintenanceRequestUpdated", ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {

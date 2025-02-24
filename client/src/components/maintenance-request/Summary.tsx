@@ -1,68 +1,18 @@
 'use client'
 
-import client from '@/lib/apollo.client'
-import {
-  MaintenanceRequestCreatedSubscription,
-  MaintenanceRequestResolvedSubscription,
-  SummaryMaintenanceRequestQuery,
-} from '@/gql/graphql'
-import {
-  maintenanceRequestCreated,
-  maintenanceRequestResolved,
-  summaryMaintenanceRequest,
-} from '@/gql-query/maintenance-request'
-import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/stores/index.store'
 
-export default function MaintenanceRequestSummary() {
+export default function MaintenanceRequestSummaryComponent() {
   const summaryTitles = [
     { title: 'Open Requests', key: 'open' },
     { title: 'Urgent Requests', key: 'urgent' },
     { title: 'Average time (days) to resolve', key: 'averageDaysToResolve' },
   ] as const
 
-  const [summary, setSummary] = useState<
-    SummaryMaintenanceRequestQuery['summaryMaintenanceRequest']
-  >({})
-
-  useEffect(() => {
-    async function fetchSummary() {
-      const { data } = await client.query<SummaryMaintenanceRequestQuery>({
-        query: summaryMaintenanceRequest,
-      })
-      setSummary(data?.summaryMaintenanceRequest || {})
-    }
-    fetchSummary()
-
-    client
-      .subscribe<MaintenanceRequestCreatedSubscription>({
-        query: maintenanceRequestCreated,
-      })
-      .subscribe({
-        next(val) {
-          if (val?.data?.maintenanceRequestCreated) {
-            fetchSummary()
-          }
-        },
-        error(err) {
-          console.error('Subscription Error:', err)
-        },
-      })
-
-    client
-      .subscribe<MaintenanceRequestResolvedSubscription>({
-        query: maintenanceRequestResolved,
-      })
-      .subscribe({
-        next(val) {
-          if (val?.data?.maintenanceRequestResolved) {
-            fetchSummary()
-          }
-        },
-        error(err) {
-          console.error('Subscription Error:', err)
-        },
-      })
-  }, [])
+  const summary = useSelector(
+    (state: RootState) => state.maintenanceRequest.summary,
+  )
 
   return (
     <div className="flex items-center justify-center gap-4 flex-wrap mb-8">
