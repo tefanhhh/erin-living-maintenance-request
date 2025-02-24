@@ -10,7 +10,8 @@
 
 ### Installation
 
-This is the monorepo project using pnpm workspace, it has 2 subfolders (**`client`** & **`server`**). to install the dependencies please run: **`pnpm install`**
+This is the monorepo project using pnpm workspace, it has 2 subfolders (**`client`** & **`server`**). to install the dependencies please run: **`pnpm install`**.
+
 The reason why im using pnpm workspace because of the simplicity of the repository, so i dont have to create 2 different repo for the client and the server.
 
 ### Configuration
