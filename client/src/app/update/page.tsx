@@ -7,11 +7,11 @@ import {
   MaintenanceRequestUrgency,
 } from '@/gql/graphql'
 
-import FormGroup from '@/app/components/form/Group'
-import FormSelect from '@/app/components/form/Select'
-import FormInput from '@/app/components/form/Input'
-import FormTextarea from '@/app/components/form/Textarea'
-import FormError from '@/app/components/form/Error'
+import FormGroup from '@/components/form/Group'
+import FormSelect from '@/components/form/Select'
+import FormInput from '@/components/form/Input'
+import FormTextarea from '@/components/form/Textarea'
+import FormError from '@/components/form/Error'
 import {
   maintenanceRequestSchema,
   MaintenanceRequestSchema,

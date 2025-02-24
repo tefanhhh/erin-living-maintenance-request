@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import MaintenanceRequestSummary from '@/app/components/maintenance-request/Summary'
-import MaintenanceRequestList from '@/app/components/maintenance-request/List'
+import MaintenanceRequestSummary from '@/components/maintenance-request/Summary'
+import MaintenanceRequestList from '@/components/maintenance-request/List'
 
 export default async function Page() {
   return (

@@ -11,7 +11,7 @@ import {
   maintenanceRequestCreated,
   maintenanceRequestResolved,
 } from '@/gql-query/maintenance-request'
-import MaintenanceRequestItem from '@/app/components/maintenance-request/Item'
+import MaintenanceRequestItem from '@/components/maintenance-request/Item'
 
 export default function MaintenanceRequestList() {
   const [maintenanceRequests, setMaintenanceRequests] = useState<
