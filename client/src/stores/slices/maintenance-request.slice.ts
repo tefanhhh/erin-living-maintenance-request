@@ -113,5 +113,3 @@ export const maintenanceRequestSlice = createSlice({
       })
   },
 })
-
-export const maintenanceRequestActions = maintenanceRequestSlice.actions

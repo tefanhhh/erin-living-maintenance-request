@@ -64,8 +64,7 @@ export default function UpdatePage() {
   const onSubmit = async (data: MaintenanceRequestSchema) => {
     setLoading(true)
     try {
-      const response = await dispatch(create(data)).unwrap()
-      console.log('GraphQL Response:', response)
+      await dispatch(create(data)).unwrap()
       alert('Maintenance request created successfully!')
       reset()
       router.push('/')

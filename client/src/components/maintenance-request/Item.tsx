@@ -76,8 +76,7 @@ export default function MaintenanceRequestItemComponent({
   const onMarkAsResolved = async () => {
     setLoading(true)
     try {
-      const response = await dispatch(markAsResolved(_id)).unwrap()
-      console.log('GraphQL Response:', response)
+      await dispatch(markAsResolved(_id)).unwrap()
       alert('Maintenance request resolved successfully!')
     } catch (err) {
       console.error('GraphQL Error:', err)
