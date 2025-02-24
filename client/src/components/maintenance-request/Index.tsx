@@ -5,7 +5,11 @@ import MaintenanceRequestList from '@/components/maintenance-request/List'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/stores/index.store'
-import { summary, findAll } from '@/stores/slices/maintenance-request.slice'
+import {
+  summary,
+  findAll,
+  maintenanceRequestActions,
+} from '@/stores/slices/maintenance-request.slice'
 import client from '@/lib/apollo.client'
 import {
   MaintenanceRequestCreatedSubscription,
@@ -19,6 +23,7 @@ import { Button, Link } from '@heroui/react'
 
 export default function MaintenanceRequestComponent() {
   const dispatch = useDispatch<AppDispatch>()
+  const { unshiftList, updateList } = maintenanceRequestActions
 
   useEffect(() => {
     dispatch(findAll())
@@ -31,7 +36,7 @@ export default function MaintenanceRequestComponent() {
       .subscribe({
         next(val) {
           if (val?.data?.maintenanceRequestCreated) {
-            dispatch(findAll())
+            dispatch(unshiftList(val.data.maintenanceRequestCreated))
             dispatch(summary())
           }
         },
@@ -47,7 +52,7 @@ export default function MaintenanceRequestComponent() {
       .subscribe({
         next(val) {
           if (val?.data?.maintenanceRequestResolved) {
-            dispatch(findAll())
+            dispatch(updateList(val.data.maintenanceRequestResolved))
             dispatch(summary())
           }
         },

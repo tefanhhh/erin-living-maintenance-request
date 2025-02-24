@@ -6,7 +6,7 @@ import {
   MarkAsResolvedMaintenanceRequestMutation,
   SummaryMaintenanceRequestQuery,
 } from '@/gql/graphql'
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import client from '@/lib/apollo.client'
 import {
   createMaintenanceRequest,
@@ -87,7 +87,19 @@ export const markAsResolved = createAsyncThunk(
 export const maintenanceRequestSlice = createSlice({
   name: 'maintenance-request',
   initialState,
-  reducers: {},
+  reducers: {
+    unshiftList(state, action: PayloadAction<MaintenanceRequest>) {
+      state.list.unshift(action.payload)
+    },
+    updateList(state, action: PayloadAction<MaintenanceRequest>) {
+      const index = state.list.findIndex(
+        (it) => String(it._id) === String(action.payload._id),
+      )
+      if (index !== -1) {
+        state.list.splice(index, 1, action.payload)
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(summary.fulfilled, (state, action) => {
@@ -113,3 +125,5 @@ export const maintenanceRequestSlice = createSlice({
       })
   },
 })
+
+export const maintenanceRequestActions = maintenanceRequestSlice.actions
