@@ -24,6 +24,7 @@ export type MaintenanceRequest = {
   createdAt: Scalars['Date']['output'];
   deletedAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
+  resolvedAt?: Maybe<Scalars['Date']['output']>;
   status: MaintenanceRequestStatus;
   title: Scalars['String']['output'];
   updatedAt: Scalars['Date']['output'];
@@ -269,6 +270,7 @@ export type MaintenanceRequestResolvers<ContextType = any, ParentType extends Re
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  resolvedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MaintenanceRequestStatus'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;

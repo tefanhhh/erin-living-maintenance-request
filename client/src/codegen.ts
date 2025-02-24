@@ -6,6 +6,7 @@ if (!process.env.GQL_URL) {
 }
 
 const config: CodegenConfig = {
+  overwrite: true,
   schema: process.env.GQL_URL,
   documents: ['src/gql-query/*.ts'],
   generates: {

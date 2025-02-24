@@ -1,32 +1,34 @@
 import { gql } from '@apollo/client'
 
+const fragments = gql`
+  fragment MaintenanceRequestFields on MaintenanceRequest {
+    _id
+    title
+    description
+    status
+    urgency
+    createdAt
+    updatedAt
+    resolvedAt
+    deletedAt
+  }
+`
+
 export const findAllMaintenanceRequests = gql`
   query FindAllMaintenanceRequests {
     findAllMaintenanceRequests {
-      _id
-      title
-      description
-      status
-      urgency
-      createdAt
-      updatedAt
-      deletedAt
+      ...MaintenanceRequestFields
     }
   }
+  ${fragments}
 `
 export const findOneMaintenanceRequest = gql`
   query FindOneMaintenanceRequest($_id: ObjectId!) {
     findOneMaintenanceRequest(_id: $_id) {
-      _id
-      title
-      description
-      status
-      urgency
-      createdAt
-      updatedAt
-      deletedAt
+      ...MaintenanceRequestFields
     }
   }
+  ${fragments}
 `
 
 export const summaryMaintenanceRequest = gql`
@@ -42,16 +44,10 @@ export const summaryMaintenanceRequest = gql`
 export const createMaintenanceRequest = gql`
   mutation CreateMaintenanceRequest($body: MaintenanceRequestInput!) {
     createMaintenanceRequest(body: $body) {
-      _id
-      title
-      description
-      status
-      urgency
-      createdAt
-      updatedAt
-      deletedAt
+      ...MaintenanceRequestFields
     }
   }
+  ${fragments}
 `
 
 export const updateMaintenanceRequest = gql`
@@ -60,31 +56,19 @@ export const updateMaintenanceRequest = gql`
     $body: MaintenanceRequestInput!
   ) {
     updateMaintenanceRequest(_id: $_id, body: $body) {
-      _id
-      title
-      description
-      status
-      urgency
-      createdAt
-      updatedAt
-      deletedAt
+      ...MaintenanceRequestFields
     }
   }
+  ${fragments}
 `
 
 export const markAsResolvedMaintenanceRequest = gql`
   mutation MarkAsResolvedMaintenanceRequest($_id: ObjectId!) {
     markAsResolvedMaintenanceRequest(_id: $_id) {
-      _id
-      title
-      description
-      status
-      urgency
-      createdAt
-      updatedAt
-      deletedAt
+      ...MaintenanceRequestFields
     }
   }
+  ${fragments}
 `
 
 export const deleteMaintenanceRequest = gql`
@@ -96,46 +80,28 @@ export const deleteMaintenanceRequest = gql`
 export const maintenanceRequestCreated = gql`
   subscription MaintenanceRequestCreated {
     maintenanceRequestCreated {
-      _id
-      title
-      description
-      status
-      urgency
-      createdAt
-      updatedAt
-      deletedAt
+      ...MaintenanceRequestFields
     }
   }
+  ${fragments}
 `
 
 export const maintenanceRequestUpdated = gql`
   subscription MaintenanceRequestUpdated {
     maintenanceRequestUpdated {
-      _id
-      title
-      description
-      status
-      urgency
-      createdAt
-      updatedAt
-      deletedAt
+      ...MaintenanceRequestFields
     }
   }
+  ${fragments}
 `
 
 export const maintenanceRequestResolved = gql`
   subscription MaintenanceRequestResolved {
     maintenanceRequestResolved {
-      _id
-      title
-      description
-      status
-      urgency
-      createdAt
-      updatedAt
-      deletedAt
+      ...MaintenanceRequestFields
     }
   }
+  ${fragments}
 `
 
 export const maintenanceRequestDeleted = gql`

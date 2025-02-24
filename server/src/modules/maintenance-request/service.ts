@@ -47,6 +47,7 @@ export class MaintenanceRequestService {
       {
         $set: {
           status: MaintenanceRequestStatus.Resolved,
+          resolvedAt: date,
           updatedAt: date,
         },
       },
@@ -70,7 +71,7 @@ export class MaintenanceRequestService {
             {
               $match: {
                 status: MaintenanceRequestStatus.Resolved,
-                updatedAt: { $exists: true },
+                resolvedAt: { $exists: true },
                 createdAt: { $exists: true },
               },
             },
@@ -78,7 +79,7 @@ export class MaintenanceRequestService {
               $project: {
                 daysToResolve: {
                   $divide: [
-                    { $subtract: ['$updatedAt', '$createdAt'] },
+                    { $subtract: ['$resolvedAt', '$createdAt'] },
                     1000 * 60 * 60 * 24,
                   ],
                 },
@@ -126,6 +127,7 @@ export class MaintenanceRequestService {
           status: 1,
           urgency: 1,
           createdAt: 1,
+          resolvedAt: 1,
           updatedAt: 1,
           deletedAt: 1,
         },

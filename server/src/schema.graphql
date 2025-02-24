@@ -28,6 +28,7 @@ type MaintenanceRequest {
   urgency: MaintenanceRequestUrgency!
   createdAt: Date!
   updatedAt: Date!
+  resolvedAt: Date
   deletedAt: Date
 }
 

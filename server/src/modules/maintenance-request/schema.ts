@@ -23,7 +23,8 @@ const schema = new Schema<MaintenanceRequest>(
     },
     createdAt: { type: Date, required: true, default: Date.now },
     updatedAt: { type: Date, required: true, default: Date.now },
-    deletedAt: { type: String, required: false, default: null },
+    resolvedAt: { type: Date, required: false, default: null },
+    deletedAt: { type: Date, required: false, default: null },
   },
   {
     timestamps: true,
