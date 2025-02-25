@@ -18,6 +18,7 @@ import {
   SelectItem,
   Link,
   addToast,
+  Form,
 } from '@heroui/react'
 import { STATUS_OPTIONS, URGENCY_OPTIONS } from '@/utils'
 
@@ -67,7 +68,7 @@ export default function UpdateFormComponent() {
           Maintenance Request
         </h1>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="max-w-[447px] mx-auto">
+      <Form onSubmit={handleSubmit(onSubmit)} className="max-w-[447px] mx-auto">
         <Select
           {...register('urgency')}
           label="Urgency"
@@ -80,7 +81,7 @@ export default function UpdateFormComponent() {
             label: '!text-gray text-sm after:text-gray',
             trigger: 'default-input-wrapper h-12',
           }}
-          className="mb-12"
+          className="mb-7"
         >
           {URGENCY_OPTIONS.map((it) => (
             <SelectItem key={it.value}>{it.label}</SelectItem>
@@ -98,7 +99,7 @@ export default function UpdateFormComponent() {
             label: '!text-gray text-sm after:text-gray',
             trigger: 'default-input-wrapper h-12',
           }}
-          className="mb-12"
+          className="mb-7"
         >
           {STATUS_OPTIONS.map((it) => (
             <SelectItem key={it.value}>{it.label}</SelectItem>
@@ -131,7 +132,7 @@ export default function UpdateFormComponent() {
             input: '!h-auto',
           }}
         />
-        <div className="flex items-center justify-center mt-12">
+        <div className="flex items-center justify-center mt-10 w-full">
           <Button
             type="submit"
             color="primary"
@@ -146,7 +147,7 @@ export default function UpdateFormComponent() {
             {loading ? 'Saving...' : 'Save'}
           </Button>
         </div>
-      </form>
+      </Form>
     </div>
   )
 }
