@@ -24,8 +24,10 @@
     "graphql": "^16.10.0",
     "graphql-subscriptions": "^3.0.0",
     "graphql-ws": "^5.16.2",
+    "inversify": "^6.2.2",
     "mongodb": "^6.13.0",
     "mongoose": "^8.10.1",
+    "reflect-metadata": "^0.2.2",
     "ws": "^8.18.0"
   },
   "devDependencies": {
