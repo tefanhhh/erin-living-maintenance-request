@@ -1,7 +1,7 @@
 'use client'
 
 import MaintenanceRequestSummary from '@/components/maintenance-request/Summary'
-import MaintenanceRequestList from '@/components/maintenance-request/List'
+import MaintenanceRequestList from '@/components/maintenance-request/list/Index'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/stores/index.store'
