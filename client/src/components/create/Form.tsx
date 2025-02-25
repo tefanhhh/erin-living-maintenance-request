@@ -21,6 +21,7 @@ import {
   Form,
 } from '@heroui/react'
 import { STATUS_OPTIONS, URGENCY_OPTIONS } from '@/utils'
+import { motion } from 'framer-motion'
 
 export default function UpdateFormComponent() {
   const dispatch = useDispatch<AppDispatch>()
@@ -68,86 +69,95 @@ export default function UpdateFormComponent() {
           Maintenance Request
         </h1>
       </div>
-      <Form onSubmit={handleSubmit(onSubmit)} className="max-w-[447px] mx-auto">
-        <Select
-          {...register('urgency')}
-          label="Urgency"
-          labelPlacement="outside"
-          placeholder="Select urgency"
-          isRequired
-          isInvalid={!!errors.urgency}
-          errorMessage={errors.urgency?.message}
-          classNames={{
-            label: '!text-gray text-sm after:text-gray',
-            trigger: 'default-input-wrapper h-12',
-          }}
-          className="mb-7"
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        <Form
+          onSubmit={handleSubmit(onSubmit)}
+          className="max-w-[447px] mx-auto"
         >
-          {URGENCY_OPTIONS.map((it) => (
-            <SelectItem key={it.value}>{it.label}</SelectItem>
-          ))}
-        </Select>
-        <Select
-          {...register('status')}
-          label="Status"
-          labelPlacement="outside"
-          placeholder="Select status"
-          isRequired
-          isInvalid={!!errors.status}
-          errorMessage={errors.status?.message}
-          classNames={{
-            label: '!text-gray text-sm after:text-gray',
-            trigger: 'default-input-wrapper h-12',
-          }}
-          className="mb-7"
-        >
-          {STATUS_OPTIONS.map((it) => (
-            <SelectItem key={it.value}>{it.label}</SelectItem>
-          ))}
-        </Select>
-        <Input
-          {...register('title')}
-          label="Title"
-          labelPlacement="outside"
-          placeholder="eg. Crack in plasterboard"
-          isRequired
-          classNames={{
-            label: '!text-gray text-sm after:text-gray',
-            inputWrapper: 'default-input-wrapper h-12',
-          }}
-          className="mb-7"
-          isInvalid={!!errors.title}
-          errorMessage={errors.title?.message}
-        />
-        <Textarea
-          {...register('description')}
-          label="Description"
-          labelPlacement="outside"
-          placeholder="Description of your request"
-          minRows={7}
-          rows={7}
-          classNames={{
-            label: '!text-gray text-sm after:text-gray',
-            inputWrapper: 'default-input-wrapper py-[14px]',
-            input: '!h-auto',
-          }}
-        />
-        <div className="flex items-center justify-center mt-10 w-full">
-          <Button
-            type="submit"
-            color="primary"
-            radius="sm"
-            isLoading={loading}
-            className="h-12 w-[268px]"
-            style={{
-              backdropFilter: 'blur(12px)',
-              boxShadow: '0px 16px 24px 0px rgba(160, 163, 189, 0.16)',
+          <Select
+            {...register('urgency')}
+            label="Urgency"
+            labelPlacement="outside"
+            placeholder="Select urgency"
+            isRequired
+            isInvalid={!!errors.urgency}
+            errorMessage={errors.urgency?.message}
+            classNames={{
+              label: '!text-gray text-sm after:text-gray',
+              trigger: 'default-input-wrapper h-12',
             }}
+            className="mb-7"
           >
-            {loading ? 'Saving...' : 'Save'}
-          </Button>
-        </div>
-      </Form>
+            {URGENCY_OPTIONS.map((it) => (
+              <SelectItem key={it.value}>{it.label}</SelectItem>
+            ))}
+          </Select>
+          <Select
+            {...register('status')}
+            label="Status"
+            labelPlacement="outside"
+            placeholder="Select status"
+            isRequired
+            isInvalid={!!errors.status}
+            errorMessage={errors.status?.message}
+            classNames={{
+              label: '!text-gray text-sm after:text-gray',
+              trigger: 'default-input-wrapper h-12',
+            }}
+            className="mb-7"
+          >
+            {STATUS_OPTIONS.map((it) => (
+              <SelectItem key={it.value}>{it.label}</SelectItem>
+            ))}
+          </Select>
+          <Input
+            {...register('title')}
+            label="Title"
+            labelPlacement="outside"
+            placeholder="eg. Crack in plasterboard"
+            isRequired
+            classNames={{
+              label: '!text-gray text-sm after:text-gray',
+              inputWrapper: 'default-input-wrapper h-12',
+            }}
+            className="mb-7"
+            isInvalid={!!errors.title}
+            errorMessage={errors.title?.message}
+          />
+          <Textarea
+            {...register('description')}
+            label="Description"
+            labelPlacement="outside"
+            placeholder="Description of your request"
+            minRows={7}
+            rows={7}
+            classNames={{
+              label: '!text-gray text-sm after:text-gray',
+              inputWrapper: 'default-input-wrapper py-[14px]',
+              input: '!h-auto',
+            }}
+          />
+          <div className="flex items-center justify-center mt-10 w-full">
+            <Button
+              type="submit"
+              color="primary"
+              radius="sm"
+              isLoading={loading}
+              className="h-12 w-[268px]"
+              style={{
+                backdropFilter: 'blur(12px)',
+                boxShadow: '0px 16px 24px 0px rgba(160, 163, 189, 0.16)',
+              }}
+            >
+              {loading ? 'Saving...' : 'Save'}
+            </Button>
+          </div>
+        </Form>
+      </motion.div>
     </div>
   )
 }
