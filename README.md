@@ -2,6 +2,11 @@
 
 ## Getting Started
 
+### Tech Stack
+
+- **`server`**: Express, Typescript, Apollo Server, MongoDB, Websocket, Inversify.
+- **`client`**: NextJS, Typescript, Apollo Client, HeroUI, Framer Motion, Redux, React Hook Form, Zod.
+
 ### Prerequisites
 
 - node **`v22.13.1`**
@@ -25,8 +30,3 @@ Next, in the **`/client`** folder, create **`.env`** file with the content of **
 - First, you have to run **`pnpm run server:start:dev`** to start the Node server.
   You can see the GraphQL Playground at **[http://localhost:4000](http://localhost:4000)**.
 - Then, you can start the client with **`pnpm run client:start:dev`**. The client will start at **[http://localhost:3000](http://localhost:3000)**.
-
-## Tech Stack
-
-- **`server`**: Express, Typescript, Apollo Server, MongoDB, Websocket, Inversify.
-- **`client`**: NextJS, Typescript, Apollo Client, HeroUI, Framer Motion, Redux, React Hook Form, Zod.
