@@ -5,11 +5,7 @@ import MaintenanceRequestList from '@/components/maintenance-request/list/Index'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/stores/index.store'
-import {
-  summary,
-  findAll,
-  actions,
-} from '@/slices/maintenance-request.slice'
+import { summary, findAll, actions } from '@/slices/maintenance-request.slice'
 import client from '@/lib/apollo.client'
 import {
   MaintenanceRequestCreatedSubscription,
@@ -81,20 +77,20 @@ export default function MaintenanceRequestComponent() {
         <MaintenanceRequestList />
       </div>
       <div className="flex items-center justify-end gap-4 sticky left-0 bottom-6 z-10">
-        <Button
-          type="button"
-          as={Link}
-          color="primary"
-          radius="full"
-          isIconOnly
-          href="/create"
-          className="w-[52px] h-[52px]"
-          style={{
-            boxShadow: '0px 4px 6px 0px #0000001A, 0px 2px 4px 0px #0000000F',
-          }}
-        >
-          <span className="icon-[heroicons--plus] w-[18px] h-[18px]"></span>
-        </Button>
+        <Link href="/create">
+          <Button
+            type="button"
+            color="primary"
+            radius="full"
+            isIconOnly
+            className="w-[52px] h-[52px]"
+            style={{
+              boxShadow: '0px 4px 6px 0px #0000001A, 0px 2px 4px 0px #0000000F',
+            }}
+          >
+            <span className="icon-[heroicons--plus] w-[18px] h-[18px]"></span>
+          </Button>
+        </Link>
       </div>
     </div>
   )
