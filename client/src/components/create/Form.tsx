@@ -9,7 +9,7 @@ import {
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/stores/index.store'
-import { create } from '@/stores/slices/maintenance-request.slice'
+import { create } from '@/slices/maintenance-request.slice'
 import {
   Button,
   Textarea,
