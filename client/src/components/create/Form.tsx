@@ -30,6 +30,7 @@ export default function UpdateFormComponent() {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm({
     resolver: zodResolver(maintenanceRequestSchema),
     defaultValues: {
@@ -42,6 +43,8 @@ export default function UpdateFormComponent() {
 
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const selectedUrgency = watch('urgency')
+  const selectedStatus = watch('status')
 
   const onSubmit = async (data: MaintenanceRequestSchema) => {
     setLoading(true)
@@ -89,6 +92,9 @@ export default function UpdateFormComponent() {
             classNames={{
               label: '!text-gray text-sm after:text-gray',
               trigger: 'default-input-wrapper h-12',
+              value: !selectedUrgency
+                ? '!text-[#dcdcdc]'
+                : '!text-foreground-500',
             }}
             className="mb-7"
           >
@@ -107,6 +113,9 @@ export default function UpdateFormComponent() {
             classNames={{
               label: '!text-gray text-sm after:text-gray',
               trigger: 'default-input-wrapper h-12',
+              value: !selectedStatus
+                ? '!text-[#dcdcdc]'
+                : '!text-foreground-500',
             }}
             className="mb-7"
           >
@@ -123,6 +132,7 @@ export default function UpdateFormComponent() {
             classNames={{
               label: '!text-gray text-sm after:text-gray',
               inputWrapper: 'default-input-wrapper h-12',
+              input: '!placeholder-[#dcdcdc]',
             }}
             className="mb-7"
             isInvalid={!!errors.title}
@@ -138,7 +148,7 @@ export default function UpdateFormComponent() {
             classNames={{
               label: '!text-gray text-sm after:text-gray',
               inputWrapper: 'default-input-wrapper py-[14px]',
-              input: '!h-auto',
+              input: '!placeholder-[#dcdcdc] !h-auto',
             }}
           />
           <div className="flex items-center justify-center mt-10 w-full">
