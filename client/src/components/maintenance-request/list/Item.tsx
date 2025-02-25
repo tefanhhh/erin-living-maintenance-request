@@ -83,49 +83,47 @@ export default function MaintenanceRequestItemComponent({
   }
 
   return (
-    <li>
-      <Card
-        radius="lg"
-        shadow="none"
-        className="bg-white mb-6"
-        style={{
-          backdropFilter: 'blur(12px)',
-          boxShadow: '0px 8px 32px 0px rgba(110, 113, 145, 0.12)',
-        }}
-      >
-        <CardBody className="px-4 py-5">
-          <div className="flex items-center justify-between gap-4 mb-1">
-            <h3 className="text-sm text-foreground font-medium tracking-normal">
-              {title}
-            </h3>
-            <span className="text-xs text-gray">
-              {dayjs(createdAt).format('DD MMM YYYY')}
-            </span>
-          </div>
-          <div className="flex items-center justify-between gap-4">
-            <span className={color}>
-              {emoji}&nbsp;
-              <span className="font-light text-sm">{formattedUrgencyText}</span>
-            </span>
-            {status === MaintenanceRequestStatus.Open ? (
-              <Button
-                type="button"
-                color="primary"
-                radius="full"
-                className="text-white text-xs h-5 font-normal px-2"
-                isLoading={loading}
-                onPress={onMarkAsResolved}
-              >
-                {loading ? 'Resolving...' : 'Mark as Resolved'}
-              </Button>
-            ) : (
-              <Chip className="bg-gray text-white text-xs font-normal h-5 px-0">
-                Resolved
-              </Chip>
-            )}
-          </div>
-        </CardBody>
-      </Card>
-    </li>
+    <Card
+      radius="lg"
+      shadow="none"
+      className="bg-white mb-6"
+      style={{
+        backdropFilter: 'blur(12px)',
+        boxShadow: '0px 8px 32px 0px rgba(110, 113, 145, 0.12)',
+      }}
+    >
+      <CardBody className="px-4 py-5">
+        <div className="flex items-center justify-between gap-4 mb-1">
+          <h3 className="text-sm text-foreground font-medium tracking-normal">
+            {title}
+          </h3>
+          <span className="text-xs text-gray">
+            {dayjs(createdAt).format('DD MMM YYYY')}
+          </span>
+        </div>
+        <div className="flex items-center justify-between gap-4">
+          <span className={color}>
+            {emoji}&nbsp;
+            <span className="font-light text-sm">{formattedUrgencyText}</span>
+          </span>
+          {status === MaintenanceRequestStatus.Open ? (
+            <Button
+              type="button"
+              color="primary"
+              radius="full"
+              className="text-white text-xs h-5 font-normal px-2"
+              isLoading={loading}
+              onPress={onMarkAsResolved}
+            >
+              {loading ? 'Resolving...' : 'Mark as Resolved'}
+            </Button>
+          ) : (
+            <Chip className="bg-gray text-white text-xs font-normal h-5 px-0">
+              Resolved
+            </Chip>
+          )}
+        </div>
+      </CardBody>
+    </Card>
   )
 }
