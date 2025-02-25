@@ -71,7 +71,11 @@ export class MaintenanceRequestService {
                 { $count: 'count' },
               ],
               urgent: [
-                { $match: { urgency: MaintenanceRequestUrgency.Urgent } },
+                {
+                  $match: {
+                    urgency: { $in: [MaintenanceRequestUrgency.Urgent, MaintenanceRequestUrgency.Emergency] }
+                  }
+                },
                 { $count: 'count' },
               ],
               averageDaysToResolve: [
