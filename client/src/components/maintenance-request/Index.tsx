@@ -8,8 +8,8 @@ import { AppDispatch } from '@/stores/index.store'
 import {
   summary,
   findAll,
-  maintenanceRequestActions,
-} from '@/stores/slices/maintenance-request.slice'
+  actions,
+} from '@/slices/maintenance-request.slice'
 import client from '@/lib/apollo.client'
 import {
   MaintenanceRequestCreatedSubscription,
@@ -23,7 +23,7 @@ import { Button, Link } from '@heroui/react'
 
 export default function MaintenanceRequestComponent() {
   const dispatch = useDispatch<AppDispatch>()
-  const { unshiftList, updateList } = maintenanceRequestActions
+  const { unshiftList, updateList } = actions
 
   useEffect(() => {
     dispatch(findAll())
