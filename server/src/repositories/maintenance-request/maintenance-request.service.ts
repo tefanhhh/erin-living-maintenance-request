@@ -190,10 +190,10 @@ export class MaintenanceRequestService {
           {
             createdAt: { $lte: time },
             urgency: MaintenanceRequestUrgency.Urgent,
-            status: MaintenanceRequestStatus.Open,
+            status: MaintenanceRequestStatus.Open
           },
           {
-            $set: { status: MaintenanceRequestUrgency.Emergency },
+            $set: { emergency: MaintenanceRequestUrgency.Emergency },
           },
         )
         const all = await this.findAll()
@@ -215,10 +215,9 @@ export class MaintenanceRequestService {
           {
             createdAt: { $lte: time },
             urgency: MaintenanceRequestUrgency.LessUrgent,
-            status: MaintenanceRequestStatus.Open,
           },
           {
-            $set: { status: MaintenanceRequestUrgency.Urgent },
+            $set: { emergency: MaintenanceRequestUrgency.Urgent },
           },
         )
         const all = await this.findAll()
