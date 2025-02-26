@@ -190,7 +190,7 @@ export class MaintenanceRequestService {
           {
             createdAt: { $lte: time },
             urgency: MaintenanceRequestUrgency.Urgent,
-            status: MaintenanceRequestStatus.Open
+            status: MaintenanceRequestStatus.Open,
           },
           {
             $set: { emergency: MaintenanceRequestUrgency.Emergency },
