@@ -1,4 +1,4 @@
-import CreateForm from '@/components/create/Form'
+import CreateForm from '@/components/update/Form'
 
 export const metadata = {
   title: 'Create Request - Erin Living | Maintenance Request',

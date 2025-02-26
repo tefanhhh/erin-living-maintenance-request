@@ -86,7 +86,7 @@ export default function MaintenanceRequestItemComponent({
     <Link
       href={
         status === MaintenanceRequestStatus.Open
-          ? `/create?_id=${_id.toString()}`
+          ? `/update?_id=${_id.toString()}`
           : '#'
       }
       className={`w-full ${status === MaintenanceRequestStatus.Open ? 'cursor-pointer' : 'pointer-events-none'}`}

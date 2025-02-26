@@ -98,7 +98,7 @@ export default function MaintenanceRequestComponent() {
         <MaintenanceRequestList />
       </div>
       <div className="flex items-center justify-end gap-4 sticky left-0 bottom-6 z-10">
-        <Link href="/create">
+        <Link href="/update">
           <Button
             type="button"
             color="primary"
