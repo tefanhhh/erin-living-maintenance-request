@@ -43,6 +43,7 @@ export class MaintenanceRequestService {
       {
         $set: {
           ...body,
+          resolvedAt: body.status === MaintenanceRequestStatus.Resolved ? date : null,
           updatedAt: date,
         },
       },
