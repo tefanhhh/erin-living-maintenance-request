@@ -80,6 +80,7 @@ export async function start() {
     const port = process.env.PORT ? Number(process.env.PORT) : 4000
     await new Promise<void>((resolve) => httpServer.listen({ port }, resolve))
     console.log(`🚀 Server ready at http://localhost:${port}/`)
+    maintenanceRequestResolvers.startScheduler()
   } catch (error) {
     console.error('❌ Failed to connect to server:', error)
     process.exit(1)

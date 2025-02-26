@@ -14,8 +14,11 @@ export class MaintenanceRequestResolver {
     private readonly maintenanceRequestService: MaintenanceRequestService,
   ) {
     this.pubsub = new PubSub()
-    this.maintenanceRequestService.lessUrgentScheduler()
-    this.maintenanceRequestService.urgentScheduler()
+  }
+
+  startScheduler() {
+    this.maintenanceRequestService.lessUrgentScheduler(this.pubsub)
+    this.maintenanceRequestService.urgentScheduler(this.pubsub)
   }
 
   getResolvers(): Resolvers {

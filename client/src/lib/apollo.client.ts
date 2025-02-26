@@ -5,12 +5,12 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
 import { createClient } from 'graphql-ws'
 
 const httpLink = new HttpLink({
-  uri: process.env.GQL_URL || 'http://localhost:4000',
+  uri: process.env.NEXT_PUBLIC_GQL_URL || 'http://localhost:4000',
 })
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: process.env.WS_URL || 'ws://localhost:4000',
+    url: process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:4000',
   }),
 )
 

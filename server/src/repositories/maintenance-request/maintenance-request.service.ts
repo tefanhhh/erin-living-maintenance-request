@@ -9,19 +9,15 @@ import {
 import { injectable, inject } from 'inversify'
 import { MaintenanceRequestModel } from './maintenance-request.model'
 import cron from 'node-cron'
-import { PubSub } from 'graphql-subscriptions'
 import { PUBSUB_KEY } from '../../constants'
+import { PubSub } from 'graphql-subscriptions'
 
 @injectable()
 export class MaintenanceRequestService {
-  private readonly pubsub: PubSub<Record<string, never>>
-
   constructor(
     @inject(MaintenanceRequestModel)
     private readonly maintenanceRequestModel: MaintenanceRequestModel,
-  ) {
-    this.pubsub = new PubSub()
-  }
+  ) {}
 
   async create(body: MaintenanceRequestInput): Promise<MaintenanceRequest> {
     const created = await this.maintenanceRequestModel.model.insertOne({
@@ -43,7 +39,8 @@ export class MaintenanceRequestService {
       {
         $set: {
           ...body,
-          resolvedAt: body.status === MaintenanceRequestStatus.Resolved ? date : null,
+          resolvedAt:
+            body.status === MaintenanceRequestStatus.Resolved ? date : null,
           updatedAt: date,
         },
       },
@@ -182,7 +179,7 @@ export class MaintenanceRequestService {
     return result.modifiedCount > 0
   }
 
-  urgentScheduler() {
+  urgentScheduler(pubsub: PubSub<Record<string, never>>) {
     cron.schedule('0 * * * *', async () => {
       const time = new Date()
       time.setHours(time.getHours() - 6)
@@ -198,7 +195,7 @@ export class MaintenanceRequestService {
           },
         )
         const all = await this.findAll()
-        this.pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_RUN_SCHEDULER'], {
+        pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_RUN_SCHEDULER'], {
           maintenanceRequestRunScheduler: all,
         })
       } catch (error) {
@@ -207,7 +204,7 @@ export class MaintenanceRequestService {
     })
   }
 
-  lessUrgentScheduler() {
+  lessUrgentScheduler(pubsub: PubSub<Record<string, never>>) {
     cron.schedule('0 0 * * *', async () => {
       const time = new Date()
       time.setDate(time.getDate() - 3)
@@ -223,7 +220,7 @@ export class MaintenanceRequestService {
           },
         )
         const all = await this.findAll()
-        this.pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_RUN_SCHEDULER'], {
+        pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_RUN_SCHEDULER'], {
           maintenanceRequestRunScheduler: all,
         })
       } catch (error) {

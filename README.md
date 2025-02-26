@@ -23,7 +23,7 @@ The reason why im using pnpm workspace because of the simplicity of the reposito
 
 In the **`/server`** folder, create **`.env`** file with the content of **`DB_URL=xxx`** (the mongodb uri) and **`PORT`** (the port we want to run the server locally)
 
-Next, in the **`/client`** folder, create **`.env`** file with the content of **`GQL_URL=xxx`** (the graphql url) and **`WS_URL`** (the websocket url)
+Next, in the **`/client`** folder, create **`.env`** file with the content of **`NEXT_PUBLIC_GQL_URL=xxx`** (the graphql url) and **`NEXT_PUBLIC_WS_URL`** (the websocket url)
 
 ## Usage
 
