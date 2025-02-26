@@ -8,6 +8,7 @@ import {
 } from '../../graphql/type.graphql'
 import { injectable, inject } from 'inversify'
 import { MaintenanceRequestModel } from './maintenance-request.model'
+import cron from 'node-cron'
 
 @injectable()
 export class MaintenanceRequestService {
@@ -172,5 +173,45 @@ export class MaintenanceRequestService {
       },
     )
     return result.modifiedCount > 0
+  }
+
+  urgentScheduler() {
+    cron.schedule('0 * * * *', async () => {
+      const time = new Date()
+      time.setHours(time.getHours() - 6)
+      try {
+        await this.maintenanceRequestModel.model.updateMany(
+          {
+            createdAt: { $lte: time },
+            urgency: MaintenanceRequestUrgency.Urgent,
+          },
+          {
+            $set: { status: MaintenanceRequestUrgency.Emergency },
+          },
+        )
+      } catch (error) {
+        console.error('Error updating maintenance requests:', error)
+      }
+    })
+  }
+
+  lessUrgentScheduler() {
+    cron.schedule('0 0 * * *', async () => {
+      const time = new Date()
+      time.setDate(time.getDate() - 3)
+      try {
+        await this.maintenanceRequestModel.model.updateMany(
+          {
+            createdAt: { $lte: time },
+            urgency: MaintenanceRequestUrgency.LessUrgent,
+          },
+          {
+            $set: { status: MaintenanceRequestUrgency.Urgent },
+          },
+        )
+      } catch (error) {
+        console.error('Error updating maintenance requests:', error)
+      }
+    })
   }
 }

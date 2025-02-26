@@ -25,6 +25,7 @@ export async function start() {
       ),
       { encoding: 'utf-8' },
     )
+
     const maintenanceRequestResolvers = container.get(
       MaintenanceRequestResolver,
     )
