@@ -132,6 +132,9 @@ export const maintenanceRequestSlice = createSlice({
         state.list.splice(index, 1, action.payload)
       }
     },
+    updateAllList(state, action: PayloadAction<MaintenanceRequest[]>) {
+      state.list = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder

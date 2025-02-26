@@ -59,4 +59,5 @@ type Subscription {
   maintenanceRequestUpdated: MaintenanceRequest!
   maintenanceRequestResolved: MaintenanceRequest!
   maintenanceRequestDeleted: Boolean!
+  maintenanceRequestRunScheduler: [MaintenanceRequest!]
 }

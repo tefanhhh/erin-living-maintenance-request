@@ -109,3 +109,12 @@ export const maintenanceRequestDeleted = gql`
     maintenanceRequestDeleted
   }
 `
+
+export const maintenanceRequestRunScheduler = gql`
+  subscription MaintenanceRequestRunScheduler {
+    maintenanceRequestRunScheduler {
+      ...MaintenanceRequestFields
+    }
+  }
+  ${fragments}
+`

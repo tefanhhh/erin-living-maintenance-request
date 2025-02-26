@@ -3,16 +3,11 @@ import { Resolvers } from '../../graphql/type.graphql'
 import { DateScalar, ObjectIdScalar } from '../../graphql/scalars.graphql'
 import { PubSub } from 'graphql-subscriptions'
 import { inject, injectable } from 'inversify'
+import { PUBSUB_KEY } from '../../constants'
 
 @injectable()
 export class MaintenanceRequestResolver {
   private readonly pubsub: PubSub<Record<string, never>>
-  private readonly PUBSUB_KEY = {
-    MAINTENANCE_REQUEST_CREATED: 'MAINTENANCE_REQUEST_CREATED',
-    MAINTENANCE_REQUEST_UPDATED: 'MAINTENANCE_REQUEST_UPDATED',
-    MAINTENANCE_REQUEST_RESOLVED: 'MAINTENANCE_REQUEST_RESOLVED',
-    MAINTENANCE_REQUEST_DELETED: 'MAINTENANCE_REQUEST_DELETED',
-  }
 
   constructor(
     @inject(MaintenanceRequestService)
@@ -41,14 +36,14 @@ export class MaintenanceRequestResolver {
       Mutation: {
         createMaintenanceRequest: async (_, { body }) => {
           const result = await this.maintenanceRequestService.create(body)
-          this.pubsub.publish(this.PUBSUB_KEY['MAINTENANCE_REQUEST_CREATED'], {
+          this.pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_CREATED'], {
             maintenanceRequestCreated: result,
           })
           return result
         },
         updateMaintenanceRequest: async (_, { _id, body }) => {
           const result = await this.maintenanceRequestService.update(_id, body)
-          this.pubsub.publish(this.PUBSUB_KEY['MAINTENANCE_REQUEST_UPDATED'], {
+          this.pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_UPDATED'], {
             maintenanceRequestUpdated: result,
           })
           return result
@@ -56,14 +51,14 @@ export class MaintenanceRequestResolver {
         markAsResolvedMaintenanceRequest: async (_, { _id }) => {
           const result =
             await this.maintenanceRequestService.markAsResolved(_id)
-          this.pubsub.publish(this.PUBSUB_KEY['MAINTENANCE_REQUEST_RESOLVED'], {
+          this.pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_RESOLVED'], {
             maintenanceRequestResolved: result,
           })
           return result
         },
         deleteMaintenanceRequest: async (_, { _id }) => {
           const result = await this.maintenanceRequestService.delete(_id)
-          this.pubsub.publish(this.PUBSUB_KEY['MAINTENANCE_REQUEST_DELETED'], {
+          this.pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_DELETED'], {
             maintenanceRequestDeleted: result,
           })
           return result
@@ -73,25 +68,31 @@ export class MaintenanceRequestResolver {
         maintenanceRequestCreated: {
           subscribe: () =>
             this.pubsub.asyncIterableIterator(
-              this.PUBSUB_KEY['MAINTENANCE_REQUEST_CREATED'],
+              PUBSUB_KEY['MAINTENANCE_REQUEST_CREATED'],
             ),
         },
         maintenanceRequestUpdated: {
           subscribe: () =>
             this.pubsub.asyncIterableIterator(
-              this.PUBSUB_KEY['MAINTENANCE_REQUEST_UPDATED'],
+              PUBSUB_KEY['MAINTENANCE_REQUEST_UPDATED'],
             ),
         },
         maintenanceRequestResolved: {
           subscribe: () =>
             this.pubsub.asyncIterableIterator(
-              this.PUBSUB_KEY['MAINTENANCE_REQUEST_RESOLVED'],
+              PUBSUB_KEY['MAINTENANCE_REQUEST_RESOLVED'],
             ),
         },
         maintenanceRequestDeleted: {
           subscribe: () =>
             this.pubsub.asyncIterableIterator(
-              this.PUBSUB_KEY['MAINTENANCE_REQUEST_DELETED'],
+              PUBSUB_KEY['MAINTENANCE_REQUEST_DELETED'],
+            ),
+        },
+        maintenanceRequestRunScheduler: {
+          subscribe: () =>
+            this.pubsub.asyncIterableIterator(
+              PUBSUB_KEY['MAINTENANCE_REQUEST_RUN_SCHEDULER'],
             ),
         },
       },

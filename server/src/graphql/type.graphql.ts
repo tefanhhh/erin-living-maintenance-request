@@ -103,6 +103,7 @@ export type Subscription = {
   maintenanceRequestCreated: MaintenanceRequest;
   maintenanceRequestDeleted: Scalars['Boolean']['output'];
   maintenanceRequestResolved: MaintenanceRequest;
+  maintenanceRequestRunScheduler?: Maybe<Array<MaintenanceRequest>>;
   maintenanceRequestUpdated: MaintenanceRequest;
 };
 
@@ -306,6 +307,7 @@ export type SubscriptionResolvers<ContextType = any, ParentType extends Resolver
   maintenanceRequestCreated?: SubscriptionResolver<ResolversTypes['MaintenanceRequest'], "maintenanceRequestCreated", ParentType, ContextType>;
   maintenanceRequestDeleted?: SubscriptionResolver<ResolversTypes['Boolean'], "maintenanceRequestDeleted", ParentType, ContextType>;
   maintenanceRequestResolved?: SubscriptionResolver<ResolversTypes['MaintenanceRequest'], "maintenanceRequestResolved", ParentType, ContextType>;
+  maintenanceRequestRunScheduler?: SubscriptionResolver<Maybe<Array<ResolversTypes['MaintenanceRequest']>>, "maintenanceRequestRunScheduler", ParentType, ContextType>;
   maintenanceRequestUpdated?: SubscriptionResolver<ResolversTypes['MaintenanceRequest'], "maintenanceRequestUpdated", ParentType, ContextType>;
 };
 

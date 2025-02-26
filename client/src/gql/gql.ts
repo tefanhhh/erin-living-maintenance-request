@@ -26,6 +26,7 @@ type Documents = {
     "\n  subscription MaintenanceRequestUpdated {\n    maintenanceRequestUpdated {\n      ...MaintenanceRequestFields\n    }\n  }\n  \n": typeof types.MaintenanceRequestUpdatedDocument,
     "\n  subscription MaintenanceRequestResolved {\n    maintenanceRequestResolved {\n      ...MaintenanceRequestFields\n    }\n  }\n  \n": typeof types.MaintenanceRequestResolvedDocument,
     "\n  subscription MaintenanceRequestDeleted {\n    maintenanceRequestDeleted\n  }\n": typeof types.MaintenanceRequestDeletedDocument,
+    "\n  subscription MaintenanceRequestRunScheduler {\n    maintenanceRequestRunScheduler {\n      ...MaintenanceRequestFields\n    }\n  }\n  \n": typeof types.MaintenanceRequestRunSchedulerDocument,
 };
 const documents: Documents = {
     "\n  fragment MaintenanceRequestFields on MaintenanceRequest {\n    _id\n    title\n    description\n    status\n    urgency\n    createdAt\n    updatedAt\n    resolvedAt\n    deletedAt\n  }\n": types.MaintenanceRequestFieldsFragmentDoc,
@@ -40,6 +41,7 @@ const documents: Documents = {
     "\n  subscription MaintenanceRequestUpdated {\n    maintenanceRequestUpdated {\n      ...MaintenanceRequestFields\n    }\n  }\n  \n": types.MaintenanceRequestUpdatedDocument,
     "\n  subscription MaintenanceRequestResolved {\n    maintenanceRequestResolved {\n      ...MaintenanceRequestFields\n    }\n  }\n  \n": types.MaintenanceRequestResolvedDocument,
     "\n  subscription MaintenanceRequestDeleted {\n    maintenanceRequestDeleted\n  }\n": types.MaintenanceRequestDeletedDocument,
+    "\n  subscription MaintenanceRequestRunScheduler {\n    maintenanceRequestRunScheduler {\n      ...MaintenanceRequestFields\n    }\n  }\n  \n": types.MaintenanceRequestRunSchedulerDocument,
 };
 
 /**
@@ -104,6 +106,10 @@ export function graphql(source: "\n  subscription MaintenanceRequestResolved {\n
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  subscription MaintenanceRequestDeleted {\n    maintenanceRequestDeleted\n  }\n"): (typeof documents)["\n  subscription MaintenanceRequestDeleted {\n    maintenanceRequestDeleted\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  subscription MaintenanceRequestRunScheduler {\n    maintenanceRequestRunScheduler {\n      ...MaintenanceRequestFields\n    }\n  }\n  \n"): (typeof documents)["\n  subscription MaintenanceRequestRunScheduler {\n    maintenanceRequestRunScheduler {\n      ...MaintenanceRequestFields\n    }\n  }\n  \n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

@@ -10,18 +10,20 @@ import client from '@/lib/apollo.client'
 import {
   MaintenanceRequestCreatedSubscription,
   MaintenanceRequestResolvedSubscription,
+  MaintenanceRequestRunSchedulerSubscription,
   MaintenanceRequestUpdatedSubscription,
 } from '@/gql/graphql'
 import {
   maintenanceRequestCreated,
   maintenanceRequestResolved,
+  maintenanceRequestRunScheduler,
   maintenanceRequestUpdated,
 } from '@/gql-query/maintenance-request'
 import { Button, Link } from '@heroui/react'
 
 export default function MaintenanceRequestComponent() {
   const dispatch = useDispatch<AppDispatch>()
-  const { unshiftList, updateList } = actions
+  const { unshiftList, updateList, updateAllList } = actions
 
   useEffect(() => {
     dispatch(findAll())
@@ -75,6 +77,22 @@ export default function MaintenanceRequestComponent() {
         },
       })
 
+      const maintenanceRequestRunSchedulerSubscription = client
+      .subscribe<MaintenanceRequestRunSchedulerSubscription>({
+        query: maintenanceRequestRunScheduler,
+      })
+      .subscribe({
+        next(val) {
+          if (val?.data?.maintenanceRequestRunScheduler) {
+            dispatch(updateAllList(val.data.maintenanceRequestRunScheduler))
+            dispatch(summary())
+          }
+        },
+        error(err) {
+          console.error('Subscription Error:', err)
+        },
+      })
+
     return () => {
       if (maintenanceRequestCreatedSubscription) {
         maintenanceRequestCreatedSubscription.unsubscribe()
@@ -84,6 +102,9 @@ export default function MaintenanceRequestComponent() {
       }
       if (maintenanceRequestUpdatedSubscription) {
         maintenanceRequestUpdatedSubscription.unsubscribe()
+      }
+      if (maintenanceRequestRunSchedulerSubscription) {
+        maintenanceRequestRunSchedulerSubscription.unsubscribe()
       }
     }
   }, [dispatch])

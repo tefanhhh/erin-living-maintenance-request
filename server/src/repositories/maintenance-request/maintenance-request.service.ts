@@ -9,13 +9,19 @@ import {
 import { injectable, inject } from 'inversify'
 import { MaintenanceRequestModel } from './maintenance-request.model'
 import cron from 'node-cron'
+import { PubSub } from 'graphql-subscriptions'
+import { PUBSUB_KEY } from '../../constants'
 
 @injectable()
 export class MaintenanceRequestService {
+  private readonly pubsub: PubSub<Record<string, never>>
+
   constructor(
     @inject(MaintenanceRequestModel)
     private readonly maintenanceRequestModel: MaintenanceRequestModel,
-  ) {}
+  ) {
+    this.pubsub = new PubSub()
+  }
 
   async create(body: MaintenanceRequestInput): Promise<MaintenanceRequest> {
     const created = await this.maintenanceRequestModel.model.insertOne({
@@ -189,6 +195,10 @@ export class MaintenanceRequestService {
             $set: { status: MaintenanceRequestUrgency.Emergency },
           },
         )
+        const all = await this.findAll()
+        this.pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_RUN_SCHEDULER'], {
+          maintenanceRequestRunScheduler: all,
+        })
       } catch (error) {
         console.error('Error updating maintenance requests:', error)
       }
@@ -209,6 +219,10 @@ export class MaintenanceRequestService {
             $set: { status: MaintenanceRequestUrgency.Urgent },
           },
         )
+        const all = await this.findAll()
+        this.pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_RUN_SCHEDULER'], {
+          maintenanceRequestRunScheduler: all,
+        })
       } catch (error) {
         console.error('Error updating maintenance requests:', error)
       }
