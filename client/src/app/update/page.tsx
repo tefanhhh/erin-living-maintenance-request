@@ -1,10 +1,10 @@
-import CreateForm from '@/components/update/Form'
+import UpdateForm from '@/components/maintenance-request/update/Form'
 
 export const metadata = {
-  title: 'Create Request - Erin Living | Maintenance Request',
-  description: 'Create Request - Erin Living Maintenance Request Web App',
+  title: 'Create / Update Request - Erin Living | Maintenance Request',
+  description: 'Create / Update Request - Erin Living Maintenance Request Web App',
 }
 
-export default function CreatePage() {
-  return <CreateForm />
+export default function UpdatePage() {
+  return <UpdateForm />
 }
