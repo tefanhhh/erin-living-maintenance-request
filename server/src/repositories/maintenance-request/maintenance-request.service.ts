@@ -193,7 +193,7 @@ export class MaintenanceRequestService {
             status: MaintenanceRequestStatus.Open,
           },
           {
-            $set: { emergency: MaintenanceRequestUrgency.Emergency },
+            $set: { urgency: MaintenanceRequestUrgency.Emergency },
           },
         )
         const all = await this.findAll()
@@ -217,7 +217,7 @@ export class MaintenanceRequestService {
             urgency: MaintenanceRequestUrgency.LessUrgent,
           },
           {
-            $set: { emergency: MaintenanceRequestUrgency.Urgent },
+            $set: { urgency: MaintenanceRequestUrgency.Urgent },
           },
         )
         const all = await this.findAll()
