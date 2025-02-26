@@ -5,7 +5,7 @@
 ### Tech Stack
 
 - **`server`**: Express, Typescript, Apollo Server, MongoDB, Mongoose, Websocket, Inversify.
-- **`client`**: NextJS, Typescript, Apollo Client, HeroUI, Framer Motion, Redux, React Hook Form, Zod.
+- **`client`**: NextJS, Typescript, Apollo Client, HeroUI, Framer Motion, Redux.
 
 ### Prerequisites
 

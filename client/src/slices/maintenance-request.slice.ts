@@ -3,6 +3,7 @@ import {
   FindAllMaintenanceRequestsQuery,
   FindOneMaintenanceRequestQuery,
   MaintenanceRequest,
+  MaintenanceRequestInput,
   MaintenanceRequestSummary,
   MarkAsResolvedMaintenanceRequestMutation,
   SummaryMaintenanceRequestQuery,
@@ -18,7 +19,6 @@ import {
   summaryMaintenanceRequest,
   updateMaintenanceRequest,
 } from '@/gql-query/maintenance-request'
-import { MaintenanceRequestSchema } from '@/schema/maintnance-request.schema'
 import { ObjectId } from 'mongodb'
 
 interface MaintenanceRequestState {
@@ -78,7 +78,7 @@ export const findOne = createAsyncThunk(
 
 export const create = createAsyncThunk(
   'maintenance-request/create',
-  async (body: MaintenanceRequestSchema) => {
+  async (body: MaintenanceRequestInput) => {
     const { data } = await client.mutate<CreateMaintenanceRequestMutation>({
       mutation: createMaintenanceRequest,
       variables: {
@@ -91,7 +91,7 @@ export const create = createAsyncThunk(
 
 export const update = createAsyncThunk(
   'maintenance-request/update',
-  async ({ _id, body }: { _id: ObjectId; body: MaintenanceRequestSchema }) => {
+  async ({ _id, body }: { _id: ObjectId; body: MaintenanceRequestInput }) => {
     const { data } = await client.mutate<UpdateMaintenanceRequestMutation>({
       mutation: updateMaintenanceRequest,
       variables: {

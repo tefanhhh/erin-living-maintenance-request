@@ -14,7 +14,6 @@
   "dependencies": {
     "@apollo/client": "^3.11.10",
     "@heroui/react": "^2.7.2",
-    "@hookform/resolvers": "^4.1.0",
     "@reduxjs/toolkit": "^2.5.1",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
@@ -25,7 +24,6 @@
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.54.2",
     "react-redux": "^9.2.0",
     "zod": "^3.24.2"
   },
