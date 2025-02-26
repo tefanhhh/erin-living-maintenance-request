@@ -10,10 +10,12 @@ import client from '@/lib/apollo.client'
 import {
   MaintenanceRequestCreatedSubscription,
   MaintenanceRequestResolvedSubscription,
+  MaintenanceRequestUpdatedSubscription,
 } from '@/gql/graphql'
 import {
   maintenanceRequestCreated,
   maintenanceRequestResolved,
+  maintenanceRequestUpdated,
 } from '@/gql-query/maintenance-request'
 import { Button, Link } from '@heroui/react'
 
@@ -57,12 +59,31 @@ export default function MaintenanceRequestComponent() {
         },
       })
 
+    const maintenanceRequestUpdatedSubscription = client
+      .subscribe<MaintenanceRequestUpdatedSubscription>({
+        query: maintenanceRequestUpdated,
+      })
+      .subscribe({
+        next(val) {
+          if (val?.data?.maintenanceRequestUpdated) {
+            dispatch(updateList(val.data.maintenanceRequestUpdated))
+            dispatch(summary())
+          }
+        },
+        error(err) {
+          console.error('Subscription Error:', err)
+        },
+      })
+
     return () => {
       if (maintenanceRequestCreatedSubscription) {
         maintenanceRequestCreatedSubscription.unsubscribe()
       }
       if (maintenanceRequestResolvedSubscription) {
         maintenanceRequestResolvedSubscription.unsubscribe()
+      }
+      if (maintenanceRequestUpdatedSubscription) {
+        maintenanceRequestUpdatedSubscription.unsubscribe()
       }
     }
   }, [dispatch])

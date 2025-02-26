@@ -1,15 +1,9 @@
 'use client'
-import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
-import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  maintenanceRequestSchema,
-  MaintenanceRequestSchema,
-} from '@/schema/maintnance-request.schema'
-import { useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useEffect, FormEvent } from 'react'
 import { useDispatch } from 'react-redux'
-import { AppDispatch } from '@/stores/index.store'
-import { create } from '@/slices/maintenance-request.slice'
+import { AppDispatch, RootState } from '@/stores/index.store'
+import { create, update, findOne } from '@/slices/maintenance-request.slice'
 import {
   Button,
   Textarea,
@@ -22,39 +16,82 @@ import {
 } from '@heroui/react'
 import { STATUS_OPTIONS, URGENCY_OPTIONS } from '@/utils'
 import { motion } from 'framer-motion'
+import { useSelector } from 'react-redux'
+import {
+  MaintenanceRequestStatus,
+  MaintenanceRequestUrgency,
+} from '@/gql/graphql'
 
 export default function UpdateFormComponent() {
   const dispatch = useDispatch<AppDispatch>()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    watch,
-  } = useForm({
-    resolver: zodResolver(maintenanceRequestSchema),
-    defaultValues: {
-      title: '',
-      description: '',
-      status: '',
-      urgency: '',
-    },
-  })
-
+  const detail = useSelector(
+    (state: RootState) => state.maintenanceRequest.detail,
+  )
   const router = useRouter()
-  const [loading, setLoading] = useState(false)
-  const selectedUrgency = watch('urgency')
-  const selectedStatus = watch('status')
+  const searchParams = useSearchParams()
 
-  const onSubmit = async (data: MaintenanceRequestSchema) => {
+  const _id = searchParams.get('_id')
+
+  const [loading, setLoading] = useState(false)
+
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [status, setStatus] = useState<Set<MaintenanceRequestStatus>>(
+    new Set([]),
+  )
+  const [urgency, setUrgency] = useState<Set<MaintenanceRequestUrgency>>(
+    new Set([]),
+  )
+
+  useEffect(() => {
+    if (_id) {
+      dispatch(findOne(_id as any)).unwrap()
+    }
+  }, [_id, dispatch])
+
+  useEffect(() => {
+    if (detail) {
+      setTitle(detail.title)
+      setDescription(detail.description || '')
+      setStatus(new Set([detail.status]))
+      setUrgency(new Set([detail.urgency]))
+    }
+  }, [detail])
+
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     setLoading(true)
     try {
-      await dispatch(create(data)).unwrap()
-      addToast({
-        title: 'Maintenance request created successfully!',
-        color: 'success',
-      })
-      reset()
+      if (_id) {
+        await dispatch(
+          update({
+            _id: _id as any,
+            body: {
+              title,
+              description,
+              status: [...status][0],
+              urgency: [...urgency][0],
+            },
+          }),
+        ).unwrap()
+        addToast({
+          title: 'Maintenance request updated successfully!',
+          color: 'success',
+        })
+      } else {
+        await dispatch(
+          create({
+            title,
+            description,
+            status: [...status][0],
+            urgency: [...urgency][0],
+          }),
+        ).unwrap()
+        addToast({
+          title: 'Maintenance request created successfully!',
+          color: 'success',
+        })
+      }
       router.push('/')
     } catch (err) {
       console.error('GraphQL Error:', err)
@@ -77,54 +114,56 @@ export default function UpdateFormComponent() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <Form
-          onSubmit={handleSubmit(onSubmit)}
-          className="max-w-[447px] mx-auto"
-        >
+        <Form onSubmit={onSubmit} className="max-w-[447px] mx-auto">
           <Select
-            {...register('urgency')}
             label="Urgency"
             labelPlacement="outside"
             placeholder="Select urgency"
             isRequired
-            isInvalid={!!errors.urgency}
-            errorMessage={errors.urgency?.message}
             classNames={{
               label: '!text-gray text-sm after:text-gray',
               trigger: 'default-input-wrapper h-12',
-              value: !selectedUrgency
+              value: ![...urgency].length
                 ? '!text-[#dcdcdc]'
                 : '!text-foreground-500',
             }}
             className="mb-7"
+            selectionMode="single"
+            selectedKeys={urgency}
+            defaultSelectedKeys={urgency}
+            onChange={(e) =>
+              setUrgency(new Set([e.target.value as MaintenanceRequestUrgency]))
+            }
           >
             {URGENCY_OPTIONS.map((it) => (
               <SelectItem key={it.value}>{it.label}</SelectItem>
             ))}
           </Select>
           <Select
-            {...register('status')}
             label="Status"
             labelPlacement="outside"
             placeholder="Select status"
             isRequired
-            isInvalid={!!errors.status}
-            errorMessage={errors.status?.message}
             classNames={{
               label: '!text-gray text-sm after:text-gray',
               trigger: 'default-input-wrapper h-12',
-              value: !selectedStatus
+              value: ![...status].length
                 ? '!text-[#dcdcdc]'
                 : '!text-foreground-500',
             }}
             className="mb-7"
+            selectionMode="single"
+            selectedKeys={status}
+            defaultSelectedKeys={status}
+            onChange={(e) =>
+              setStatus(new Set([e.target.value as MaintenanceRequestStatus]))
+            }
           >
             {STATUS_OPTIONS.map((it) => (
               <SelectItem key={it.value}>{it.label}</SelectItem>
             ))}
           </Select>
           <Input
-            {...register('title')}
             label="Title"
             labelPlacement="outside"
             placeholder="eg. Crack in plasterboard"
@@ -135,11 +174,10 @@ export default function UpdateFormComponent() {
               input: '!placeholder-[#dcdcdc]',
             }}
             className="mb-7"
-            isInvalid={!!errors.title}
-            errorMessage={errors.title?.message}
+            value={title}
+            onValueChange={setTitle}
           />
           <Textarea
-            {...register('description')}
             label="Description"
             labelPlacement="outside"
             placeholder="Description of your request"
@@ -150,6 +188,8 @@ export default function UpdateFormComponent() {
               inputWrapper: 'default-input-wrapper py-[14px]',
               input: '!placeholder-[#dcdcdc] !h-auto',
             }}
+            value={description}
+            onValueChange={setDescription}
           />
           <div className="flex items-center justify-center mt-10 w-full">
             <Button

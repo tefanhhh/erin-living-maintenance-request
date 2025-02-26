@@ -73,8 +73,13 @@ export class MaintenanceRequestService {
               urgent: [
                 {
                   $match: {
-                    urgency: { $in: [MaintenanceRequestUrgency.Urgent, MaintenanceRequestUrgency.Emergency] }
-                  }
+                    urgency: {
+                      $in: [
+                        MaintenanceRequestUrgency.Urgent,
+                        MaintenanceRequestUrgency.Emergency,
+                      ],
+                    },
+                  },
                 },
                 { $count: 'count' },
               ],

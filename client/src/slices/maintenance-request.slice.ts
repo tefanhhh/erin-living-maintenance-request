@@ -1,18 +1,22 @@
 import {
   CreateMaintenanceRequestMutation,
   FindAllMaintenanceRequestsQuery,
+  FindOneMaintenanceRequestQuery,
   MaintenanceRequest,
   MaintenanceRequestSummary,
   MarkAsResolvedMaintenanceRequestMutation,
   SummaryMaintenanceRequestQuery,
+  UpdateMaintenanceRequestMutation,
 } from '@/gql/graphql'
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import client from '@/lib/apollo.client'
 import {
   createMaintenanceRequest,
   findAllMaintenanceRequests,
+  findOneMaintenanceRequest,
   markAsResolvedMaintenanceRequest,
   summaryMaintenanceRequest,
+  updateMaintenanceRequest,
 } from '@/gql-query/maintenance-request'
 import { MaintenanceRequestSchema } from '@/schema/maintnance-request.schema'
 import { ObjectId } from 'mongodb'
@@ -20,6 +24,7 @@ import { ObjectId } from 'mongodb'
 interface MaintenanceRequestState {
   summary: MaintenanceRequestSummary
   list: MaintenanceRequest[]
+  detail?: MaintenanceRequest | null
 }
 
 const initialState: MaintenanceRequestState = {
@@ -29,6 +34,7 @@ const initialState: MaintenanceRequestState = {
     averageDaysToResolve: 0,
   },
   list: [],
+  detail: null,
 }
 
 export const summary = createAsyncThunk(
@@ -57,6 +63,19 @@ export const findAll = createAsyncThunk(
   },
 )
 
+export const findOne = createAsyncThunk(
+  'maintenance-request/findOne',
+  async (_id: ObjectId) => {
+    const { data } = await client.query<FindOneMaintenanceRequestQuery>({
+      query: findOneMaintenanceRequest,
+      variables: {
+        _id,
+      },
+    })
+    return data.findOneMaintenanceRequest
+  },
+)
+
 export const create = createAsyncThunk(
   'maintenance-request/create',
   async (body: MaintenanceRequestSchema) => {
@@ -67,6 +86,20 @@ export const create = createAsyncThunk(
       },
     })
     return data?.createMaintenanceRequest
+  },
+)
+
+export const update = createAsyncThunk(
+  'maintenance-request/update',
+  async ({ _id, body }: { _id: ObjectId; body: MaintenanceRequestSchema }) => {
+    const { data } = await client.mutate<UpdateMaintenanceRequestMutation>({
+      mutation: updateMaintenanceRequest,
+      variables: {
+        _id,
+        body,
+      },
+    })
+    return data?.updateMaintenanceRequest
   },
 )
 
@@ -108,9 +141,22 @@ export const maintenanceRequestSlice = createSlice({
       .addCase(findAll.fulfilled, (state, action) => {
         state.list = action.payload
       })
+      .addCase(findOne.fulfilled, (state, action) => {
+        state.detail = action.payload
+      })
       .addCase(create.fulfilled, (state, action) => {
         if (action.payload) {
           state.list.unshift(action.payload)
+        }
+      })
+      .addCase(update.fulfilled, (state, action) => {
+        if (action.payload) {
+          const index = state.list.findIndex(
+            (it) => String(it._id) === String(action.payload?._id),
+          )
+          if (index !== -1) {
+            state.list.splice(index, 1, action.payload)
+          }
         }
       })
       .addCase(markAsResolved.fulfilled, (state, action) => {
