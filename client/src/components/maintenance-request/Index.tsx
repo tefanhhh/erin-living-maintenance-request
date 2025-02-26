@@ -77,7 +77,7 @@ export default function MaintenanceRequestComponent() {
         },
       })
 
-      const maintenanceRequestRunSchedulerSubscription = client
+    const maintenanceRequestRunSchedulerSubscription = client
       .subscribe<MaintenanceRequestRunSchedulerSubscription>({
         query: maintenanceRequestRunScheduler,
       })
