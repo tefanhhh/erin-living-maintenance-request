@@ -1,7 +1,6 @@
 import { ApolloServer } from '@apollo/server'
 import { expressMiddleware } from '@apollo/server/express4'
 import cors from 'cors'
-import { readFileSync } from 'fs'
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import { Resolvers } from './graphql/type.graphql'
@@ -13,36 +12,34 @@ import { WebSocketServer } from 'ws'
 import { useServer } from 'graphql-ws/lib/use/ws'
 import express from 'express'
 import { container } from './di.container'
-import { MaintenanceRequestResolver } from './repositories/maintenance-request/maintenance-request.resolver'
+import { MaintenanceRequestResolver } from './modules/maintenance-request/maintenance-request.resolver'
+import { loadFilesSync } from '@graphql-tools/load-files'
+import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge'
 
 export async function start() {
   try {
-    const typeDefs = readFileSync(
+    const typesArray = loadFilesSync(
       resolve(
         dirname(fileURLToPath(import.meta.url)),
         '../src/',
-        'graphql/schema.graphql',
+        'graphql/schema',
       ),
-      { encoding: 'utf-8' },
+      { extensions: ['graphql'] },
     )
+
+    const typeDefs = mergeTypeDefs(typesArray)
 
     const maintenanceRequestResolvers = container.get(
       MaintenanceRequestResolver,
     )
 
-    const resolvers: Resolvers = {
-      ObjectId: ObjectIdScalar,
-      Date: DateScalar,
-      Query: {
-        ...maintenanceRequestResolvers.getResolvers().Query,
+    const resolvers: Resolvers = mergeResolvers([
+      {
+        ObjectId: ObjectIdScalar,
+        Date: DateScalar,
       },
-      Mutation: {
-        ...maintenanceRequestResolvers.getResolvers().Mutation,
-      },
-      Subscription: {
-        ...maintenanceRequestResolvers.getResolvers().Subscription,
-      },
-    }
+      maintenanceRequestResolvers.getResolvers(),
+    ])
 
     const schema = makeExecutableSchema({ typeDefs, resolvers })
 
