@@ -1,0 +1,19 @@
+enum Sort {
+  LATEST
+  OLDEST
+}
+
+input QueryParamInput {
+  page: Int!
+  perPage: Int!
+  sort: Sort!
+  keyword: String!
+}
+
+type Paging {
+  count: Int!
+  next: Boolean!
+  prev: Boolean!
+  page: Int!
+  perPage: Int!
+}

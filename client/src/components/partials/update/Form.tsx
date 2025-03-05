@@ -2,8 +2,8 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect, FormEvent } from 'react'
 import { useDispatch } from 'react-redux'
-import { AppDispatch, RootState } from '@/stores/index.store'
-import { create, update, findOne } from '@/slices/maintenance-request.slice'
+import { AppDispatch, RootState } from '@/lib/store'
+import { create, update, findOne } from '@/lib/store/slices/maintenance-request'
 import {
   Button,
   Textarea,
@@ -16,15 +16,15 @@ import {
 } from '@heroui/react'
 import { STATUS_OPTIONS, URGENCY_OPTIONS } from '@/utils'
 import { motion } from 'framer-motion'
-import { useSelector } from 'react-redux'
 import {
   MaintenanceRequestStatus,
   MaintenanceRequestUrgency,
-} from '@/gql/graphql'
+} from '@/lib/gql/graphql'
+import { useAppSelector } from '@/lib/store/hooks'
 
 export default function UpdateFormComponent() {
   const dispatch = useDispatch<AppDispatch>()
-  const detail = useSelector(
+  const detail = useAppSelector(
     (state: RootState) => state.maintenanceRequest.detail,
   )
   const router = useRouter()
@@ -45,7 +45,7 @@ export default function UpdateFormComponent() {
 
   useEffect(() => {
     if (_id) {
-      dispatch(findOne(_id as any)).unwrap()
+      dispatch(findOne(_id)).unwrap()
     }
   }, [_id, dispatch])
 
@@ -65,7 +65,7 @@ export default function UpdateFormComponent() {
       if (_id) {
         await dispatch(
           update({
-            _id: _id as any,
+            _id: _id,
             body: {
               title,
               description,

@@ -1,30 +1,34 @@
 import {
   CreateMaintenanceRequestMutation,
-  FindAllMaintenanceRequestsQuery,
+  FindAllMaintenanceRequestQuery,
   FindOneMaintenanceRequestQuery,
   MaintenanceRequest,
   MaintenanceRequestInput,
   MaintenanceRequestSummary,
   MarkAsResolvedMaintenanceRequestMutation,
+  PaginatedMaintenanceRequests,
+  QueryParamInput,
   SummaryMaintenanceRequestQuery,
   UpdateMaintenanceRequestMutation,
-} from '@/gql/graphql'
+} from '@/lib/gql/graphql'
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import client from '@/lib/apollo.client'
+import client from '@/lib/apollo'
 import {
   createMaintenanceRequest,
-  findAllMaintenanceRequests,
+  findAllMaintenanceRequest,
   findOneMaintenanceRequest,
   markAsResolvedMaintenanceRequest,
   summaryMaintenanceRequest,
   updateMaintenanceRequest,
-} from '@/gql-query/maintenance-request'
-import { ObjectId } from 'mongodb'
+} from '@/lib/gql-query/maintenance-request'
+import { DEFAULT_PAGING, DEFAULT_QUERY_PARAM } from '@/utils'
+import { RootState } from '@/lib/store'
 
 interface MaintenanceRequestState {
   summary: MaintenanceRequestSummary
-  list: MaintenanceRequest[]
+  list: PaginatedMaintenanceRequests
   detail?: MaintenanceRequest | null
+  queryParam: QueryParamInput
 }
 
 const initialState: MaintenanceRequestState = {
@@ -33,46 +37,50 @@ const initialState: MaintenanceRequestState = {
     urgent: 0,
     averageDaysToResolve: 0,
   },
-  list: [],
+  list: {
+    items: [],
+    paging: DEFAULT_PAGING,
+  },
   detail: null,
+  queryParam: DEFAULT_QUERY_PARAM,
 }
 
 export const summary = createAsyncThunk(
   'maintenance-request/summary',
-  async () => {
+  async (_, { getState }) => {
+    const state = getState() as RootState
     const { data } = await client.query<SummaryMaintenanceRequestQuery>({
       query: summaryMaintenanceRequest,
     })
-    return (
-      data.summaryMaintenanceRequest || {
-        open: 0,
-        urgent: 0,
-        averageDaysToResolve: 0,
-      }
-    )
+    return data.summaryMaintenanceRequest || state.maintenanceRequest.summary
   },
 )
 
 export const findAll = createAsyncThunk(
   'maintenance-request/findAll',
-  async () => {
-    const { data } = await client.query<FindAllMaintenanceRequestsQuery>({
-      query: findAllMaintenanceRequests,
+  async (_, { getState }) => {
+    const state = getState() as RootState
+    const { data } = await client.query<FindAllMaintenanceRequestQuery>({
+      query: findAllMaintenanceRequest,
+      variables: {
+        queryParam: state.maintenanceRequest.queryParam,
+      },
     })
-    return data.findAllMaintenanceRequests || []
+    return data.findAllMaintenanceRequest || state.maintenanceRequest.list
   },
 )
 
 export const findOne = createAsyncThunk(
   'maintenance-request/findOne',
-  async (_id: ObjectId) => {
+  async (_id: string, { getState }) => {
+    const state = getState() as RootState
     const { data } = await client.query<FindOneMaintenanceRequestQuery>({
       query: findOneMaintenanceRequest,
       variables: {
         _id,
       },
     })
-    return data.findOneMaintenanceRequest
+    return data.findOneMaintenanceRequest || state.maintenanceRequest.detail
   },
 )
 
@@ -91,7 +99,7 @@ export const create = createAsyncThunk(
 
 export const update = createAsyncThunk(
   'maintenance-request/update',
-  async ({ _id, body }: { _id: ObjectId; body: MaintenanceRequestInput }) => {
+  async ({ _id, body }: { _id: string; body: MaintenanceRequestInput }) => {
     const { data } = await client.mutate<UpdateMaintenanceRequestMutation>({
       mutation: updateMaintenanceRequest,
       variables: {
@@ -105,7 +113,7 @@ export const update = createAsyncThunk(
 
 export const markAsResolved = createAsyncThunk(
   'maintenance-request/markAsResolved',
-  async (_id: ObjectId) => {
+  async (_id: string) => {
     const { data } =
       await client.mutate<MarkAsResolvedMaintenanceRequestMutation>({
         mutation: markAsResolvedMaintenanceRequest,
@@ -122,18 +130,21 @@ export const maintenanceRequestSlice = createSlice({
   initialState,
   reducers: {
     unshiftList(state, action: PayloadAction<MaintenanceRequest>) {
-      state.list.unshift(action.payload)
+      state.list.items.unshift(action.payload)
     },
     updateList(state, action: PayloadAction<MaintenanceRequest>) {
-      const index = state.list.findIndex(
+      const index = state.list.items.findIndex(
         (it) => String(it._id) === String(action.payload._id),
       )
       if (index !== -1) {
-        state.list.splice(index, 1, action.payload)
+        state.list.items.splice(index, 1, action.payload)
       }
     },
-    updateAllList(state, action: PayloadAction<MaintenanceRequest[]>) {
+    updateAllList(state, action: PayloadAction<PaginatedMaintenanceRequests>) {
       state.list = action.payload
+    },
+    setQueryParam(state, action: PayloadAction<QueryParamInput>) {
+      state.queryParam = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -149,26 +160,26 @@ export const maintenanceRequestSlice = createSlice({
       })
       .addCase(create.fulfilled, (state, action) => {
         if (action.payload) {
-          state.list.unshift(action.payload)
+          state.list.items.unshift(action.payload)
         }
       })
       .addCase(update.fulfilled, (state, action) => {
         if (action.payload) {
-          const index = state.list.findIndex(
+          const index = state.list.items.findIndex(
             (it) => String(it._id) === String(action.payload?._id),
           )
           if (index !== -1) {
-            state.list.splice(index, 1, action.payload)
+            state.list.items.splice(index, 1, action.payload)
           }
         }
       })
       .addCase(markAsResolved.fulfilled, (state, action) => {
         if (action.payload) {
-          const index = state.list.findIndex(
+          const index = state.list.items.findIndex(
             (it) => String(it._id) === String(action.payload?._id),
           )
           if (index !== -1) {
-            state.list.splice(index, 1, action.payload)
+            state.list.items.splice(index, 1, action.payload)
           }
         }
       })

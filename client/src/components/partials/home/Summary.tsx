@@ -1,9 +1,9 @@
 'use client'
 
-import { useSelector } from 'react-redux'
-import { RootState } from '@/stores/index.store'
+import { RootState } from '@/lib/store'
 import { Card, CardBody } from '@heroui/react'
 import { motion } from 'framer-motion'
+import { useAppSelector } from '@/lib/store/hooks'
 
 export default function MaintenanceRequestSummaryComponent() {
   const summaryTitles = [
@@ -12,7 +12,7 @@ export default function MaintenanceRequestSummaryComponent() {
     { title: 'Average time (days) to resolve', key: 'averageDaysToResolve' },
   ] as const
 
-  const summary = useSelector(
+  const summary = useAppSelector(
     (state: RootState) => state.maintenanceRequest.summary,
   )
 

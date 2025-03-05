@@ -1,6 +1,7 @@
-import UpdateForm from '@/components/maintenance-request/update/Form'
+import UpdateForm from '@/components/partials/update/Form'
+import { Metadata } from 'next'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Create / Update Request - Erin Living | Maintenance Request',
   description:
     'Create / Update Request - Erin Living Maintenance Request Web App',
