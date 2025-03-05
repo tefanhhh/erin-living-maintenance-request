@@ -4,12 +4,12 @@ import MaintenanceRequestSummary from '@/components/partials/home/Summary'
 import MaintenanceRequestList from '@/components/partials/home/list/Index'
 import { useEffect } from 'react'
 import { RootState } from '@/lib/store'
-import { summary, findAll } from '@/lib/slices/maintenance-request'
+import { summary, findAll } from '@/lib/store/slices/maintenance-request'
 import { Button, Link } from '@heroui/react'
 import MaintenanceRequestSubscription from '@/components/partials/home/Subscription'
 import MaintenanceRequestFilter from '@/components/partials/home/Filter'
 import MaintenanceRequestPagination from '@/components/partials/home/Pagination'
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
+import { useAppDispatch, useAppSelector } from '@/lib/store/hooks'
 
 export default function MaintenanceRequestComponent() {
   const queryParam = useAppSelector(

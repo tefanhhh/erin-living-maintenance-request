@@ -1,7 +1,7 @@
 'use client'
 
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { actions } from '@/lib/slices/maintenance-request'
+import { useAppDispatch, useAppSelector } from '@/lib/store/hooks'
+import { actions } from '@/lib/store/slices/maintenance-request'
 import { RootState } from '@/lib/store'
 import { Pagination } from '@heroui/react'
 import { useCallback } from 'react'

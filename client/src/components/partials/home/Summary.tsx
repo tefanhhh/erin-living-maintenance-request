@@ -3,7 +3,7 @@
 import { RootState } from '@/lib/store'
 import { Card, CardBody } from '@heroui/react'
 import { motion } from 'framer-motion'
-import { useAppSelector } from '@/lib/hooks'
+import { useAppSelector } from '@/lib/store/hooks'
 
 export default function MaintenanceRequestSummaryComponent() {
   const summaryTitles = [

@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { maintenanceRequestSlice } from '@/lib/slices/maintenance-request'
+import { maintenanceRequestSlice } from '@/lib/store/slices/maintenance-request'
 
 export const makeStore = () => {
   return configureStore({

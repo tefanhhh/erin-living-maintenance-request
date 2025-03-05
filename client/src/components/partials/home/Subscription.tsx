@@ -7,7 +7,7 @@ import {
   summary,
   findAll,
   actions,
-} from '@/lib/slices/maintenance-request'
+} from '@/lib/store/slices/maintenance-request'
 import client from '@/lib/apollo'
 import {
   MaintenanceRequestCreatedSubscription,

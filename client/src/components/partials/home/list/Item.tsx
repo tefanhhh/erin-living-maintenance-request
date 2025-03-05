@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { ObjectId } from 'mongodb'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/lib/store'
-import { markAsResolved } from '@/lib/slices/maintenance-request'
+import { markAsResolved } from '@/lib/store/slices/maintenance-request'
 import { Chip, Card, CardBody, Button, addToast, Link } from '@heroui/react'
 import { humanizeEnumText } from '@/utils'
 

@@ -2,7 +2,7 @@
 import MaintenanceRequestItem from '@/components/partials/home/list/Item'
 import { RootState } from '@/lib/store'
 import { motion } from 'framer-motion'
-import { useAppSelector } from '@/lib/hooks'
+import { useAppSelector } from '@/lib/store/hooks'
 
 export default function MaintenanceRequestListComponent() {
   const list = useAppSelector(

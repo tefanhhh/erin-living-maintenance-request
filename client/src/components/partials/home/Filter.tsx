@@ -1,11 +1,11 @@
 import { Sort } from '@/lib/gql/graphql'
-import { actions } from '@/lib/slices/maintenance-request'
+import { actions } from '@/lib/store/slices/maintenance-request'
 import { RootState } from '@/lib/store'
 import { Input, Select, SelectItem } from '@heroui/react'
 import { useCallback, useState } from 'react'
 import debounce from 'lodash/debounce'
 import { SORT_OPTIONS } from '@/utils'
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
+import { useAppDispatch, useAppSelector } from '@/lib/store/hooks'
 
 export default function MaintenanceRequestFilterComponent() {
   const queryParam = useAppSelector(

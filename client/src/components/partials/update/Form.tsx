@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect, FormEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch, RootState } from '@/lib/store'
-import { create, update, findOne } from '@/lib/slices/maintenance-request'
+import { create, update, findOne } from '@/lib/store/slices/maintenance-request'
 import {
   Button,
   Textarea,
@@ -20,7 +20,7 @@ import {
   MaintenanceRequestStatus,
   MaintenanceRequestUrgency,
 } from '@/lib/gql/graphql'
-import { useAppSelector } from '@/lib/hooks'
+import { useAppSelector } from '@/lib/store/hooks'
 
 export default function UpdateFormComponent() {
   const dispatch = useDispatch<AppDispatch>()
