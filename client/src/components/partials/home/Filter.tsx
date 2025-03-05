@@ -1,4 +1,4 @@
-import { Sort } from '@/lib/gql/graphql'
+import { QueryParamInput, Sort } from '@/lib/gql/graphql'
 import { actions } from '@/lib/store/slices/maintenance-request'
 import { RootState } from '@/lib/store'
 import { Input, Select, SelectItem } from '@heroui/react'
@@ -8,26 +8,29 @@ import { SORT_OPTIONS } from '@/utils'
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks'
 
 export default function MaintenanceRequestFilterComponent() {
+  // global query param state, used to filter the list from the graphql query
   const queryParam = useAppSelector(
     (state: RootState) => state.maintenanceRequest.queryParam,
   )
   const { setQueryParam } = actions
-
-  const [sort, setSort] = useState<Set<Sort>>(new Set([queryParam.sort]))
-
   const dispatch = useAppDispatch()
 
-  const onChangeKeyword = useCallback(
-    debounce((val: string) => {
-      const updatedQueryParam = { ...queryParam, keyword: val, page: 1 }
-      dispatch(setQueryParam(updatedQueryParam))
-    }, 300),
-    [],
-  )
+  // local state for controlled filter
+  const [keyword, setKeyword] = useState<string>(queryParam.keyword)
+  const [sort, setSort] = useState<Set<Sort>>(new Set([queryParam.sort]))
 
-  const onChangeSort = useCallback((val: Set<Sort>) => {
-    const updatedQueryParam = { ...queryParam, sort: [...val][0], page: 1 }
-    dispatch(setQueryParam(updatedQueryParam))
+  const debouncedSetQueryParam = debounce((val: QueryParamInput) => {
+    dispatch(setQueryParam(val))
+  }, 300)
+
+  const onChangeFilter = useCallback((val: Partial<QueryParamInput>) => {
+    const updatedQueryParam = {
+      ...queryParam,
+      ...val,
+    }
+    setKeyword(updatedQueryParam.keyword)
+    setSort(new Set([updatedQueryParam.sort]))
+    debouncedSetQueryParam(updatedQueryParam)
   }, [])
 
   return (
@@ -43,7 +46,10 @@ export default function MaintenanceRequestFilterComponent() {
         startContent={
           <span className="icon-[heroicons--magnifying-glass] w-5 h-5 text-gray-200"></span>
         }
-        onValueChange={onChangeKeyword}
+        value={keyword}
+        onValueChange={(e) => {
+          onChangeFilter({ keyword: e })
+        }}
       />
       <Select
         placeholder="Sort By"
@@ -59,8 +65,7 @@ export default function MaintenanceRequestFilterComponent() {
         defaultSelectedKeys={sort}
         disallowEmptySelection
         onChange={(e) => {
-          setSort(new Set([e.target.value as Sort]))
-          onChangeSort(new Set([e.target.value as Sort]))
+          onChangeFilter({ sort: e.target.value as Sort })
         }}
       >
         {SORT_OPTIONS.map((it) => (
