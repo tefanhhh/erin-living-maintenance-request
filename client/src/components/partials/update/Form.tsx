@@ -45,7 +45,7 @@ export default function UpdateFormComponent() {
 
   useEffect(() => {
     if (_id) {
-      dispatch(findOne(_id as any)).unwrap()
+      dispatch(findOne(_id)).unwrap()
     }
   }, [_id, dispatch])
 
@@ -65,7 +65,7 @@ export default function UpdateFormComponent() {
       if (_id) {
         await dispatch(
           update({
-            _id: _id as any,
+            _id: _id,
             body: {
               title,
               description,

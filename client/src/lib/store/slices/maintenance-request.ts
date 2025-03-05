@@ -21,7 +21,6 @@ import {
   summaryMaintenanceRequest,
   updateMaintenanceRequest,
 } from '@/lib/gql-query/maintenance-request'
-import { ObjectId } from 'mongodb'
 import { DEFAULT_PAGING, DEFAULT_QUERY_PARAM } from '@/utils'
 import { RootState } from '@/lib/store'
 
@@ -73,7 +72,7 @@ export const findAll = createAsyncThunk(
 
 export const findOne = createAsyncThunk(
   'maintenance-request/findOne',
-  async (_id: ObjectId, { getState }) => {
+  async (_id: string, { getState }) => {
     const state = getState() as RootState
     const { data } = await client.query<FindOneMaintenanceRequestQuery>({
       query: findOneMaintenanceRequest,
@@ -100,7 +99,7 @@ export const create = createAsyncThunk(
 
 export const update = createAsyncThunk(
   'maintenance-request/update',
-  async ({ _id, body }: { _id: ObjectId; body: MaintenanceRequestInput }) => {
+  async ({ _id, body }: { _id: string; body: MaintenanceRequestInput }) => {
     const { data } = await client.mutate<UpdateMaintenanceRequestMutation>({
       mutation: updateMaintenanceRequest,
       variables: {
@@ -114,7 +113,7 @@ export const update = createAsyncThunk(
 
 export const markAsResolved = createAsyncThunk(
   'maintenance-request/markAsResolved',
-  async (_id: ObjectId) => {
+  async (_id: string) => {
     const { data } =
       await client.mutate<MarkAsResolvedMaintenanceRequestMutation>({
         mutation: markAsResolvedMaintenanceRequest,
