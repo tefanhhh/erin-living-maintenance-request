@@ -23,13 +23,17 @@ export default function MaintenanceRequestPaginationComponent() {
   }, [])
 
   return (
-    <div className="flex items-center justify-center mt-8">
-      <Pagination
-        color="danger"
-        page={queryParam.page}
-        total={Math.ceil(list.paging.count / list.paging.perPage)}
-        onChange={onChangePagination}
-      />
-    </div>
+    list.paging.count && (
+      <div className="flex items-center justify-center mt-8">
+        <Pagination
+          color="danger"
+          showControls
+          initialPage={queryParam.page}
+          page={queryParam.page}
+          total={Math.ceil(list.paging.count / list.paging.perPage)}
+          onChange={onChangePagination}
+        />
+      </div>
+    )
   )
 }
