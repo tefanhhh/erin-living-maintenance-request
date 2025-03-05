@@ -2,7 +2,7 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect, FormEvent } from 'react'
 import { useDispatch } from 'react-redux'
-import { AppDispatch, RootState } from '@/lib/stores/index.store'
+import { AppDispatch, RootState } from '@/lib/store'
 import { create, update, findOne } from '@/lib/slices/maintenance-request.slice'
 import {
   Button,
@@ -16,15 +16,15 @@ import {
 } from '@heroui/react'
 import { STATUS_OPTIONS, URGENCY_OPTIONS } from '@/utils'
 import { motion } from 'framer-motion'
-import { useSelector } from 'react-redux'
 import {
   MaintenanceRequestStatus,
   MaintenanceRequestUrgency,
 } from '@/lib/gql/graphql'
+import { useAppSelector } from '@/lib/hooks'
 
 export default function UpdateFormComponent() {
   const dispatch = useDispatch<AppDispatch>()
-  const detail = useSelector(
+  const detail = useAppSelector(
     (state: RootState) => state.maintenanceRequest.detail,
   )
   const router = useRouter()

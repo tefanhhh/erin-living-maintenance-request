@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { AppDispatch } from '@/lib/stores/index.store'
+import { AppDispatch } from '@/lib/store'
 import {
   summary,
   findAll,

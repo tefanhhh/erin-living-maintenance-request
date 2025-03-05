@@ -3,23 +3,19 @@
 import MaintenanceRequestSummary from '@/components/partials/home/Summary'
 import MaintenanceRequestList from '@/components/partials/home/list/Index'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '@/lib/stores/index.store'
-import {
-  summary,
-  findAll,
-  actions,
-} from '@/lib/slices/maintenance-request.slice'
+import { RootState } from '@/lib/store'
+import { summary, findAll } from '@/lib/slices/maintenance-request.slice'
 import { Button, Link } from '@heroui/react'
 import MaintenanceRequestSubscription from '@/components/partials/home/Subscription'
 import MaintenanceRequestFilter from '@/components/partials/home/Filter'
 import MaintenanceRequestPagination from '@/components/partials/home/Pagination'
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 
 export default function MaintenanceRequestComponent() {
-  const queryParam = useSelector(
+  const queryParam = useAppSelector(
     (state: RootState) => state.maintenanceRequest.queryParam,
   )
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(summary())

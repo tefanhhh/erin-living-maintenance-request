@@ -1,21 +1,24 @@
 'use client'
 
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { actions } from '@/lib/slices/maintenance-request.slice'
-import { AppDispatch, RootState } from '@/lib/stores/index.store'
+import { RootState } from '@/lib/store'
 import { Pagination } from '@heroui/react'
 import { useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 
 export default function MaintenanceRequestPaginationComponent() {
-  const list = useSelector((state: RootState) => state.maintenanceRequest.list)
-  const queryParam = useSelector(
+  const list = useAppSelector(
+    (state: RootState) => state.maintenanceRequest.list,
+  )
+  const queryParam = useAppSelector(
     (state: RootState) => state.maintenanceRequest.queryParam,
   )
   const { setQueryParam } = actions
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useAppDispatch()
 
   const onChangePagination = useCallback((val: number) => {
+    console.log(val, 'calllss')
     const updatedQueryParam = { ...queryParam, page: val }
     dispatch(setQueryParam(updatedQueryParam))
   }, [])

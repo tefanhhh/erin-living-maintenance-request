@@ -23,7 +23,7 @@ import {
 } from '@/lib/gql-query/maintenance-request'
 import { ObjectId } from 'mongodb'
 import { DEFAULT_PAGING, DEFAULT_QUERY_PARAM } from '@/utils'
-import { RootState } from '@/lib/stores/index.store'
+import { RootState } from '@/lib/store'
 
 interface MaintenanceRequestState {
   summary: MaintenanceRequestSummary

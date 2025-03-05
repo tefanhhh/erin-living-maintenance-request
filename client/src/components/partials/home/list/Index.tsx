@@ -1,11 +1,13 @@
 'use client'
 import MaintenanceRequestItem from '@/components/partials/home/list/Item'
-import { RootState } from '@/lib/stores/index.store'
-import { useSelector } from 'react-redux'
+import { RootState } from '@/lib/store'
 import { motion } from 'framer-motion'
+import { useAppSelector } from '@/lib/hooks'
 
 export default function MaintenanceRequestListComponent() {
-  const list = useSelector((state: RootState) => state.maintenanceRequest.list)
+  const list = useAppSelector(
+    (state: RootState) => state.maintenanceRequest.list,
+  )
   return (
     <ul className="mt-4">
       {list.items.map((it, i) => (

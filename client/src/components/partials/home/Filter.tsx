@@ -1,21 +1,21 @@
 import { Sort } from '@/lib/gql/graphql'
 import { actions } from '@/lib/slices/maintenance-request.slice'
-import { AppDispatch, RootState } from '@/lib/stores/index.store'
+import { RootState } from '@/lib/store'
 import { Input, Select, SelectItem } from '@heroui/react'
 import { useCallback, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import debounce from 'lodash/debounce'
 import { SORT_OPTIONS } from '@/utils'
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 
 export default function MaintenanceRequestFilterComponent() {
-  const queryParam = useSelector(
+  const queryParam = useAppSelector(
     (state: RootState) => state.maintenanceRequest.queryParam,
   )
   const { setQueryParam } = actions
 
   const [sort, setSort] = useState<Set<Sort>>(new Set([queryParam.sort]))
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useAppDispatch()
 
   const onChangeKeyword = useCallback(
     debounce((val: string) => {
@@ -34,6 +34,7 @@ export default function MaintenanceRequestFilterComponent() {
     <div className="flex items-center justify-between gap-2 mb-6">
       <Input
         placeholder="Search Request..."
+        aria-label="Search Request"
         classNames={{
           label: '!text-gray text-sm after:text-gray',
           inputWrapper: 'default-input-wrapper h-12',
@@ -46,6 +47,7 @@ export default function MaintenanceRequestFilterComponent() {
       />
       <Select
         placeholder="Sort By"
+        aria-label="Sort By"
         className="w-44"
         classNames={{
           label: '!text-gray text-sm after:text-gray',
