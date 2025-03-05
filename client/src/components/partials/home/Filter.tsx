@@ -1,5 +1,5 @@
 import { Sort } from '@/lib/gql/graphql'
-import { actions } from '@/lib/slices/maintenance-request.slice'
+import { actions } from '@/lib/slices/maintenance-request'
 import { RootState } from '@/lib/store'
 import { Input, Select, SelectItem } from '@heroui/react'
 import { useCallback, useState } from 'react'

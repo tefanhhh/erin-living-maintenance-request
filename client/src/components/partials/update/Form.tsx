@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect, FormEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch, RootState } from '@/lib/store'
-import { create, update, findOne } from '@/lib/slices/maintenance-request.slice'
+import { create, update, findOne } from '@/lib/slices/maintenance-request'
 import {
   Button,
   Textarea,
