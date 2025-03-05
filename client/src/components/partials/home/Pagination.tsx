@@ -18,7 +18,6 @@ export default function MaintenanceRequestPaginationComponent() {
   const dispatch = useAppDispatch()
 
   const onChangePagination = useCallback((val: number) => {
-    console.log(val, 'calllss')
     const updatedQueryParam = { ...queryParam, page: val }
     dispatch(setQueryParam(updatedQueryParam))
   }, [])
