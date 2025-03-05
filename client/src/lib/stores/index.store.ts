@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { maintenanceRequestSlice } from '@/slices/maintenance-request.slice'
+import { maintenanceRequestSlice } from '@/lib/slices/maintenance-request.slice'
 
 export const store = configureStore({
   reducer: {

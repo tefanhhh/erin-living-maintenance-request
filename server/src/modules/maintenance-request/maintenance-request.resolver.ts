@@ -29,8 +29,8 @@ export class MaintenanceRequestResolver {
         findOneMaintenanceRequest: async (_, { _id }) => {
           return await this.maintenanceRequestService.findOne(_id)
         },
-        findAllMaintenanceRequests: async () => {
-          return await this.maintenanceRequestService.findAll()
+        findAllMaintenanceRequest: async (_, { queryParam }) => {
+          return await this.maintenanceRequestService.findAll(queryParam)
         },
         summaryMaintenanceRequest: async () => {
           return await this.maintenanceRequestService.summary()

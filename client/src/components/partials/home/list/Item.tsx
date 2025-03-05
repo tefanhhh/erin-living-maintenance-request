@@ -5,12 +5,12 @@ import dayjs from '@/lib/dayjs'
 import {
   MaintenanceRequestStatus,
   MaintenanceRequestUrgency,
-} from '@/gql/graphql'
+} from '@/lib/gql/graphql'
 import { useState } from 'react'
 import { ObjectId } from 'mongodb'
 import { useDispatch } from 'react-redux'
-import { AppDispatch } from '@/stores/index.store'
-import { markAsResolved } from '@/slices/maintenance-request.slice'
+import { AppDispatch } from '@/lib/stores/index.store'
+import { markAsResolved } from '@/lib/slices/maintenance-request.slice'
 import { Chip, Card, CardBody, Button, addToast, Link } from '@heroui/react'
 import { humanizeEnumText } from '@/utils'
 
@@ -30,7 +30,6 @@ export default function MaintenanceRequestItemComponent({
   status,
 }: MaintenanceRequestItemComponentProps) {
   const dispatch = useDispatch<AppDispatch>()
-  const router = useRouter()
   const formattedUrgencyText = useMemo(
     () => humanizeEnumText(urgency),
     [urgency],

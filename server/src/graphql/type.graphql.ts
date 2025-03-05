@@ -86,11 +86,31 @@ export type MutationUpdateMaintenanceRequestArgs = {
   body: MaintenanceRequestInput;
 };
 
+export type PaginatedMaintenanceRequests = {
+  __typename?: 'PaginatedMaintenanceRequests';
+  items: Array<MaintenanceRequest>;
+  paging: Paging;
+};
+
+export type Paging = {
+  __typename?: 'Paging';
+  count: Scalars['Int']['output'];
+  next: Scalars['Boolean']['output'];
+  page: Scalars['Int']['output'];
+  perPage: Scalars['Int']['output'];
+  prev: Scalars['Boolean']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  findAllMaintenanceRequests?: Maybe<Array<MaintenanceRequest>>;
+  findAllMaintenanceRequest: PaginatedMaintenanceRequests;
   findOneMaintenanceRequest?: Maybe<MaintenanceRequest>;
   summaryMaintenanceRequest: MaintenanceRequestSummary;
+};
+
+
+export type QueryFindAllMaintenanceRequestArgs = {
+  queryParam?: InputMaybe<QueryParamInput>;
 };
 
 
@@ -98,12 +118,24 @@ export type QueryFindOneMaintenanceRequestArgs = {
   _id: Scalars['ObjectId']['input'];
 };
 
+export type QueryParamInput = {
+  keyword: Scalars['String']['input'];
+  page: Scalars['Int']['input'];
+  perPage: Scalars['Int']['input'];
+  sort: Sort;
+};
+
+export enum Sort {
+  Latest = 'LATEST',
+  Oldest = 'OLDEST'
+}
+
 export type Subscription = {
   __typename?: 'Subscription';
   maintenanceRequestCreated: MaintenanceRequest;
   maintenanceRequestDeleted: Scalars['Boolean']['output'];
   maintenanceRequestResolved: MaintenanceRequest;
-  maintenanceRequestRunScheduler?: Maybe<Array<MaintenanceRequest>>;
+  maintenanceRequestRunScheduler: Scalars['Boolean']['output'];
   maintenanceRequestUpdated: MaintenanceRequest;
 };
 
@@ -194,7 +226,11 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ObjectId: ResolverTypeWrapper<Scalars['ObjectId']['output']>;
+  PaginatedMaintenanceRequests: ResolverTypeWrapper<PaginatedMaintenanceRequests>;
+  Paging: ResolverTypeWrapper<Paging>;
   Query: ResolverTypeWrapper<{}>;
+  QueryParamInput: QueryParamInput;
+  Sort: Sort;
   Subscription: ResolverTypeWrapper<{}>;
   AdditionalEntityFields: AdditionalEntityFields;
 };
@@ -210,7 +246,10 @@ export type ResolversParentTypes = {
   Mutation: {};
   Boolean: Scalars['Boolean']['output'];
   ObjectId: Scalars['ObjectId']['output'];
+  PaginatedMaintenanceRequests: PaginatedMaintenanceRequests;
+  Paging: Paging;
   Query: {};
+  QueryParamInput: QueryParamInput;
   Subscription: {};
   AdditionalEntityFields: AdditionalEntityFields;
 };
@@ -297,8 +336,23 @@ export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversT
   name: 'ObjectId';
 }
 
+export type PaginatedMaintenanceRequestsResolvers<ContextType = any, ParentType extends ResolversParentTypes['PaginatedMaintenanceRequests'] = ResolversParentTypes['PaginatedMaintenanceRequests']> = {
+  items?: Resolver<Array<ResolversTypes['MaintenanceRequest']>, ParentType, ContextType>;
+  paging?: Resolver<ResolversTypes['Paging'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PagingResolvers<ContextType = any, ParentType extends ResolversParentTypes['Paging'] = ResolversParentTypes['Paging']> = {
+  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  next?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  page?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  perPage?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  prev?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  findAllMaintenanceRequests?: Resolver<Maybe<Array<ResolversTypes['MaintenanceRequest']>>, ParentType, ContextType>;
+  findAllMaintenanceRequest?: Resolver<ResolversTypes['PaginatedMaintenanceRequests'], ParentType, ContextType, Partial<QueryFindAllMaintenanceRequestArgs>>;
   findOneMaintenanceRequest?: Resolver<Maybe<ResolversTypes['MaintenanceRequest']>, ParentType, ContextType, RequireFields<QueryFindOneMaintenanceRequestArgs, '_id'>>;
   summaryMaintenanceRequest?: Resolver<ResolversTypes['MaintenanceRequestSummary'], ParentType, ContextType>;
 };
@@ -307,7 +361,7 @@ export type SubscriptionResolvers<ContextType = any, ParentType extends Resolver
   maintenanceRequestCreated?: SubscriptionResolver<ResolversTypes['MaintenanceRequest'], "maintenanceRequestCreated", ParentType, ContextType>;
   maintenanceRequestDeleted?: SubscriptionResolver<ResolversTypes['Boolean'], "maintenanceRequestDeleted", ParentType, ContextType>;
   maintenanceRequestResolved?: SubscriptionResolver<ResolversTypes['MaintenanceRequest'], "maintenanceRequestResolved", ParentType, ContextType>;
-  maintenanceRequestRunScheduler?: SubscriptionResolver<Maybe<Array<ResolversTypes['MaintenanceRequest']>>, "maintenanceRequestRunScheduler", ParentType, ContextType>;
+  maintenanceRequestRunScheduler?: SubscriptionResolver<ResolversTypes['Boolean'], "maintenanceRequestRunScheduler", ParentType, ContextType>;
   maintenanceRequestUpdated?: SubscriptionResolver<ResolversTypes['MaintenanceRequest'], "maintenanceRequestUpdated", ParentType, ContextType>;
 };
 
@@ -317,6 +371,8 @@ export type Resolvers<ContextType = any> = {
   MaintenanceRequestSummary?: MaintenanceRequestSummaryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   ObjectId?: GraphQLScalarType;
+  PaginatedMaintenanceRequests?: PaginatedMaintenanceRequestsResolvers<ContextType>;
+  Paging?: PagingResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
 };

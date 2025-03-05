@@ -32,6 +32,11 @@ type MaintenanceRequest {
   deletedAt: Date
 }
 
+type PaginatedMaintenanceRequests {
+  items: [MaintenanceRequest!]!
+  paging: Paging!
+}
+
 type MaintenanceRequestSummary {
   open: Int
   urgent: Int
@@ -40,7 +45,9 @@ type MaintenanceRequestSummary {
 
 type Query {
   findOneMaintenanceRequest(_id: ObjectId!): MaintenanceRequest
-  findAllMaintenanceRequests: [MaintenanceRequest!]
+  findAllMaintenanceRequest(
+    queryParam: QueryParamInput
+  ): PaginatedMaintenanceRequests!
   summaryMaintenanceRequest: MaintenanceRequestSummary!
 }
 
@@ -59,5 +66,5 @@ type Subscription {
   maintenanceRequestUpdated: MaintenanceRequest!
   maintenanceRequestResolved: MaintenanceRequest!
   maintenanceRequestDeleted: Boolean!
-  maintenanceRequestRunScheduler: [MaintenanceRequest!]
+  maintenanceRequestRunScheduler: Boolean!
 }

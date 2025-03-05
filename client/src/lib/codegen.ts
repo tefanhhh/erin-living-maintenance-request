@@ -10,9 +10,9 @@ if (!process.env.NEXT_PUBLIC_GQL_URL) {
 const config: CodegenConfig = {
   overwrite: true,
   schema: process.env.NEXT_PUBLIC_GQL_URL,
-  documents: ['src/gql-query/*.ts'],
+  documents: ['src/lib/gql-query/*.ts'],
   generates: {
-    './src/gql/': {
+    './src/lib/gql/': {
       preset: 'client',
       plugins: [],
       presetConfig: {

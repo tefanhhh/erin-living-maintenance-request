@@ -5,12 +5,16 @@ import {
   MaintenanceRequestStatus,
   MaintenanceRequestSummary,
   MaintenanceRequestUrgency,
+  PaginatedMaintenanceRequests,
+  QueryParamInput,
+  Sort,
 } from '../../graphql/type.graphql'
 import { injectable, inject } from 'inversify'
 import { MaintenanceRequestModel } from './maintenance-request.model'
 import cron from 'node-cron'
-import { PUBSUB_KEY } from '../../constants'
+import { DEFAULT_QUERY_PARAM, PUBSUB_KEY } from '../../constants'
 import { PubSub } from 'graphql-subscriptions'
+import { escapeRegex, pagingFactory } from '../../utils'
 
 @injectable()
 export class MaintenanceRequestService {
@@ -140,9 +144,25 @@ export class MaintenanceRequestService {
     return maintenanceRequest
   }
 
-  async findAll(): Promise<MaintenanceRequest[]> {
+  async findAll(
+    queryParam: QueryParamInput = DEFAULT_QUERY_PARAM,
+  ): Promise<PaginatedMaintenanceRequests> {
+    const keywordRegex = {
+      $regex: escapeRegex(queryParam.keyword.trim().toLowerCase()),
+      $options: 'i',
+    }
+    const count = await this.maintenanceRequestModel.model.countDocuments({
+      deletedAt: { $eq: null },
+      title: keywordRegex,
+    })
+
     const maintenanceRequests =
       await this.maintenanceRequestModel.model.aggregate([
+        {
+          $match: {
+            title: keywordRegex,
+          },
+        },
         {
           $project: {
             _id: '$_id',
@@ -158,11 +178,24 @@ export class MaintenanceRequestService {
         },
         {
           $sort: {
-            createdAt: -1,
+            createdAt: queryParam.sort === Sort.Oldest ? 1 : -1,
           },
         },
+        {
+          $skip: (queryParam.page - 1) * queryParam.perPage,
+        },
+        {
+          $limit:
+            queryParam.perPage === -1
+              ? Number.MAX_SAFE_INTEGER
+              : queryParam.perPage,
+        },
       ])
-    return maintenanceRequests
+    return pagingFactory<MaintenanceRequest>(
+      maintenanceRequests,
+      count,
+      queryParam,
+    )
   }
 
   async delete(_id: ObjectId): Promise<boolean> {
@@ -184,7 +217,7 @@ export class MaintenanceRequestService {
       const time = new Date()
       time.setHours(time.getHours() - 6)
       try {
-        await this.maintenanceRequestModel.model.updateMany(
+        const result = await this.maintenanceRequestModel.model.updateMany(
           {
             createdAt: { $lte: time },
             urgency: MaintenanceRequestUrgency.Urgent,
@@ -194,9 +227,8 @@ export class MaintenanceRequestService {
             $set: { urgency: MaintenanceRequestUrgency.Emergency },
           },
         )
-        const all = await this.findAll()
         pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_RUN_SCHEDULER'], {
-          maintenanceRequestRunScheduler: all,
+          maintenanceRequestRunScheduler: result.acknowledged,
         })
       } catch (error) {
         console.error('Error updating maintenance requests:', error)
@@ -209,7 +241,7 @@ export class MaintenanceRequestService {
       const time = new Date()
       time.setDate(time.getDate() - 3)
       try {
-        await this.maintenanceRequestModel.model.updateMany(
+        const result = await this.maintenanceRequestModel.model.updateMany(
           {
             createdAt: { $lte: time },
             urgency: MaintenanceRequestUrgency.LessUrgent,
@@ -219,9 +251,8 @@ export class MaintenanceRequestService {
             $set: { urgency: MaintenanceRequestUrgency.Urgent },
           },
         )
-        const all = await this.findAll()
         pubsub.publish(PUBSUB_KEY['MAINTENANCE_REQUEST_RUN_SCHEDULER'], {
-          maintenanceRequestRunScheduler: all,
+          maintenanceRequestRunScheduler: result.acknowledged,
         })
       } catch (error) {
         console.error('Error updating maintenance requests:', error)

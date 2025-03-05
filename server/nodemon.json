@@ -1,5 +1,8 @@
 {
   "watch": ["src"],
   "ext": "ts",
-  "exec": "pnpm run start"
+  "exec": "pnpm run stop && pnpm run start",
+  "execMap": {
+    "ts": "pnpm run stop && pnpm run start"
+  }
 }

@@ -2,7 +2,7 @@
 
 import { Provider } from 'react-redux'
 import { HeroUIProvider, ToastProvider } from '@heroui/react'
-import { store } from '@/stores/index.store'
+import { store } from '@/lib/stores/index.store'
 
 interface ProvidersComponentProps {
   children: React.ReactNode

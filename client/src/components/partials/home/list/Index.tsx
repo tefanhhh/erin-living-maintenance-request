@@ -1,6 +1,6 @@
 'use client'
-import MaintenanceRequestItem from '@/components/maintenance-request/list/Item'
-import { RootState } from '@/stores/index.store'
+import MaintenanceRequestItem from '@/components/partials/home/list/Item'
+import { RootState } from '@/lib/stores/index.store'
 import { useSelector } from 'react-redux'
 import { motion } from 'framer-motion'
 
@@ -8,7 +8,7 @@ export default function MaintenanceRequestListComponent() {
   const list = useSelector((state: RootState) => state.maintenanceRequest.list)
   return (
     <ul className="mt-4">
-      {list?.map((it, i) => (
+      {list.items.map((it, i) => (
         <motion.li
           key={`motion-${it._id}`}
           initial={{ opacity: 0, y: 20 }}

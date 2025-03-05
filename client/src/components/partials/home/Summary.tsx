@@ -1,7 +1,7 @@
 'use client'
 
 import { useSelector } from 'react-redux'
-import { RootState } from '@/stores/index.store'
+import { RootState } from '@/lib/stores/index.store'
 import { Card, CardBody } from '@heroui/react'
 import { motion } from 'framer-motion'
 

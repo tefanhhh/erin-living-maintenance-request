@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-const fragments = gql`
+const fragmentMaintenanceRequestFields = gql`
   fragment MaintenanceRequestFields on MaintenanceRequest {
     _id
     title
@@ -14,13 +14,29 @@ const fragments = gql`
   }
 `
 
-export const findAllMaintenanceRequests = gql`
-  query FindAllMaintenanceRequests {
-    findAllMaintenanceRequests {
-      ...MaintenanceRequestFields
+const fragmentPagingFields = gql`
+  fragment PagingFields on Paging {
+    page
+    perPage
+    prev
+    next
+    count
+  }
+`
+
+export const findAllMaintenanceRequest = gql`
+  query FindAllMaintenanceRequest($queryParam: QueryParamInput) {
+    findAllMaintenanceRequest(queryParam: $queryParam) {
+      items {
+        ...MaintenanceRequestFields
+      }
+      paging {
+        ...PagingFields
+      }
     }
   }
-  ${fragments}
+  ${fragmentMaintenanceRequestFields}
+  ${fragmentPagingFields}
 `
 export const findOneMaintenanceRequest = gql`
   query FindOneMaintenanceRequest($_id: ObjectId!) {
@@ -28,7 +44,7 @@ export const findOneMaintenanceRequest = gql`
       ...MaintenanceRequestFields
     }
   }
-  ${fragments}
+  ${fragmentMaintenanceRequestFields}
 `
 
 export const summaryMaintenanceRequest = gql`
@@ -47,7 +63,7 @@ export const createMaintenanceRequest = gql`
       ...MaintenanceRequestFields
     }
   }
-  ${fragments}
+  ${fragmentMaintenanceRequestFields}
 `
 
 export const updateMaintenanceRequest = gql`
@@ -59,7 +75,7 @@ export const updateMaintenanceRequest = gql`
       ...MaintenanceRequestFields
     }
   }
-  ${fragments}
+  ${fragmentMaintenanceRequestFields}
 `
 
 export const markAsResolvedMaintenanceRequest = gql`
@@ -68,7 +84,7 @@ export const markAsResolvedMaintenanceRequest = gql`
       ...MaintenanceRequestFields
     }
   }
-  ${fragments}
+  ${fragmentMaintenanceRequestFields}
 `
 
 export const deleteMaintenanceRequest = gql`
@@ -83,7 +99,7 @@ export const maintenanceRequestCreated = gql`
       ...MaintenanceRequestFields
     }
   }
-  ${fragments}
+  ${fragmentMaintenanceRequestFields}
 `
 
 export const maintenanceRequestUpdated = gql`
@@ -92,7 +108,7 @@ export const maintenanceRequestUpdated = gql`
       ...MaintenanceRequestFields
     }
   }
-  ${fragments}
+  ${fragmentMaintenanceRequestFields}
 `
 
 export const maintenanceRequestResolved = gql`
@@ -101,7 +117,7 @@ export const maintenanceRequestResolved = gql`
       ...MaintenanceRequestFields
     }
   }
-  ${fragments}
+  ${fragmentMaintenanceRequestFields}
 `
 
 export const maintenanceRequestDeleted = gql`
@@ -112,9 +128,6 @@ export const maintenanceRequestDeleted = gql`
 
 export const maintenanceRequestRunScheduler = gql`
   subscription MaintenanceRequestRunScheduler {
-    maintenanceRequestRunScheduler {
-      ...MaintenanceRequestFields
-    }
+    maintenanceRequestRunScheduler
   }
-  ${fragments}
 `
